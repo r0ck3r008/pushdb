@@ -25,7 +25,7 @@ typedef struct Schema
 	uint8_t natts;
 } Schema;
 
-Schema *schema_init();
-void schema_add_att();
+Schema *schema_init(int8_t *, int8_t *);
+void schema_add_att(Schema *, int8_t *, DataType);
 
 #endif
