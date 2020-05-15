@@ -4,9 +4,9 @@
 
 int main(int argc, char **argv)
 {
-	Suite *s=rec_suite();
-	SRunner *sr=srunner_create(s);
+	Suite *rec_s=rec_suite();
+	SRunner *rec_sr=srunner_create(rec_s);
 
-	srunner_run_all(sr, CK_NORMAL);
-	srunner_free(sr);
+	srunner_run_all(rec_sr, CK_NORMAL);
+	srunner_free(rec_sr);
 }
