@@ -34,6 +34,6 @@ clean_objs:
 	make -C db/ clean
 	make -C fs/ clean
 	make -C tests/ clean
-	rm -f bin/*.out
 
 clean: clean_objs
+	rm -f bin/*.out
