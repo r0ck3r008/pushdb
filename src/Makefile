@@ -1,11 +1,14 @@
+# COMPILER CONFIG
 COMPILER := gcc
 COMPILER_FLAGS := -g
 LINKER_FLAGS := -lcheck -pthread
 COMPILE_PATH := ${PWD}
 
+# OBJECT DEFINITIONS
 ALL_OBJS := fs/*.o db/*.o
 TEST_OBJS := tests/main_test.o tests/fs/*.o ${ALL_OBJS}
 
+# TARGETS
 all: db_objs fs_objs
 tests: test_objs all test_bin
 
