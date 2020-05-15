@@ -46,6 +46,28 @@ Record *record_ser(int8_t *str, int8_t *delimiter, Schema *sch)
 	return rec;
 }
 
-int8_t *record_deser(Record *rec, Schema *sch)
+int8_t *record_deser(Record *rec, int8_t *delimiter, Schema *sch)
 {
+	uint64_t rec_sz=((uint64_t *)rec->bits)[0];
+	uint16_t ptr=sizeof(uint64_t);
+	int8_t *ret=fs_char_alloc(NULL, rec_sz);
+	uint8_t n=sch->natts;
+	for(uint8_t i=0; i<n; i++) {
+		if(sch->atts[i]->type==Int) {
+			sprintf(ret, "%s%d", ret, ((uint16_t *)rec->bits)[ptr]);
+			ptr+=sizeof(uint16_t);
+		} else if(sch->atts[i]->type==Float) {
+			sprintf(ret, "%s%f", ret, ((float *)rec->bits)[ptr]);
+			ptr+=sizeof(float);
+		} else if(sch->atts[i]->type==String) {
+			uint16_t len=strlen(ret);
+			strcat(ret, &((int8_t *)rec->bits)[ptr]);
+			ptr+=(strlen(ret)- len);
+		} else {
+			fprintf(stderr, "[-]Deserealize: Bad Attribute type!\n");
+			_exit(-1);
+		}
+	}
+
+	return ret;
 }

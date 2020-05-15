@@ -13,6 +13,6 @@ typedef struct Record
 } Record;
 
 Record *record_ser(int8_t *, int8_t *, Schema *);
-int8_t *record_deser(Record *, Schema *);
+int8_t *record_deser(Record *, int8_t *, Schema *);
 
 #endif
