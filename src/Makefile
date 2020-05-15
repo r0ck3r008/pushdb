@@ -1,22 +1,21 @@
 COMPILER := gcc
-GTEST_COMPILER := g++
 COMPILER_FLAGS := -g
-LINKER_FLAGS := -o
-GTEST_LINKER_FLAGS := -lgtest
+LINKER_FLAGS := -lcheck -pthread
 COMPILE_PATH := ${PWD}
 
-TEST_OBJS := tests/*.o
+ALL_OBJS := fs/*.o db/*.o
+TEST_OBJS := tests/main_test.o tests/fs/*.o ${ALL_OBJS}
 
 all: db_objs fs_objs
-
-tests: test_objs test_bin
+tests: test_objs all test_bin
 
 test_bin:
-	${GTEST_COMPILER} ${GTEST_LINKER_FLAGS} ${TEST_OBJS} -o bin/tests.out
+	${COMPILER} ${LINKER_FLAGS} ${TEST_OBJS} -o bin/tests.out
+	make clean_objs
 
 test_objs:
 	COMPILE_PATH=${COMPILE_PATH} \
-		     COMPILER=${GTEST_COMPILER} \
+		     COMPILER=${COMPILER} \
 		     COMPILER_FLAGS=${COMPILER_FLAGS} make -C tests/
 
 db_objs:
