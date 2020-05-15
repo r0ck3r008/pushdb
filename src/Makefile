@@ -2,11 +2,17 @@ COMPILER := gcc
 GTEST_COMPILER := g++
 COMPILER_FLAGS := -g
 LINKER_FLAGS := -o
+GTEST_LINKER_FLAGS := -lgtest
 COMPILE_PATH := ${PWD}
+
+TEST_OBJS := tests/*.o
 
 all: db_objs fs_objs
 
-tests: test_objs
+tests: test_objs test_bin
+
+test_bin:
+	${GTEST_COMPILER} ${GTEST_LINKER_FLAGS} ${TEST_OBJS} -o bin/tests.out
 
 test_objs:
 	COMPILE_PATH=${COMPILE_PATH} \
