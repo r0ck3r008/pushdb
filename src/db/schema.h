@@ -26,6 +26,7 @@ typedef struct Schema
 } Schema;
 
 Schema *schema_init(int8_t *, int8_t *);
+void schema_deinit(Schema *);
 void schema_add_att(Schema *, int8_t *, DataType);
 
 #endif
