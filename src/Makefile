@@ -1,22 +1,33 @@
 # COMPILER CONFIG
 COMPILER := gcc
 COMPILER_FLAGS := -g
-LINKER_FLAGS := -lcheck -pthread
+TEST_COMPILER_FLAGS := '-g -fpic'
+TEST_LINKER_FLAGS := -lcheck -pthread -L${PWD}/bin -lpushdb
+LIB_LINKER_FLAGS := -shared
 COMPILE_PATH := ${PWD}
 
 # OBJECT DEFINITIONS
 ALL_OBJS := fs/*.o db/*.o
-TEST_OBJS := tests/main_test.o tests/fs/*.o ${ALL_OBJS}
+TEST_OBJS := tests/main_test.o tests/fs/*.o
 
 # TARGETS
 all: db_objs fs_objs
-tests: test_objs all test_bin
+tests: test_bin
 
 test_bin:
 	${COMPILER} ${LINKER_FLAGS} ${TEST_OBJS} -o bin/tests.out
 	make clean_objs
 
+test_lib: test_objs
+	${COMPILER} ${LIB_LINKER_FLAGS} ${ALL_OBJS} -o bin/libpushdb.so
+
 test_objs:
+	COMPILE_PATH=${COMPILE_PATH} \
+		     COMPILER=${COMPILER} \
+		     COMPILER_FLAGS=${TEST_COMPILER_FLAGS} make -C db/
+	COMPILE_PATH=${COMPILE_PATH} \
+		     COMPILER=${COMPILER} \
+		     COMPILER_FLAGS=${TEST_COMPILER_FLAGS} make -C fs/
 	COMPILE_PATH=${COMPILE_PATH} \
 		     COMPILER=${COMPILER} \
 		     COMPILER_FLAGS=${COMPILER_FLAGS} make -C tests/
