@@ -14,8 +14,8 @@ TEST_OBJS := tests/main_test.o tests/fs/*.o
 all: db_objs fs_objs
 tests: test_bin
 
-test_bin:
-	${COMPILER} ${LINKER_FLAGS} ${TEST_OBJS} -o bin/tests.out
+test_bin: test_lib
+	${COMPILER} ${TEST_LINKER_FLAGS} ${TEST_OBJS} -o bin/tests.out
 	make clean_objs
 
 test_lib: test_objs
