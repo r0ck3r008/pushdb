@@ -10,13 +10,13 @@ Record *record_ser(int8_t *str, int8_t *delimiter, Schema *sch)
 {
 	Record *rec=fs_record_alloc();
 	rec->bits=fs_char_alloc(NULL, 1024);
-	uint16_t n=sch->natts;
+	uint8_t n=sch->natts;
 	// leave space for record size
 	uint16_t ptr=sizeof(uint64_t);
 	// begin splitting
 	int8_t *attr=strtok(str, delimiter);
 
-	for(int i=0, j=1; i<n; i++) {
+	for(uint8_t i=0, j=1; i<n; i++) {
 		if(ptr>=(uint16_t)(1024*(j)*(0.1))) {
 			rec->bits=fs_char_alloc(rec->bits, 1024*(++j));
 			i--;
