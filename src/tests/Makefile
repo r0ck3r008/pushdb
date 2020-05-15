@@ -1,10 +1,13 @@
-all: main_test.o record_test.o
+all: main_test.o fs_tests
 
-main_test.o: main_test.cc
-	${COMPILER} -I${COMPILE_PATH} ${COMPILER_FLAGS} -c main_test.cc
+main_test.o: main_test.c
+	${COMPILER} -I${COMPILE_PATH} ${COMPILER_FLAGS} -c main_test.c
 
-record_test.o: record_test.cc
-	${COMPILER} -I${COMPILE_PATH} ${COMPILER_FLAGS} -c record_test.cc
+fs_tests:
+	COMPILER=${COMPILER} \
+		 COMPILE_PATH=${COMPILE_PATH} \
+		 COMPILER_OPTIONS=${COMPILER_OPTIONS} make -C fs/
 
 clean:
+	make -C fs/ clean
 	rm -f *.o
