@@ -25,5 +25,6 @@ fs_objs:
 clean_objs:
 	make -C db/ clean
 	make -C fs/ clean
+	make -C tests/ clean
 
 clean: clean_objs
