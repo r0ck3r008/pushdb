@@ -27,14 +27,14 @@ Record *record_ser(int8_t *str, int8_t *delimiter, Schema *sch)
 			((uint16_t *)rec->bits)[ptr]=(uint16_t)strtol(attr,
 								NULL, 10);
 			ptr+=sizeof(uint16_t);
-		} else if (sch->atts[i]->type==Float) {
+		} else if(sch->atts[i]->type==Float) {
 			((float *)rec->bits)[ptr]=(float)strtof(attr, NULL);
 			ptr+=sizeof(float);
-		} else if (sch->atts[i]->type==String) {
+		} else if(sch->atts[i]->type==String) {
 			strcat(&((int8_t *)rec->bits)[ptr], attr);
 			ptr+=strlen(attr);
 		} else {
-			fprintf(stderr, "[-]Record: Bad attribute type!\n");
+			fprintf(stderr, "[-]Serialize: Bad attribute type!\n");
 			_exit(-1);
 		}
 		attr=strtok(NULL, delimiter);
