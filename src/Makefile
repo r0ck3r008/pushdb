@@ -1,9 +1,17 @@
 COMPILER := gcc
+GTEST_COMPILER := g++
 COMPILER_FLAGS := -g
 LINKER_FLAGS := -o
 COMPILE_PATH := ${PWD}
 
 all: db_objs fs_objs
+
+tests: test_objs
+
+test_objs:
+	COMPILE_PATH=${COMPILE_PATH} \
+		     COMPILER=${GTEST_COMPILER} \
+		     COMPILER_FLAGS=${COMPILER_FLAGS} make -C tests/
 
 db_objs:
 	COMPILE_PATH=${COMPILE_PATH} \
