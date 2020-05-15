@@ -6,7 +6,7 @@
 #include"alloc.h"
 #include"record.h"
 
-Record *record_ser(int8_t *str, int8_t *delimiter, Schema *sch)
+Record *record_ser(int8_t *_str, int8_t *delimiter, Schema *sch)
 {
 	Record *rec=fs_record_alloc();
 	rec->bits=fs_char_alloc(NULL, 1024);
@@ -14,6 +14,7 @@ Record *record_ser(int8_t *str, int8_t *delimiter, Schema *sch)
 	// leave space for record size
 	uint16_t ptr=sizeof(uint64_t);
 	// begin splitting
+	int8_t *str=fs_char_copy(_str);
 	int8_t *attr=strtok(str, delimiter);
 
 	for(uint8_t i=0, j=1; i<n; i++) {
@@ -42,6 +43,7 @@ Record *record_ser(int8_t *str, int8_t *delimiter, Schema *sch)
 
 	// Fill out the size
 	((uint16_t *)rec->bits)[0]=ptr;
+	free(str);
 
 	return rec;
 }
