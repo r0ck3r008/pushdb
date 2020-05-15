@@ -1,2 +1,2 @@
-tmp/*
-!tmp/.gitkeep
+src/tmp/*
+!src/tmp/.gitkeep
