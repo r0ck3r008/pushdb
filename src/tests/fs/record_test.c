@@ -31,6 +31,8 @@ START_TEST(SERIALIZATION_TEST)
 	int8_t *ret=record_deser(rec, delimiter, sch);
 	ck_assert_str_eq(rec_str, ret);
 	schema_deinit(sch);
+	free(delimiter);
+	free(rec_str);
 	free(rec->bits);
 	free(rec);
 }
