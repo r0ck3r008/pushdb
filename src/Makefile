@@ -48,3 +48,4 @@ clean_objs:
 
 clean: clean_objs
 	rm -f bin/*.out
+	rm -f bin/*.so
