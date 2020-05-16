@@ -12,7 +12,7 @@ Record *record_ser(int8_t *_str, int8_t *delimiter, Schema *sch)
 	rec->bits=fs_char_alloc(NULL, 1024);
 	uint8_t n=sch->natts;
 	// leave space for record size
-	uint16_t ptr=sizeof(uint64_t);
+	uint16_t ptr=sizeof(uint16_t);
 	// begin splitting
 	int8_t *str=fs_char_copy(_str);
 	int8_t *attr=strtok(str, delimiter);
@@ -50,8 +50,8 @@ Record *record_ser(int8_t *_str, int8_t *delimiter, Schema *sch)
 
 int8_t *record_deser(Record *rec, int8_t *delimiter, Schema *sch)
 {
-	uint64_t rec_sz=((uint64_t *)rec->bits)[0];
-	uint16_t ptr=sizeof(uint64_t);
+	uint16_t rec_sz=((uint16_t *)rec->bits)[0];
+	uint16_t ptr=sizeof(uint16_t);
 	int8_t *ret=fs_char_alloc(NULL, rec_sz);
 	uint8_t n=sch->natts;
 	for(uint8_t i=0; i<n; i++) {
