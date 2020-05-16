@@ -60,7 +60,7 @@ int8_t *record_deser(Record *rec, int8_t *delimiter, Schema *sch)
 			sprintf(ret, "%s%d", ret, ((uint16_t *)rec->bits)[ptr]);
 			ptr+=sizeof(uint16_t);
 		} else if(sch->atts[i]->type==Float) {
-			sprintf(ret, "%s%f", ret, ((float *)rec->bits)[ptr]);
+			sprintf(ret, "%s%.3f", ret, ((float *)rec->bits)[ptr]);
 			ptr+=sizeof(float);
 		} else if(sch->atts[i]->type==String) {
 			strncat(ret, &((int8_t *)rec->bits)[ptr],
@@ -70,6 +70,8 @@ int8_t *record_deser(Record *rec, int8_t *delimiter, Schema *sch)
 			fprintf(stderr, "[-]Deserealize: Bad Attribute type!\n");
 			_exit(-1);
 		}
+		if(i!=n-1)
+			strncat(ret, delimiter, 1);
 	}
 
 	return ret;
