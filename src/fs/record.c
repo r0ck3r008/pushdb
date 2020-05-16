@@ -32,7 +32,8 @@ Record *record_ser(int8_t *_str, int8_t *delimiter, Schema *sch)
 			((float *)rec->bits)[ptr]=(float)strtof(attr, NULL);
 			ptr+=sizeof(float);
 		} else if(sch->atts[i]->type==String) {
-			strcat(&((int8_t *)rec->bits)[ptr], attr);
+			strncat(&((int8_t *)rec->bits)[ptr], attr,
+							sch->atts[i]->len);
 			ptr+=strlen(attr);
 		} else {
 			fprintf(stderr, "[-]Serialize: Bad attribute type!\n");
@@ -62,9 +63,9 @@ int8_t *record_deser(Record *rec, int8_t *delimiter, Schema *sch)
 			sprintf(ret, "%s%f", ret, ((float *)rec->bits)[ptr]);
 			ptr+=sizeof(float);
 		} else if(sch->atts[i]->type==String) {
-			uint16_t len=strlen(ret);
-			strcat(ret, &((int8_t *)rec->bits)[ptr]);
-			ptr+=(strlen(ret)- len);
+			strncat(ret, &((int8_t *)rec->bits)[ptr],
+							sch->atts[i]->len);
+			ptr+=sch->atts[i]->len;
 		} else {
 			fprintf(stderr, "[-]Deserealize: Bad Attribute type!\n");
 			_exit(-1);

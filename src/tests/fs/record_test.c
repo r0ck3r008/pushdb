@@ -12,8 +12,9 @@ Schema *prep_schema()
 	int8_t *fname=strdup("dummy_fname");
 	int8_t *att_name=strdup("att_name");
 	Schema *sch=schema_init(sch_name, fname);
-	for(int i=0; i<3; i++)
-		schema_add_att(sch, att_name, (DataType)i);
+	schema_add_att(sch, att_name, 0, 0);
+	schema_add_att(sch, att_name, 0, 1);
+	schema_add_att(sch, att_name, 10, 2);
 
 	free(sch_name);
 	free(fname);
