@@ -16,7 +16,7 @@ Schema *schema_init(int8_t *name, int8_t *fname)
 	return sch;
 }
 
-void schema_add_att(Schema *sch, int8_t *aname, DataType type)
+void schema_add_att(Schema *sch, int8_t *aname, uint16_t len, DataType type)
 {
 	if(sch->natts==64) {
 		fprintf(stderr, "[-]Schema: Attribute Limit reached!\n");
@@ -27,6 +27,7 @@ void schema_add_att(Schema *sch, int8_t *aname, DataType type)
 	sch->atts[n]=db_attribute_alloc();
 	sch->atts[n]->name=db_char_copy(aname);
 	sch->atts[n]->type=type;
+	sch->atts[n]->len=len;
 	sch->natts++;
 }
 
