@@ -10,6 +10,7 @@
 typedef struct Attribute
 {
 	int8_t *name;
+	uint16_t len;
 	DataType type;
 } Attribute;
 
