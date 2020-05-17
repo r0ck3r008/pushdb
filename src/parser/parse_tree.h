@@ -1,6 +1,8 @@
 #ifndef PARSE_TREE_H
 #define PARSE_TREE_H
 
+#include<stdint.h>
+
 // these are the types of operands that can appear in a CNF expression
 #define DOUBLE 1
 #define INT 2
