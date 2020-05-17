@@ -8,7 +8,7 @@ COMPILE_PATH := ${PWD}
 
 # OBJECT DEFINITIONS
 ALL_OBJS := fs/*.o db/*.o parser/*.o
-TEST_OBJS := tests/main_test.o tests/fs/*.o
+TEST_OBJS := tests/main_test.o tests/fs/*.o tests/parser/*.o
 
 # TARGETS
 all: db_objs fs_objs parser_objs
