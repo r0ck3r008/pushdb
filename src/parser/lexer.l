@@ -7,8 +7,8 @@
 #include"y.tab.h"
 #include"parse_tree.h"
 
-uint8_t lineno=0;
-void yyerror(int8_t *);
+int lineno=0;
+void yyerror(char *);
 YY_BUFFER_STATE yy_scan_string(const char *);
 void yy_delete_buffer();
 
@@ -72,7 +72,7 @@ void yy_delete_buffer();
 .                 	yyerror("LEX_ERROR: invalid character");
 %%
 
-void yyerror(int8_t *s)
+void yyerror(char *s)
 {
 	printf("%d: %s at %s\n", lineno, s, yytext);
 }
