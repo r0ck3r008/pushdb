@@ -9,6 +9,8 @@
 
 uint8_t lineno=0;
 void yyerror(int8_t *);
+YY_BUFFER_STATE yy_scan_string(const char *);
+void yy_delete_buffer();
 
 %}
 
