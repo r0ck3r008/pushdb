@@ -68,10 +68,23 @@
 
 %%
 
-SQL: SELECT WhatIWant FROM Tables WHERE AndList
+SQL: SELECT WhatIWant FROM Tables
+{
+	tables = $4;
+	queryType = 1;
+}
+
+| SELECT WhatIWant FROM Tables WHERE AndList
 {
 	tables = $4;
 	boolean = $6;
+	queryType = 1;
+}
+
+| SET OUTPUT Name SELECT WhatIWant FROM Tables
+{
+	outputVar = $3;
+	tables = $7;
 	queryType = 1;
 }
 
