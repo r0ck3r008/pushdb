@@ -3,6 +3,6 @@
 
 #include<check.h>
 
-Suite *rec_suite(void);
+Suite *rec_suite();
 
 #endif

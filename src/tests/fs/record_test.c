@@ -44,7 +44,7 @@ START_TEST(SERIALIZATION_TEST)
 }
 END_TEST
 
-Suite *rec_suite(void)
+Suite *rec_suite()
 {
 	Suite *s=suite_create("RecordSuite");
 	TCase *tc=tcase_create("Serialization/Deserialization");
