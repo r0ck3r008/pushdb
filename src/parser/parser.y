@@ -6,9 +6,9 @@
 
 	#include"parse_tree.h"
 
-	uint8_t yylex();
+	int yylex();
 	int yyparse();
-	void yyerror(int8_t *);
+	void yyerror(char *);
 
 	// these data structures hold the result of the parsing
 	struct TableList *tables; // the list of tables and aliases in the query
@@ -32,7 +32,7 @@
 	struct AttrList *myAttrList;
 	char *actualChars;
 	char whichOne;
-};
+}
 
 %token <actualChars> Name
 %token <actualChars> Float
