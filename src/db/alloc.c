@@ -48,3 +48,12 @@ Attribute *db_attribute_alloc()
 
 	return att;
 }
+
+Query *db_query_alloc()
+{
+	Query *q=malloc(sizeof(Query));
+	if(q==NULL) {
+		fprintf(stderr, "[-]Query: Unable to allocate space!\n");
+		_exit(-1);
+	}
+}
