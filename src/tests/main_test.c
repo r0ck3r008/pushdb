@@ -1,13 +1,15 @@
 #include<check.h>
 
-#include"tests/fs/tests.h"
+#include"fs/tests.h"
 
 int main(int argc, char **argv)
 {
+	//fs
 	Suite *rec_s=rec_suite();
-	SRunner *rec_sr=srunner_create(rec_s);
-	srunner_set_fork_status(rec_sr, CK_NOFORK);
+	SRunner *fs_sr=srunner_create(rec_s);
+	srunner_set_fork_status(fs_sr, CK_NOFORK);
+	srunner_run_all(fs_sr, CK_NORMAL);
 
-	srunner_run_all(rec_sr, CK_NORMAL);
-	srunner_free(rec_sr);
+
+	srunner_free(fs_sr);
 }
