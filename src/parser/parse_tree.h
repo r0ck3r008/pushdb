@@ -80,7 +80,7 @@ typedef struct OrList
 	// this is the OrList to the right of the OR; again,
 	// this might be NULL if the right is a simple comparison
 	struct OrList *rightOr;
-} Orlist;
+} OrList;
 
 typedef struct AndList
 {
