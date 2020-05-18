@@ -277,7 +277,7 @@ Literal : String
 {
         // construct and send up the operand containing the FP number
         $$ = (struct Operand *) malloc (sizeof (struct Operand));
-        $$->code = DOUBLE;
+        $$->code = FLOAT;
         $$->value = $1;
 }
 

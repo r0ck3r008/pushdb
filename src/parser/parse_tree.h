@@ -4,7 +4,7 @@
 #include<stdint.h>
 
 // these are the types of operands that can appear in a CNF expression
-#define DOUBLE 1
+#define FLOAT 1
 #define INT 2
 #define NAME 3
 #define STRING 4
