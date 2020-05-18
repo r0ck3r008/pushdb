@@ -12,7 +12,7 @@ Query *query_init(const char *str)
 	if(str==NULL && yyparse()) {
 		fprintf(stderr, "[-]Query: Error in query parsing!\n");
 		_exit(-1);
-	} else {
+	} else if(str!=NULL){
 		YY_BUFFER_STATE buffer=yy_scan_string(str);
 		yyparse();
 		yy_delete_buffer(buffer);
