@@ -98,6 +98,7 @@ typedef struct AttrList
 {
 	int8_t *name;
 	uint8_t type;
+	uint16_t len;
 	struct AttrList *next;
 
 } AttrList;
