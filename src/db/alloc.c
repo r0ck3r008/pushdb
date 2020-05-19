@@ -29,7 +29,7 @@ Schema *db_schema_alloc()
 
 Attribute **db_attributep_alloc(uint8_t size)
 {
-	Attribute **atts=malloc(sizeof(Attribute *)*size);
+	Attribute **atts=calloc(size, sizeof(Attribute *));
 	if(atts==NULL) {
 		fprintf(stderr, "[-]Schema: Unable to allocate attributes!\n");
 		_exit(-1);
@@ -40,7 +40,7 @@ Attribute **db_attributep_alloc(uint8_t size)
 
 Attribute *db_attribute_alloc()
 {
-	Attribute *att=malloc(sizeof(Attribute));
+	Attribute *att=calloc(1, sizeof(Attribute));
 	if(att==NULL) {
 		fprintf(stderr, "[-]Schema: Unable to allocate attribute!\n");
 		_exit(-1);
