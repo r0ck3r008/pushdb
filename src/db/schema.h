@@ -4,15 +4,7 @@
 #include<stdint.h>
 
 #include"glbl/defs.h"
-
-// This structure is the atomic representation of the
-// attribute which stores.
-typedef struct Attribute
-{
-	int8_t *name;
-	uint16_t len;
-	DataType type;
-} Attribute;
+#include"attmap.h"
 
 // This structure defines the layout and types of columns of
 // any relation in the database. This is basically how we
@@ -22,7 +14,7 @@ typedef struct Schema
 {
 	int8_t *name;
 	int8_t *fname;
-	Attribute **atts;
+	Attribute **map;
 	uint8_t natts;
 } Schema;
 
