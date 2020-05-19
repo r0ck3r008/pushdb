@@ -29,8 +29,30 @@ Record *record_ser(int8_t *_str, int8_t *delim, Schema *sch)
 		attr=strtok(NULL, delim);
 	}
 
-	((uint16_t *)rec->bits)[0]=sch->map->tot_len;
 	free(str);
-
 	return rec;
+}
+
+int8_t *record_deser(Record *rec, Schema *sch, int8_t *delim)
+{
+	int8_t *str=fs_char_alloc(NULL, sch->map->tot_len);
+	Attribute *curr=sch->map->head;
+	while(curr!=NULL) {
+		if(curr->type==Int) {
+			sprintf(str, "%s%d",
+				str, ((uint16_t *)rec->bits)[curr->pos]);
+		} else if(curr->type==Float) {
+			sprintf(str, "%s%.3f",
+				str, ((float *)rec->bits)[curr->pos]);
+		} else if(curr->type==String) {
+			uint16_t len=attribute_get_len(sch->map, curr);
+			strncat(str, &(((int8_t *)rec->bits)[curr->pos]),
+				len);
+		}
+
+		sprintf(str, "%s%s", str, delim);
+		curr=curr->nxt_sq;
+	}
+
+	return str;
 }
