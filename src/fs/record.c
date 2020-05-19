@@ -14,13 +14,13 @@ Record *record_ser(int8_t *_str, int8_t *delim, Schema *sch)
 
 	while(att!=NULL && attr!=NULL) {
 		if(att->type==Int) {
-			((uint16_t *)rec->bits)[att->pos]=
-					(uint16_t)strtol(attr, NULL, 10);
+			((uint32_t *)rec->bits)[att->pos]=
+					(uint32_t)strtol(attr, NULL, 10);
 		} else if(att->type==Float) {
 			((float *)rec->bits)[att->pos]=
 					(float)strtof(attr, NULL);
 		} else if(att->type==String) {
-			uint16_t len=attribute_get_len(sch->map, att);
+			uint32_t len=attribute_get_len(sch->map, att);
 			strncat(&(((int8_t *)rec->bits)[att->pos]),
 						attr, len);
 		}
@@ -40,12 +40,12 @@ int8_t *record_deser(Record *rec, Schema *sch, int8_t *delim)
 	while(curr!=NULL) {
 		if(curr->type==Int) {
 			sprintf(str, "%s%d",
-				str, ((uint16_t *)rec->bits)[curr->pos]);
+				str, ((uint32_t *)rec->bits)[curr->pos]);
 		} else if(curr->type==Float) {
 			sprintf(str, "%s%.3f",
 				str, ((float *)rec->bits)[curr->pos]);
 		} else if(curr->type==String) {
-			uint16_t len=attribute_get_len(sch->map, curr);
+			uint32_t len=attribute_get_len(sch->map, curr);
 			strncat(str, &(((int8_t *)rec->bits)[curr->pos]),
 				len);
 		}

@@ -39,7 +39,7 @@ void attmap_deinit(AttMap *map)
 	free(map);
 }
 
-void attmap_add_att(AttMap *map, int8_t *aname, DataType type, uint16_t len)
+void attmap_add_att(AttMap *map, int8_t *aname, DataType type, uint32_t len)
 {
 	//create attribute
 	uint16_t indx=hash_it(aname);
@@ -62,14 +62,14 @@ void attmap_add_att(AttMap *map, int8_t *aname, DataType type, uint16_t len)
 		curr->nxt=att;
 	}
 	if(type==Int)
-		map->tot_len+=sizeof(uint16_t);
+		map->tot_len+=sizeof(uint32_t);
 	else if(type==Float)
 		map->tot_len+=sizeof(float);
 	else if(type==String)
 		map->tot_len+=len;
 }
 
-uint16_t attribute_get_len(AttMap *map, Attribute *att)
+uint32_t attribute_get_len(AttMap *map, Attribute *att)
 {
 	if(att!=NULL && att->type==String) {
 		if(map->tail!=att)
@@ -82,7 +82,7 @@ uint16_t attribute_get_len(AttMap *map, Attribute *att)
 
 }
 
-Attribute *attmap_find(AttMap *map, int8_t *name, uint16_t *len)
+Attribute *attmap_find(AttMap *map, int8_t *name, uint32_t *len)
 {
 	uint16_t indx=hash_it(name);
 	Attribute *curr=map->map[indx];

@@ -15,7 +15,7 @@ Schema *schema_init(int8_t *name, int8_t *fname)
 	return sch;
 }
 
-void schema_add_att(Schema *sch, int8_t *aname, uint16_t len, DataType type)
+void schema_add_att(Schema *sch, int8_t *aname, uint32_t len, DataType type)
 {
 	attmap_add_att(sch->map, aname, type, len);
 }
