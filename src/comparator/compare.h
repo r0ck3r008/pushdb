@@ -17,7 +17,8 @@ typedef struct Literal
 
 typedef struct Cnf
 {
-	Attribute *atts;
+	Literal lit[16];
+	uint8_t nlit;
 } Cnf;
 
 Cnf *cnf_init_ll(Schema *, AndList *);
