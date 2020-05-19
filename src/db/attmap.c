@@ -69,6 +69,19 @@ void attmap_add_att(AttMap *map, int8_t *aname, DataType type, uint16_t len)
 		map->tot_len+=len;
 }
 
+uint16_t attribute_get_len(AttMap *map, Attribute *att)
+{
+	if(att!=NULL && att->type==String) {
+		if(map->tail!=att)
+			return ((att->nxt_sq->pos)-(att->pos));
+		else
+			return ((map->tot_len)-(att->pos));
+	}
+
+	return 0;
+
+}
+
 Attribute *attmap_find(AttMap *map, int8_t *name, uint16_t *len)
 {
 	uint16_t indx=hash_it(name);

@@ -27,5 +27,6 @@ void attmap_add_att(AttMap *, int8_t *, DataType,
 			uint16_t);
 Attribute *attmap_find(AttMap *, int8_t *,
 			uint16_t *);
+uint16_t attribute_get_len(AttMap *, Attribute *);
 
 #endif
