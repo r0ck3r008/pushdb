@@ -6,7 +6,7 @@
 
 Cnf *comparator_cnf_alloc()
 {
-	Cnf *cnf=malloc(sizeof(Cnf));
+	Cnf *cnf=calloc(1, sizeof(Cnf));
 	if(cnf==NULL) {
 		fprintf(stderr, "[-]Cnf: Error in allocating memory!\n");
 		_exit(-1);
