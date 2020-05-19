@@ -10,7 +10,8 @@ Record *record_ser(int8_t *_str, int8_t *delim, Schema *sch)
 	int8_t *str=fs_char_copy(_str);
 	int8_t *attr=strtok(str, delim);
 	Attribute *att=sch->map->head;
-	Record *rec=fs_record_alloc(sch->map->tot_len);
+	Record *rec=fs_record_alloc(1);
+	rec->bits=fs_char_alloc(NULL, sch->map->tot_len);
 
 	while(att!=NULL && attr!=NULL) {
 		if(att->type==Int) {
