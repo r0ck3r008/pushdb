@@ -14,8 +14,7 @@ typedef struct Schema
 {
 	int8_t *name;
 	int8_t *fname;
-	Attribute **map;
-	uint8_t natts;
+	AttMap *map;
 } Schema;
 
 Schema *schema_init(int8_t *, int8_t *);
