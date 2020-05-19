@@ -15,6 +15,5 @@ typedef struct Record
 
 Record *record_ser(int8_t *, int8_t *, Schema *);
 int8_t *record_deser(Record *, Schema *, int8_t *);
-void *record_deser_att(Record *, Schema *, uint16_t);
 
 #endif
