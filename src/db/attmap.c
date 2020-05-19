@@ -90,12 +90,7 @@ Attribute *attmap_find(AttMap *map, int8_t *name, uint16_t *len)
 		while(!(curr!=NULL && strcmp(name, curr->name) &&
 			(curr=curr->nxt)));
 
-	if(curr!=NULL && curr->type==String) {
-		if(map->tail!=curr)
-			*len=((curr->nxt_sq->pos)-(curr->pos));
-		else
-			*len=((map->tot_len)-(curr->pos));
-	}
+	*len=attribute_get_len(map, curr);
 
 	return curr;
 }
