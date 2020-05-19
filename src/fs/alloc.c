@@ -5,7 +5,7 @@
 
 #include"alloc.h"
 
-Record *fs_record_alloc()
+Record *fs_record_alloc(uint16_t size)
 {
 	Record *rec=malloc(sizeof(Record));
 	if(rec==NULL) {
