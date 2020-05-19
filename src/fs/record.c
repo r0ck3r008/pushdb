@@ -51,8 +51,9 @@ int8_t *record_deser(Record *rec, Schema *sch, int8_t *delim)
 				len);
 		}
 
-		sprintf(str, "%s%s", str, delim);
 		curr=curr->nxt_sq;
+		if(curr!=NULL)
+			sprintf(str, "%s%s", str, delim);
 	}
 
 	return str;
