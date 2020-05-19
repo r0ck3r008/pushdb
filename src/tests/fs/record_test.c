@@ -28,7 +28,7 @@ START_TEST(SERIALIZATION_TEST)
 	int8_t *delimiter=strdup("|");
 	int8_t *rec_str=strdup("1|1.010|Hello");
 	Record *rec=record_ser(rec_str, delimiter, sch);
-	int8_t *ret=record_deser(rec, delimiter, sch);
+	int8_t *ret=record_deser(rec, sch, delimiter);
 
 	//test
 	ck_assert_str_eq(rec_str, ret);
