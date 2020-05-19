@@ -8,6 +8,13 @@
 #include"db/schema.h"
 #include"fs/record.h"
 
+typedef struct Literal
+{
+	Attribute *attL, *attR;
+	int8_t val[64];
+
+} Literal;
+
 typedef struct Cnf
 {
 	Attribute *atts;
