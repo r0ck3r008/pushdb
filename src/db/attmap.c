@@ -42,7 +42,7 @@ void attmap_deinit(AttMap *map)
 void attmap_add_att(AttMap *map, int8_t *aname, DataType type, uint32_t len)
 {
 	//create attribute
-	uint16_t indx=hash_it(aname);
+	uint8_t indx=hash_it(aname);
 	Attribute *att=db_attribute_alloc();
 	att->name=db_char_copy(aname);
 	att->type=type;
@@ -84,7 +84,7 @@ uint32_t attribute_get_len(AttMap *map, Attribute *att)
 
 Attribute *attmap_find(AttMap *map, int8_t *name, uint32_t *len)
 {
-	uint16_t indx=hash_it(name);
+	uint8_t indx=hash_it(name);
 	Attribute *curr=map->map[indx];
 	if(curr!=NULL && curr->nxt!=NULL)
 		while(!(curr!=NULL && strcmp(name, curr->name) &&
