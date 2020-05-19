@@ -49,6 +49,23 @@ Attribute *db_attribute_alloc()
 	return att;
 }
 
+AttMap *db_attmap_alloc()
+{
+	AttMap *map=calloc(1, sizeof(AttMap));
+	if(map==NULL) {
+		fprintf(stderr, "[-]AttMap: Error in allocating memory!\n");
+		_exit(-1);
+	}
+
+	map->map=db_attributep_alloc(ATTMAP_SIZE);
+	if(map->map==NULL) {
+		fprintf(stderr, "[-]AttMap: Error in allocating memory!\n");
+		_exit(-1);
+	}
+
+	return map;
+}
+
 Query *db_query_alloc()
 {
 	Query *q=malloc(sizeof(Query));

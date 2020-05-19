@@ -13,6 +13,7 @@ int8_t *db_char_copy(int8_t *);
 Schema *db_schema_alloc();
 Attribute *db_attribute_alloc();
 Attribute **db_attributep_alloc(uint8_t);
+AttMap *db_attmap_alloc();
 Query *db_query_alloc();
 
 #endif
