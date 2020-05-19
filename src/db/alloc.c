@@ -27,7 +27,7 @@ Schema *db_schema_alloc()
 	return sch;
 }
 
-Attribute **db_attributep_alloc(uint16_t size)
+Attribute **db_attributep_alloc(uint8_t size)
 {
 	Attribute **atts=malloc(sizeof(Attribute *)*size);
 	if(atts==NULL) {
