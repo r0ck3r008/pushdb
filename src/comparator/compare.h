@@ -23,7 +23,7 @@ typedef struct Cnf
 
 Cnf *cnf_init_ll(Schema *, AndList *);
 Cnf *cnf_init_lr(Schema *, Schema *, AndList *);
-uint8_t cnf_compare_ll(Schema *, Record *, Record *);
+uint8_t cnf_compare_ll(Schema *, Record *, Cnf *);
 uint8_t cnf_compare_lr(Schema *, Schema *, Record *,
 			Record *);
 void cnf_deinit(Cnf *);

@@ -50,6 +50,32 @@ Cnf *cnf_init_lr(Schema *schL, Schema *schR, AndList *alist)
 	return cnf;
 }
 
+uint8_t cnf_compare_ll(Schema *sch, Record *rec, Cnf *cnf)
+{
+	for(uint8_t i=0; i<cnf->nlit; i++) {
+		Attribute *att=cnf->lit[i].attL;
+		if(att->type==Int) {
+			uint32_t rec_val=((uint32_t *)rec->bits)[att->pos];
+			uint32_t val=(uint32_t)strtol(cnf->lit[i].val,
+								NULL, 10);
+			if(rec_val!=val)
+				return 0;
+		} else if(att->type==Float) {
+			float rec_val=((float *)rec->bits)[att->pos];
+			float val=(float)strtof(cnf->lit[i].val, NULL);
+			if(rec_val!=val)
+				return 0;
+		} else if(att->type==String) {
+			uint32_t len=attribute_get_len(sch->map, att);
+			if(strncmp(&(((int8_t *)rec->bits)[att->pos]),
+					cnf->lit[i].val, len))
+				return 0;
+		}
+	}
+
+	return 1;
+}
+
 void cnf_deinit(Cnf *cnf)
 {
 	// placeholder function for future compatibility
