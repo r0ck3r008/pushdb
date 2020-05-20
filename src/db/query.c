@@ -114,4 +114,5 @@ void query_deinit(Query *q)
 	free(q->opvar);
 	alist_deinit(q->alist, NULL); free(q->alist);
 	free(q->tbl); free(q->sel_atts); free(q->cr_atts);
+	free(q);
 }
