@@ -12,7 +12,7 @@ void create() {
     
 }
 
-void addFirst (Record *t, Page *target){
+void addFirst (Record *t, Page *target) {
     if(target->head == NULL){
         target->head = (struct Node*) malloc(sizeof(struct Node));
         target->last = (struct Node*) malloc(sizeof(struct Node));
@@ -27,7 +27,7 @@ void addFirst (Record *t, Page *target){
     target->head = temp;
 }
 
-void addLast (Record *t, Page *target)   {
+void addLast (Record *t, Page *target) {
     if(target->head == NULL){
         target->head = (struct Node*) malloc(sizeof(struct Node));
         target->last = (struct Node*) malloc(sizeof(struct Node));
@@ -42,6 +42,7 @@ void addLast (Record *t, Page *target)   {
     target->last->next = temp;
     target->last = temp;
 }
+
 //Page
 void create(Page *rec){
     rec = (struct Page*) malloc(sizeof(struct Page));
@@ -185,7 +186,7 @@ int Open (int fileLen, const char* fName,File *owner) {
 }
 
 int Close (File *owner) {
-lseek (owner, 0, SEEK_SET);
+    lseek (owner, 0, SEEK_SET);
 	if(write (owner->curPage, owner, sizeof (struct File))==-1)
 		return 0;
 
