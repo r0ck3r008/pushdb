@@ -34,6 +34,6 @@ typedef struct Query
 } Query;
 
 Query *query_init(const char *);
-//void query_deinit(Query *);
+void query_deinit(Query *);
 
 #endif

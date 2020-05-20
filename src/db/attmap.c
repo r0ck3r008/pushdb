@@ -30,8 +30,10 @@ void attmap_deinit(AttMap *map)
 			Attribute *curr=map->map[i]->nxt;
 			while(map->map[i]->nxt!=NULL) {
 				map->map[i]->nxt=curr->nxt;
+				free(curr->name);
 				free(curr);
 			}
+			free(map->map[i]->name);
 			free(map->map[i]);
 		}
 	}

@@ -30,3 +30,89 @@ Query *query_init(const char *str)
 
 	return q;
 }
+
+void alist_deinit(AndList *alist, OrList *olist)
+{
+	if(alist==NULL)
+		return;
+
+	if(olist==NULL && alist->left!=NULL) {
+		alist_deinit(alist, alist->left);
+		free(alist->left);
+	} else {
+		ComparisonOp *cop=olist->left;
+		Operand *opL=cop->left, *opR=cop->right;
+		free(opL->value); free(opR->value);
+		free(cop);
+	}
+
+	if(olist!=NULL && olist->rightOr!=NULL) {
+		alist_deinit(alist, olist->rightOr);
+		free(olist->rightOr);
+	}
+
+	if(olist==NULL && alist->rightAnd!=NULL) {
+		alist_deinit(alist->rightAnd, NULL);
+		free(alist->rightAnd);
+	}
+}
+
+void tablelist_deinit(TableList *list)
+{
+	if(list==NULL)
+		return;
+
+	while(list->next!=NULL) {
+		TableList *curr=list->next;
+		free(curr->tableName);
+		free(curr->aliasAs);
+		list->next=curr->next;
+		free(curr);
+	}
+
+	free(list->tableName);
+	free(list->aliasAs);
+	free(list);
+}
+
+void namelist_deinit(NameList *list)
+{
+	if(list==NULL)
+		return;
+
+	while(list->next!=NULL) {
+		NameList *curr=list->next;
+		free(curr->name);
+		list->next=curr->next;
+		free(curr);
+	}
+
+	free(list->name);
+	free(list);
+}
+
+void attrlist_deinit(AttrList *list)
+{
+	if(list==NULL)
+		return;
+
+	while(list->next!=NULL) {
+		AttrList *curr=list->next;
+		free(curr->name);
+		list->next=curr->next;
+		free(curr);
+	}
+
+	free(list->name);
+	free(list);
+}
+
+void query_deinit(Query *q)
+{
+	free(q->ins_fname);
+	free(q->tbl_name);
+	free(q->opvar);
+	alist_deinit(q->alist, NULL); free(q->alist);
+	free(q->tbl); free(q->sel_atts); free(q->cr_atts);
+	free(q);
+}
