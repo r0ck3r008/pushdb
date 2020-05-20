@@ -19,32 +19,33 @@ typedef struct Page
     int curSizeInBytes;
     int numRecs;
 } Page;
-Page *myRecs;
-void createPage ();
-void ToBinary (int8_t *bits, Schema *target);
-void FromBinary (int8_t *bits, Schema *target);
 
-int GetFirst (Record *firstOne, Schema *target);
+void createPage ();
+void ToBinary (int8_t *bits, Schema *target, Page *rec);
+void FromBinary (int8_t *bits, Schema *target, Page *rec);
+
+int GetFirst (Record *firstOne, Schema *target, Page *rec);
 int get_curr_size();
 int get_curr_recs();
 
 //File
-int fileOff;
-int curPage;
-
+typedef struct File {
+    int fileOff;
+    int curPage;
+} File;
 void createFile();
 //Returns the current length of the file in pages
 off_t GetLength();
 
 //Opens a File.
-int Open(int length, const char *fName);
+int Open(int length, const char *fName, File *owner);
 
 //Retreive a specific page from the file.
-void GetPage();
+void getPage (Page *putItHere, off_t  whichPage, File *owner, Schema *target);
 //allows user to add a new page to the desired location (page number)
 //in the file.
-void AddPage();
+void addPage(Page *addMe, off_t whichPage, File*owner, Schema *target);
 
 //close the file
 //returns 0 if an error exists and 1 on success.
-int Close();
+int Close(File *owner);
