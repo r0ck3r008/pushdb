@@ -37,6 +37,7 @@ START_TEST(SERIALIZATION_TEST)
 	schema_deinit(sch);
 	free(delimiter);
 	free(rec_str);
+	free(ret);
 	free(rec->bits);
 	free(rec);
 }
