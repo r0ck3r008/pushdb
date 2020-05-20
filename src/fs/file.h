@@ -4,21 +4,25 @@
 
 typedef struct Node
 {
-	int val;
+	Record *val;
     struct Node *next;
 } Node;
-Node *last,*head;
+
 void create();
-void addFirst (int t);
-void addLast (int t);
+void addFirst (Record *t, Page *target);
+void addLast (Record *t, Page *target);
 
 //Page
-int curSizeInBytes;
-int numRecs;
-Node *myRecs;
+typedef struct Page
+{
+    Node *last,*head;
+    int curSizeInBytes;
+    int numRecs;
+} Page;
+Page *myRecs;
 void createPage ();
-void ToBinary (char *bits);
-void FromBinary (char *bits);
+void ToBinary (int8_t *bits);
+void FromBinary (int8_t *bits);
 
 int GetFirst (Record *firstOne);
 int get_curr_size();
@@ -28,6 +32,7 @@ int get_curr_recs();
 int fileOff;
 int curPage;
 
+void createFile();
 //Returns the current length of the file in pages
 off_t GetLength();
 
