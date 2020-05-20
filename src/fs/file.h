@@ -21,10 +21,10 @@ typedef struct Page
 } Page;
 Page *myRecs;
 void createPage ();
-void ToBinary (int8_t *bits);
-void FromBinary (int8_t *bits);
+void ToBinary (int8_t *bits, Schema *target);
+void FromBinary (int8_t *bits, Schema *target);
 
-int GetFirst (Record *firstOne);
+int GetFirst (Record *firstOne, Schema *target);
 int get_curr_size();
 int get_curr_recs();
 

@@ -6,6 +6,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include "file.h"
+#include "db/schema.h"
 // LinkedList functions
 void create() {
     
@@ -47,12 +48,12 @@ void create(){
     myRecs->curSizeInBytes = sizeof (int);
     myRecs->numRecs = 0;
 }
-void EmptyItOut () {
+void EmptyItOut (Schema *target) {
 
 	// get rid of all of the records
 	while (1) {
 		Record temp;
-		if (!GetFirst (&temp))
+		if (!GetFirst (&temp,target))
 			break;
 	}
 
@@ -61,11 +62,11 @@ void EmptyItOut () {
 	myRecs->numRecs = 0;
 }
 
-int Append (Record *addMe){
-    int8_t *b = addMe->bits;
+int Append (Record *addMe, Schema *target){
+    uint32_t *b = target->map->tot_len;
 
     //check if the record can fit inside the page
-    if(myRecs->curSizeInBytes + b[0] > PAGE_SIZE) {
+    if(myRecs->curSizeInBytes + b > PAGE_SIZE) {
         return 0;
     }
 
@@ -74,7 +75,7 @@ int Append (Record *addMe){
     return 1;
 }
 
-int GetFirst (Record *firstOne) {
+int GetFirst (Record *firstOne,Schema *target) {
     if(myRecs->head == NULL){
         return 0;
     }
@@ -82,11 +83,11 @@ int GetFirst (Record *firstOne) {
     myRecs->head = myRecs->head->next;
     free(temp);
     int8_t *b = firstOne->bits;
-    myRecs->curSizeInBytes -= b[0];
+    myRecs->curSizeInBytes -= target->map->tot_len;
     return 1;
 }
 
-void ToBinary (int8_t *bits) {
+void ToBinary (int8_t *bits, Schema *target) {
     bits[0] = myRecs->numRecs;
     int8_t *curPos = bits + sizeof(int);
 
@@ -95,15 +96,15 @@ void ToBinary (int8_t *bits) {
     Node *temp = myRecs->head;
     for(i = 0;i < myRecs->numRecs; i++) {
         int8_t *b = temp->val->bits;
-        memcpy (curPos, b, b[0]);
-		curPos += b[0];
+        memcpy (curPos, b, target->map->tot_len);
+		curPos += target->map->tot_len;
         temp = temp->next;
     }  
 
 }
 
-void FromBinary (int8_t *bits) {
-    myRecs->numRecs = bits[0];
+void FromBinary (int8_t *bits, Schema *target) {
+    myRecs->numRecs = target->map->tot_len;
     char *curPos = bits + sizeof (int);
     Node *temp = myRecs->head;
     while (temp!=NULL) {
