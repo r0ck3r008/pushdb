@@ -3,16 +3,17 @@
 
 #include<stdint.h>
 
-#include"glbl/defs.h"
 #include"db/schema.h"
+#include"db/attmap.h"
+#include"glbl/defs.h"
 
 typedef struct Record
 {
-	uint64_t mask;
+	uint8_t bitmap[32];
 	int8_t *bits;
 } Record;
 
 Record *record_ser(int8_t *, int8_t *, Schema *);
-int8_t *record_deser(Record *, int8_t *, Schema *);
+int8_t *record_deser(Record *, Schema *, int8_t *);
 
 #endif

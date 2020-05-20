@@ -1,78 +1,60 @@
 #include<stdio.h>
-#include<string.h>
 #include<stdlib.h>
-#include<unistd.h>
+#include<string.h>
 
 #include"alloc.h"
 #include"record.h"
 
-Record *record_ser(int8_t *_str, int8_t *delimiter, Schema *sch)
+Record *record_ser(int8_t *_str, int8_t *delim, Schema *sch)
 {
-	Record *rec=fs_record_alloc();
-	rec->bits=fs_char_alloc(NULL, 1024);
-	uint8_t n=sch->natts;
-	// leave space for record size
-	uint16_t ptr=sizeof(uint16_t);
-	// begin splitting
 	int8_t *str=fs_char_copy(_str);
-	int8_t *attr=strtok(str, delimiter);
+	int8_t *attr=strtok(str, delim);
+	Attribute *att=sch->map->head;
+	Record *rec=fs_record_alloc(1);
+	rec->bits=fs_char_alloc(NULL, sch->map->tot_len);
 
-	for(uint8_t i=0, j=1; i<n; i++) {
-		if(ptr>=(uint16_t)(1024*(j)*(0.1))) {
-			rec->bits=fs_char_alloc(rec->bits, 1024*(++j));
-			i--;
-			continue;
+	while(att!=NULL && attr!=NULL) {
+		if(att->type==Int) {
+			((uint32_t *)rec->bits)[att->pos]=
+					(uint32_t)strtol(attr, NULL, 10);
+		} else if(att->type==Float) {
+			((float *)rec->bits)[att->pos]=
+					(float)strtof(attr, NULL);
+		} else if(att->type==String) {
+			uint32_t len=attribute_get_len(sch->map, att);
+			strncat(&(((int8_t *)rec->bits)[att->pos]),
+						attr, len);
 		}
 
-		if(sch->atts[i]->type==Int) {
-			((uint16_t *)rec->bits)[ptr]=(uint16_t)strtol(attr,
-								NULL, 10);
-			ptr+=sizeof(uint16_t);
-		} else if(sch->atts[i]->type==Float) {
-			((float *)rec->bits)[ptr]=(float)strtof(attr, NULL);
-			ptr+=sizeof(float);
-		} else if(sch->atts[i]->type==String) {
-			strncat(&((int8_t *)rec->bits)[ptr], attr,
-							sch->atts[i]->len);
-			ptr+=strlen(attr);
-		} else {
-			fprintf(stderr, "[-]Serialize: Bad attribute type!\n");
-			_exit(-1);
-		}
-		attr=strtok(NULL, delimiter);
+		att=att->nxt_sq;
+		attr=strtok(NULL, delim);
 	}
 
-	// Fill out the size
-	((uint16_t *)rec->bits)[0]=ptr;
 	free(str);
-
 	return rec;
 }
 
-int8_t *record_deser(Record *rec, int8_t *delimiter, Schema *sch)
+int8_t *record_deser(Record *rec, Schema *sch, int8_t *delim)
 {
-	uint16_t rec_sz=((uint16_t *)rec->bits)[0];
-	uint16_t ptr=sizeof(uint16_t);
-	int8_t *ret=fs_char_alloc(NULL, rec_sz);
-	uint8_t n=sch->natts;
-	for(uint8_t i=0; i<n; i++) {
-		if(sch->atts[i]->type==Int) {
-			sprintf(ret, "%s%d", ret, ((uint16_t *)rec->bits)[ptr]);
-			ptr+=sizeof(uint16_t);
-		} else if(sch->atts[i]->type==Float) {
-			sprintf(ret, "%s%.3f", ret, ((float *)rec->bits)[ptr]);
-			ptr+=sizeof(float);
-		} else if(sch->atts[i]->type==String) {
-			strncat(ret, &((int8_t *)rec->bits)[ptr],
-							sch->atts[i]->len);
-			ptr+=sch->atts[i]->len;
-		} else {
-			fprintf(stderr, "[-]Deserealize: Bad Attribute type!\n");
-			_exit(-1);
+	int8_t *str=fs_char_alloc(NULL, sch->map->tot_len);
+	Attribute *curr=sch->map->head;
+	while(curr!=NULL) {
+		if(curr->type==Int) {
+			sprintf(str, "%s%d",
+				str, ((uint32_t *)rec->bits)[curr->pos]);
+		} else if(curr->type==Float) {
+			sprintf(str, "%s%.3f",
+				str, ((float *)rec->bits)[curr->pos]);
+		} else if(curr->type==String) {
+			uint32_t len=attribute_get_len(sch->map, curr);
+			strncat(str, &(((int8_t *)rec->bits)[curr->pos]),
+				len);
 		}
-		if(i!=n-1)
-			strncat(ret, delimiter, 1);
+
+		curr=curr->nxt_sq;
+		if(curr!=NULL)
+			sprintf(str, "%s%s", str, delim);
 	}
 
-	return ret;
+	return str;
 }

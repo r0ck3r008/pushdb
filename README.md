@@ -1,2 +1,2 @@
 # DataPath
-A new approach to datapath.
+An updated approach to datapath.

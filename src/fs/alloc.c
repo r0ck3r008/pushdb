@@ -5,9 +5,9 @@
 
 #include"alloc.h"
 
-Record *fs_record_alloc()
+Record *fs_record_alloc(uint16_t size)
 {
-	Record *rec=malloc(sizeof(Record));
+	Record *rec=calloc(size, sizeof(Record));
 	if(rec==NULL) {
 		fprintf(stderr, "[-]Fs: Error in allocating Record!\n");
 		_exit(-1);

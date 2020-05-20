@@ -1,4 +1,4 @@
-all: schema.o alloc.o query.o
+all: schema.o alloc.o query.o attmap.o
 
 schema.o: schema.c schema.h
 	${COMPILER} -I${COMPILE_PATH} ${COMPILER_FLAGS} -c schema.c
@@ -8,6 +8,9 @@ alloc.o: alloc.c alloc.h
 
 query.o: query.c query.h
 	${COMPILER} -I${COMPILE_PATH} ${COMPILER_FLAGS} -c query.c
+
+attmap.o: attmap.c attmap.h
+	${COMPILER} -I${COMPILE_PATH} ${COMPILER_FLAGS} -c attmap.c
 
 clean:
 	rm -f *.o

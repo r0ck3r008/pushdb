@@ -10,15 +10,13 @@ Schema *prep_schema()
 {
 	int8_t *sch_name=strdup("test_name");
 	int8_t *fname=strdup("dummy_fname");
-	int8_t *att_name=strdup("att_name");
 	Schema *sch=schema_init(sch_name, fname);
-	schema_add_att(sch, att_name, 0, 0);
-	schema_add_att(sch, att_name, 0, 1);
-	schema_add_att(sch, att_name, 10, 2);
+	schema_add_att(sch, "att1", 0, 0);
+	schema_add_att(sch, "att2", 0, 1);
+	schema_add_att(sch, "att3", 10, 2);
 
 	free(sch_name);
 	free(fname);
-	free(att_name);
 
 	return sch;
 }
@@ -30,7 +28,7 @@ START_TEST(SERIALIZATION_TEST)
 	int8_t *delimiter=strdup("|");
 	int8_t *rec_str=strdup("1|1.010|Hello");
 	Record *rec=record_ser(rec_str, delimiter, sch);
-	int8_t *ret=record_deser(rec, delimiter, sch);
+	int8_t *ret=record_deser(rec, sch, delimiter);
 
 	//test
 	ck_assert_str_eq(rec_str, ret);

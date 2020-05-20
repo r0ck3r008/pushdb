@@ -4,7 +4,7 @@
 #include<stdint.h>
 
 // these are the types of operands that can appear in a CNF expression
-#define DOUBLE 1
+#define FLOAT 1
 #define INT 2
 #define NAME 3
 #define STRING 4
@@ -80,7 +80,7 @@ typedef struct OrList
 	// this is the OrList to the right of the OR; again,
 	// this might be NULL if the right is a simple comparison
 	struct OrList *rightOr;
-} Orlist;
+} OrList;
 
 typedef struct AndList
 {
@@ -98,6 +98,7 @@ typedef struct AttrList
 {
 	int8_t *name;
 	uint8_t type;
+	uint16_t len;
 	struct AttrList *next;
 
 } AttrList;

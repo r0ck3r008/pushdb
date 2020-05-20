@@ -21,10 +21,6 @@ extern int yyparse(void);
 extern YY_BUFFER_STATE yy_scan_string();
 extern void yy_delete_buffer(YY_BUFFER_STATE);
 
-//extern int yy_parse(void);
-//extern YY_BUFFER_STATE yy_scan_string(const char *);
-//extern void yy_delete_buffer();
-
 #endif
 
 typedef struct Query

@@ -5,7 +5,7 @@
 
 #include"record.h"
 
-Record *fs_record_alloc();
+Record *fs_record_alloc(uint16_t);
 int8_t *fs_char_alloc(int8_t *, uint16_t);
 int8_t *fs_char_copy(int8_t *);
 
