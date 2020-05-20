@@ -33,6 +33,9 @@ Query *query_init(const char *str)
 
 void alist_deinit(AndList *alist, OrList *olist)
 {
+	if(alist==NULL)
+		return;
+
 	if(olist==NULL && alist->left!=NULL) {
 		alist_deinit(alist, alist->left);
 		free(alist->left);
@@ -56,6 +59,9 @@ void alist_deinit(AndList *alist, OrList *olist)
 
 void tablelist_deinit(TableList *list)
 {
+	if(list==NULL)
+		return;
+
 	while(list->next!=NULL) {
 		TableList *curr=list->next;
 		free(curr->tableName);
@@ -71,6 +77,9 @@ void tablelist_deinit(TableList *list)
 
 void namelist_deinit(NameList *list)
 {
+	if(list==NULL)
+		return;
+
 	while(list->next!=NULL) {
 		NameList *curr=list->next;
 		free(curr->name);
@@ -84,6 +93,9 @@ void namelist_deinit(NameList *list)
 
 void attrlist_deinit(AttrList *list)
 {
+	if(list==NULL)
+		return;
+
 	while(list->next!=NULL) {
 		AttrList *curr=list->next;
 		free(curr->name);
