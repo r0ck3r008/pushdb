@@ -9,6 +9,7 @@ START_TEST(PARSER_TEST)
 	//prep
 	const char *str="SELECT name FROM table AS table1";
 	Query *q=query_init(str);
+	query_deinit(q);
 	ck_assert_int_eq(1,1);
 
 }
