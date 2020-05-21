@@ -106,14 +106,23 @@ void ToBinary (int8_t *bits, Schema *target, Page *rec) {
 
 void FromBinary (int8_t *bits, Schema *target, Page *rec) {
     rec->numRecs = target->map->tot_len;
-    char *curPos = bits + sizeof (int);
+    int8_t* curPos = bits + sizeof (int);
     Node *temp = rec->head;
     while (temp!=NULL) {
         Node *temp1 = temp;
         free(temp);
         temp = temp->next;
     }
-
+    Node *temp1;
+    rec->curSizeInBytes = sizeof (int);
+    int i;
+    for(i=0;i<rec->numRecs;i++) {
+        int len = curPos[0];
+        rec->curSizeInBytes += len;
+        memcpy (temp1, bits, len);
+        addLast(temp1,rec);
+    }
+    free(temp1);
 }
 
 // File
@@ -124,7 +133,7 @@ void createFile (File *fName) {
 void getPage (Page *putItHere, off_t  whichPage, File *owner, Schema *target) {
     //write the the number of pages here.
     //right now left as blank
-    whichPage++;
+    //whichPage++;
     if(whichPage >= owner->curPage) {
         fprintf(stderr,"BAD : you tried to read past the end of the file\n");
         exit(1);
