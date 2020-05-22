@@ -57,11 +57,17 @@ comparator_objs:
 		     COMPILER=${COMPILER} \
 		     COMPILER_FLAGS=${COMPILER_FLAGS} make -C comparator/
 
+entrypoint_objs:
+	COMPILE_PATH=${COMPILE_PATH} \
+		     COMPILER=${COMPILER} \
+		     COMPILER_FLAGS=${COMPILER_FLAGS} make -C entrypoint/
+
 clean_objs:
 	make -C db/ clean
 	make -C fs/ clean
 	make -C parser/ clean
 	make -C comparator/ clean
+	make -C entrypoint/ clean
 	make -C tests/ clean
 
 clean: clean_objs
