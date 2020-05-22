@@ -1,18 +1,16 @@
 //#include "glbl/defs.h"
+#include <sys/types.h>
 #include "record.h"
 //linkedlist
 
+
+
+//Page
 typedef struct Node
 {
 	Record *val;
     struct Node *next;
 } Node;
-
-void create();
-void addFirst (Record *t, Page *target);
-void addLast (Record *t, Page *target);
-
-//Page
 typedef struct Page
 {
     Node *last,*head;
@@ -20,10 +18,13 @@ typedef struct Page
     int numRecs;
 } Page;
 
-void createPage ();
+
+void addFirst (Record *t, Page *target);
+void addLast (Record *t, Page *target);
+void createPage (Page* rec);
 void ToBinary (int8_t *bits, Schema *target, Page *rec);
 void FromBinary (int8_t *bits, Schema *target, Page *rec);
-
+int Append (Record *addMe, Schema *target, Page *rec);
 int GetFirst (Record *firstOne, Schema *target, Page *rec);
 int get_curr_size();
 int get_curr_recs();

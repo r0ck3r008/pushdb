@@ -3,8 +3,8 @@
 
 #include<stdint.h>
 
-#include"glbl/defs.h"
-#include"attmap.h"
+#include "glbl/defs.h"
+#include "attmap.h"
 
 // This structure defines the layout and types of columns of
 // any relation in the database. This is basically how we
