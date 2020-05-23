@@ -48,8 +48,14 @@ FILE *fhandle(int8_t *fname, int8_t *perm)
 void schema_write(Schema *sch)
 {
 	int8_t *fname=db_char_alloc(128);
-	sprintf(fname, "%s.sql", sch->fname);
+	sprintf(fname, "%s.sql", sch->name);
 	FILE *f=fhandle(fname, "w");
+	if(f==NULL)
+		return;
+
+	for(Attribute *att=sch->map->head; att!=NULL; att=att->nxt_sq)
+		fprintf(f, "%s:%d:%d\n", att->name, att->type,
+			att->pos);
 }
 
 void schema_read(Schema *sch)
