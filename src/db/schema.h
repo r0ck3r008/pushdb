@@ -23,6 +23,6 @@ void schema_add_att(Schema *, int8_t *,
 // both these functions read and write to a file that
 // directly relates to the name of the relation, a sql file.
 void schema_write(Schema *);
-void schema_read(Schema *);
+Schema *schema_read(int8_t *);
 
 #endif

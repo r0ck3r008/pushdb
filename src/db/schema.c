@@ -58,11 +58,33 @@ void schema_write(Schema *sch)
 			att->pos);
 }
 
-void schema_read(Schema *sch)
+Schema *schema_read(int8_t *rname)
 {
 	int8_t *fname=db_char_alloc(128);
-	sprintf(fname, "%s.sql", sch->fname);
-	FILE *f=fhandle(fname, "w");
+	sprintf(fname, "%s.sql", rname);
+	FILE *f=fhandle(fname, "r");
+	if(f==NULL)
+		return NULL;
+
+	Schema *sch=schema_init(rname);
+	char *line=NULL; /* doesnt work with int8_t * */
+	size_t n=0;
+	while(!feof(f)) {
+		uint32_t stat=getline(&line, &n, f);
+		if(stat==-1)
+			break;
+		char *attname=strtok(line, ":");
+		DataType type=(DataType)strtol(strtok(NULL, ":"),
+						NULL, 10);
+		uint32_t pos=(uint32_t)strtol(strtok(NULL, ":"),
+						NULL, 10);
+		schema_add_att(sch, attname, type, pos);
+		free(line);
+		line=NULL;
+	}
+
+	free(line);
+	return sch;
 }
 
 void schema_deinit(Schema *sch)
