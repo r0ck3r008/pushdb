@@ -45,6 +45,21 @@ FILE *fhandle(int8_t *fname, int8_t *perm)
 
 	return f;
 }
+
+void schema_write(Schema *sch)
+{
+	int8_t *fname=db_char_alloc(128);
+	sprintf(fname, "%s.sql", sch->fname);
+	FILE *f=fhandle(fname, "w");
+}
+
+void schema_read(Schema *sch)
+{
+	int8_t *fname=db_char_alloc(128);
+	sprintf(fname, "%s.sql", sch->fname);
+	FILE *f=fhandle(fname, "w");
+}
+
 void schema_deinit(Schema *sch)
 {
 	attmap_deinit(sch->map);
