@@ -6,6 +6,7 @@
 #include<unistd.h>
 
 #include"db/query.h"
+#include"handler/handler.h"
 
 void init_loop(FILE *f)
 {
@@ -25,6 +26,8 @@ void init_loop(FILE *f)
 		}
 		if(!feof(f)) {
 			Query *q=query_init(query);
+			if(!handler_dispatch(q))
+				fprintf(stderr, "[-]Bad Query!\n");
 			query_deinit(q);
 		} else {
 			printf("Exit!\n");
