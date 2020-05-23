@@ -41,6 +41,9 @@ test_objs:
 		     COMPILER_FLAGS=${TEST_COMPILER_FLAGS} make -C comparator/
 	COMPILE_PATH=${COMPILE_PATH} \
 		     COMPILER=${COMPILER} \
+		     COMPILER_FLAGS=${TEST_COMPILER_FLAGS} make -C entrypoint/
+	COMPILE_PATH=${COMPILE_PATH} \
+		     COMPILER=${COMPILER} \
 		     COMPILER_FLAGS=${COMPILER_FLAGS} make -C tests/
 
 db_objs:
