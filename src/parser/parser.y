@@ -14,7 +14,7 @@
 	struct TableList *tables=NULL; // the list of tables and aliases in the query
 	struct AndList *boolean=NULL; // the predicate in the WHERE clause
 	struct NameList *attsToSelect=NULL; // the set of attributes in the SELECT (NULL if no such atts)
-	int queryType; // 1 for SELECT, 2 for CREATE, 3 for DROP, 4 for INSERT
+	int queryType; // 1 for SELECT, 2 for CREATE, 3 for DROP, 4 for INSERT , 5 for set
 	char *outputVar=NULL;
 	char *tableName=NULL;
 	char *fileToInsert=NULL;
@@ -32,6 +32,7 @@
 	struct AttrList *myAttrList;
 	char *actualChars;
 	char whichOne;
+	int strlength;
 }
 
 %token <actualChars> _name
@@ -62,6 +63,7 @@
 %type <myBoolOperand> literal
 %type <myNames> atts
 %type <myAttrList> newatts
+%type <strlength> strLen
 
 %start sql
 
@@ -80,27 +82,10 @@ sql: _select whatiwant from tables
 	queryType = 1;
 }
 
-| set output _name _select whatiwant from tables
+| set output _name
 {
 	outputVar = $3;
-	tables = $7;
-	queryType = 1;
-}
-
-| set output _name _select whatiwant from tables where andlist
-{
-	outputVar = $3;
-	tables = $7;
-	boolean = $9;
-	queryType = 1;
-}
-
-| set output _string _select whatiwant from tables where andlist
-{
-	outputVar=$3;
-	tables = $7;
-	boolean = $9;
-	queryType = 1;
+	queryType = 5;
 }
 
 | create _table _name '(' newatts ')'
@@ -128,12 +113,19 @@ newatts: _name _name
 {
 	$$ = (struct AttrList *) malloc (sizeof (struct AttrList));
 	$$->name = $1;
-	if (strcmp ($2, "Int") == 0)
+	if (strcmp ($2, "int") == 0)
 		$$->type = 0;
-	else if (strcmp ($2, "Float") == 0)
+	else if (strcmp ($2, "float") == 0)
 		$$->type = 1;
-	else if (strcmp ($2, "String") == 0)
-		$$->type = 2;
+	$$->next = NULL;
+}
+
+|  _name _name '(' strLen ')'
+{
+	$$ = (struct AttrList *) malloc (sizeof (struct AttrList));
+	$$->name = $1;
+	$$->len=$4;
+	$$->type = 2;
 	$$->next = NULL;
 }
 
@@ -141,15 +133,18 @@ newatts: _name _name
 {
 	$$ = (struct AttrList *) malloc (sizeof (struct AttrList));
 	$$->name = $1;
-	if(strcmp($2, "Int") == 0)
+	if(strcmp($2, "int") == 0)
 		$$->type = 0;
-	else if(strcmp($2, "Float") == 0)
+	else if(strcmp($2, "float") == 0)
 		$$->type = 1;
-	else if(strcmp($2, "String") == 0)
-		$$->type = 2;
 	$$->next = $4;
 }
 ;
+
+strLen: _int
+{
+	$$=strtol($1, NULL, 10);
+}
 
 whatiwant: atts
 {

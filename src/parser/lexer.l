@@ -24,7 +24,7 @@ void yy_delete_buffer();
 "as"			return(as);
 "drop"			return(drop);
 "create"		return(create);
-"_table"		return(_table);
+"table"			return(_table);
 "on"			return(on);
 "insert"		return(insert);
 "into"			return(into);
