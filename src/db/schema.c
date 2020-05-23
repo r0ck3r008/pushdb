@@ -91,6 +91,5 @@ void schema_deinit(Schema *sch)
 {
 	attmap_deinit(sch->map);
 	free(sch->name);
-	free(sch->fname);
 	free(sch);
 }
