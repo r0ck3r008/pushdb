@@ -13,11 +13,10 @@
 typedef struct Schema
 {
 	int8_t *name;
-	int8_t *fname;
 	AttMap *map;
 } Schema;
 
-Schema *schema_init(int8_t *, int8_t *);
+Schema *schema_init(int8_t *);
 void schema_deinit(Schema *);
 void schema_add_att(Schema *, int8_t *,
 			uint32_t, DataType);

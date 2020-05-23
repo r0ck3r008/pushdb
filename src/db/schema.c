@@ -9,11 +9,10 @@
 #include"alloc.h"
 #include"schema.h"
 
-Schema *schema_init(int8_t *name, int8_t *fname)
+Schema *schema_init(int8_t *name)
 {
 	Schema *sch=db_schema_alloc();
 	sch->name=db_char_copy(name);
-	sch->fname=db_char_copy(fname);
 	sch->map=attmap_init();
 
 	return sch;
