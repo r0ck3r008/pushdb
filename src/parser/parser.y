@@ -186,6 +186,23 @@ tables: _name as _name
 	$$->aliasAs = $5;
 	$$->next = $1;
 }
+
+| _name
+{
+	$$ = (struct TableList *) malloc (sizeof (struct TableList));
+	$$->tableName = $1;
+	$$->aliasAs = NULL;
+	$$->next = NULL;
+}
+
+| tables ',' _name
+{
+	$$ = (struct TableList *) malloc (sizeof (struct TableList));
+	$$->tableName = $3;
+	$$->aliasAs = NULL;
+	$$->next = $1;
+}
+
 ;
 
 andlist: '(' orlist ')' and andlist
