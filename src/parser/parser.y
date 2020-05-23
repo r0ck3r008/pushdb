@@ -14,7 +14,7 @@
 	struct TableList *tables=NULL; // the list of tables and aliases in the query
 	struct AndList *boolean=NULL; // the predicate in the WHERE clause
 	struct NameList *attsToSelect=NULL; // the set of attributes in the SELECT (NULL if no such atts)
-	int queryType; // 1 for SELECT, 2 for CREATE, 3 for DROP, 4 for INSERT , 5 for set
+	int queryType; // 0 for SELECT, 1 for CREATE, 2 for Insert, 3 for DROP
 	char *outputVar=NULL;
 	char *tableName=NULL;
 	char *fileToInsert=NULL;
@@ -72,14 +72,14 @@
 sql: _select whatiwant from tables
 {
 	tables = $4;
-	queryType = 1;
+	queryType = 0;
 }
 
 | _select whatiwant from tables where andlist
 {
 	tables = $4;
 	boolean = $6;
-	queryType = 1;
+	queryType = 0;
 }
 
 | set output _name
@@ -92,14 +92,14 @@ sql: _select whatiwant from tables
 {
 	tableName = $3;
 	attsToCreate = $5;
-	queryType = 2;
+	queryType = 1;
 }
 
 | insert _string into _name
 {
 	fileToInsert = $2;
 	tableName = $4;
-	queryType = 4;
+	queryType = 2;
 }
 
 | drop _table _name
