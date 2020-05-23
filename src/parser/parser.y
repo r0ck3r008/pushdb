@@ -46,7 +46,7 @@
 %token or
 
 %token create
-%token _table
+%token _table /* _ due to collision with any actual table named 'table' */
 %token on
 %token insert
 %token drop
