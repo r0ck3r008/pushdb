@@ -11,14 +11,14 @@
 	void yyerror(char *);
 
 	// these data structures hold the result of the parsing
-	struct TableList *tables; // the list of tables and aliases in the query
-	struct AndList *boolean; // the predicate in the WHERE clause
-	struct NameList *attsToSelect; // the set of attributes in the SELECT (NULL if no such atts)
+	struct TableList *tables=NULL; // the list of tables and aliases in the query
+	struct AndList *boolean=NULL; // the predicate in the WHERE clause
+	struct NameList *attsToSelect=NULL; // the set of attributes in the SELECT (NULL if no such atts)
 	int queryType; // 1 for SELECT, 2 for CREATE, 3 for DROP, 4 for INSERT
-	char *outputVar;
-	char *tableName;
-	char *fileToInsert;
-	struct AttrList *attsToCreate;
+	char *outputVar=NULL;
+	char *tableName=NULL;
+	char *fileToInsert=NULL;
+	struct AttrList *attsToCreate=NULL;
 %}
 
 // this stores all of the types returned by production rules
@@ -34,61 +34,60 @@
 	char whichOne;
 }
 
-%token <actualChars> Name
-%token <actualChars> Float
-%token <actualChars> Int
-%token <actualChars> String
-%token SELECT
-%token FROM
-%token WHERE
-%token AS
-%token AND
-%token OR
+%token <actualChars> _name
+%token <actualChars> _float
+%token <actualChars> _int
+%token <actualChars> _string
+%token _select /*_ due to collision with select function defined in stdlib */
+%token from
+%token where
+%token as
+%token and
+%token or
 
-%token CREATE
-%token TABLE
-%token ON
-%token INSERT
-%token DROP
-%token INTO
-%token SET
-%token OUTPUT
-%token EXIT
+%token create
+%token _table
+%token on
+%token insert
+%token drop
+%token into
+%token set
+%token output
 
-%type <myOrList> OrList
-%type <myAndList> AndList
-%type <myComparison> BoolComp
-%type <myComparison> Condition
-%type <myTables> Tables
-%type <myBoolOperand> Literal
-%type <myNames> Atts
-%type <myAttrList> NewAtts
+%type <myOrList> orlist
+%type <myAndList> andlist
+%type <myComparison> boolcomp
+%type <myComparison> condition
+%type <myTables> tables
+%type <myBoolOperand> literal
+%type <myNames> atts
+%type <myAttrList> newatts
 
-%start SQL
+%start sql
 
 %%
 
-SQL: SELECT WhatIWant FROM Tables
+sql: _select whatiwant from tables
 {
 	tables = $4;
 	queryType = 1;
 }
 
-| SELECT WhatIWant FROM Tables WHERE AndList
+| _select whatiwant from tables where andlist
 {
 	tables = $4;
 	boolean = $6;
 	queryType = 1;
 }
 
-| SET OUTPUT Name SELECT WhatIWant FROM Tables
+| set output _name _select whatiwant from tables
 {
 	outputVar = $3;
 	tables = $7;
 	queryType = 1;
 }
 
-| SET OUTPUT Name SELECT WhatIWant FROM Tables WHERE AndList
+| set output _name _select whatiwant from tables where andlist
 {
 	outputVar = $3;
 	tables = $7;
@@ -96,7 +95,7 @@ SQL: SELECT WhatIWant FROM Tables
 	queryType = 1;
 }
 
-| SET OUTPUT String SELECT WhatIWant FROM Tables WHERE AndList
+| set output _string _select whatiwant from tables where andlist
 {
 	outputVar=$3;
 	tables = $7;
@@ -104,33 +103,28 @@ SQL: SELECT WhatIWant FROM Tables
 	queryType = 1;
 }
 
-| CREATE TABLE Name '(' NewAtts ')'
+| create _table _name '(' newatts ')'
 {
 	tableName = $3;
 	attsToCreate = $5;
 	queryType = 2;
 }
 
-| INSERT String INTO Name
+| insert _string into _name
 {
 	fileToInsert = $2;
 	tableName = $4;
 	queryType = 4;
 }
 
-| DROP TABLE Name
+| drop _table _name
 {
 	tableName = $3;
 	queryType = 3;
 }
-
-| EXIT
-{
-	queryType = 6;
-}
 ;
 
-NewAtts: Name Name
+newatts: _name _name
 {
 	$$ = (struct AttrList *) malloc (sizeof (struct AttrList));
 	$$->name = $1;
@@ -143,7 +137,7 @@ NewAtts: Name Name
 	$$->next = NULL;
 }
 
-| Name Name',' NewAtts
+| _name _name',' newatts
 {
 	$$ = (struct AttrList *) malloc (sizeof (struct AttrList));
 	$$->name = $1;
@@ -157,19 +151,19 @@ NewAtts: Name Name
 }
 ;
 
-WhatIWant: Atts
+whatiwant: atts
 {
 	attsToSelect = $1;
 }
 
-Atts: Name
+atts: _name
 {
 	$$ = (struct NameList *) malloc (sizeof (struct NameList));
 	$$->name = $1;
 	$$->next = NULL;
 }
 
-| Atts ',' Name
+| atts ',' _name
 {
 	$$ = (struct NameList *) malloc (sizeof (struct NameList));
 	$$->name = $3;
@@ -177,7 +171,7 @@ Atts: Name
 }
 ;
 
-Tables: Name AS Name
+tables: _name as _name
 {
 	$$ = (struct TableList *) malloc (sizeof (struct TableList));
 	$$->tableName = $1;
@@ -185,7 +179,7 @@ Tables: Name AS Name
 	$$->next = NULL;
 }
 
-| Tables ',' Name AS Name
+| tables ',' _name as _name
 {
 	$$ = (struct TableList *) malloc (sizeof (struct TableList));
 	$$->tableName = $3;
@@ -194,7 +188,7 @@ Tables: Name AS Name
 }
 ;
 
-AndList: '(' OrList ')' AND AndList
+andlist: '(' orlist ')' and andlist
 {
         // here we need to pre-pend the OrList to the AndList
         // first we allocate space for this node
@@ -208,7 +202,7 @@ AndList: '(' OrList ')' AND AndList
 
 }
 
-| '(' OrList ')'
+| '(' orlist ')'
 {
         // just return the OrList!
         $$ = (struct AndList *) malloc (sizeof (struct AndList));
@@ -217,7 +211,7 @@ AndList: '(' OrList ')' AND AndList
 }
 ;
 
-OrList: Condition OR OrList
+orlist: condition or orlist
 {
         // here we have to hang the condition off the left of the OrList
         $$ = (struct OrList *) malloc (sizeof (struct OrList));
@@ -225,7 +219,7 @@ OrList: Condition OR OrList
         $$->rightOr = $3;
 }
 
-| Condition
+| condition
 {
         // nothing to hang off of the right
         $$ = (struct OrList *) malloc (sizeof (struct OrList));
@@ -234,7 +228,7 @@ OrList: Condition OR OrList
 }
 ;
 
-Condition: Literal BoolComp Literal
+condition: literal boolcomp literal
 {
         // in this case we have a simple literal/variable comparison
         $$ = $2;
@@ -243,7 +237,7 @@ Condition: Literal BoolComp Literal
 }
 ;
 
-BoolComp: '<'
+boolcomp: '<'
 {
         // construct and send up the comparison
         $$ = (struct ComparisonOp *) malloc (sizeof (struct ComparisonOp));
@@ -265,7 +259,7 @@ BoolComp: '<'
 }
 ;
 
-Literal : String
+literal : _string
 {
         // construct and send up the operand containing the string
         $$ = (struct Operand *) malloc (sizeof (struct Operand));
@@ -273,7 +267,7 @@ Literal : String
         $$->value = $1;
 }
 
-| Float
+| _float
 {
         // construct and send up the operand containing the FP number
         $$ = (struct Operand *) malloc (sizeof (struct Operand));
@@ -281,7 +275,7 @@ Literal : String
         $$->value = $1;
 }
 
-| Int
+| _int
 {
         // construct and send up the operand containing the integer
         $$ = (struct Operand *) malloc (sizeof (struct Operand));
@@ -289,7 +283,7 @@ Literal : String
         $$->value = $1;
 }
 
-| Name
+| _name
 {
         // construct and send up the operand containing the name
         $$ = (struct Operand *) malloc (sizeof (struct Operand));
