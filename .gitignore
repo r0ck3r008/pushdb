@@ -1,4 +1,4 @@
-src/tmp/*
-!src/tmp/.gitkeep
-src/bin/*
-!src/bin/.gitkeep
+tmp/*
+!tmp/.gitkeep
+bin/*
+!bin/.gitkeep
