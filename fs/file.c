@@ -42,11 +42,10 @@ void addLast (Record *t, Page *target)
 }
 
 //Page
-void createPage(Page *rec)
+Page *createPage()
 {
-    rec = (struct Page*) malloc(sizeof(struct Page));
-    // rec->curSizeInBytes = sizeof (int);
-    // rec->numRecs = 0;
+    Page *pg = malloc(sizeof(Page));
+    return pg;
 }
 
 void EmptyItOut (Schema *target,Page *rec)
