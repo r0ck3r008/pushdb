@@ -8,13 +8,13 @@ LINKER_FLAGS := -pthread
 COMPILE_PATH := ${PWD}
 
 # OBJECT DEFINITIONS
-ALL_OBJS := entrypoint/*.o fs/*.o db/*.o parser/*.o comparator/*.o
+ALL_OBJS := entrypoint/*.o fs/*.o db/*.o parser/*.o comparator/*.o handler/*.o
 TEST_OBJS := tests/main_test.o tests/fs/*.o tests/parser/*.o
 
 # TARGETS
 all: pushdb_bin
 
-pushdb_bin: entrypoint_objs db_objs fs_objs parser_objs comparator_objs
+pushdb_bin: entrypoint_objs db_objs fs_objs parser_objs comparator_objs handler_objs
 	${COMPILER} ${LINKER_FLAGS} ${ALL_OBJS} -o bin/pushdb.out
 	make clean_objs
 
@@ -39,6 +39,12 @@ test_objs:
 	COMPILE_PATH=${COMPILE_PATH} \
 		     COMPILER=${COMPILER} \
 		     COMPILER_FLAGS=${TEST_COMPILER_FLAGS} make -C comparator/
+	COMPILE_PATH=${COMPILE_PATH} \
+		     COMPILER=${COMPILER} \
+		     COMPILER_FLAGS=${TEST_COMPILER_FLAGS} make -C entrypoint/
+	COMPILE_PATH=${COMPILE_PATH} \
+		     COMPILER=${COMPILER} \
+		     COMPILER_FLAGS=${TEST_COMPILER_FLAGS} make -C handler/
 	COMPILE_PATH=${COMPILE_PATH} \
 		     COMPILER=${COMPILER} \
 		     COMPILER_FLAGS=${COMPILER_FLAGS} make -C tests/
@@ -67,12 +73,18 @@ entrypoint_objs:
 		     COMPILER=${COMPILER} \
 		     COMPILER_FLAGS=${COMPILER_FLAGS} make -C entrypoint/
 
+handler_objs:
+	COMPILE_PATH=${COMPILE_PATH} \
+		     COMPILER=${COMPILER} \
+		     COMPILER_FLAGS=${COMPILER_FLAGS} make -C handler/
+
 clean_objs:
 	make -C db/ clean
 	make -C fs/ clean
 	make -C parser/ clean
 	make -C comparator/ clean
 	make -C entrypoint/ clean
+	make -C handler/ clean
 	make -C tests/ clean
 
 clean: clean_objs

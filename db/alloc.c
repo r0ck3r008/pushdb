@@ -16,6 +16,17 @@ int8_t *db_char_copy(int8_t *str)
 	return ret;
 }
 
+int8_t *db_char_alloc(uint32_t size)
+{
+	int8_t *ret=calloc(size, 1);
+	if(ret=NULL) {
+		fprintf(stderr, "[-]Schema: Unable to allocate char memory!\n");
+		_exit(-1);
+	}
+
+	return ret;
+}
+
 Schema *db_schema_alloc()
 {
 	Schema *sch=malloc(sizeof(Schema));

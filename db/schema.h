@@ -13,13 +13,16 @@
 typedef struct Schema
 {
 	int8_t *name;
-	int8_t *fname;
 	AttMap *map;
 } Schema;
 
-Schema *schema_init(int8_t *, int8_t *);
+Schema *schema_init(int8_t *);
 void schema_deinit(Schema *);
 void schema_add_att(Schema *, int8_t *,
 			uint32_t, DataType);
+// both these functions read and write to a file that
+// directly relates to the name of the relation, a sql file.
+void schema_write(Schema *);
+Schema *schema_read(int8_t *);
 
 #endif

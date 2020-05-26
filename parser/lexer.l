@@ -16,21 +16,20 @@ void yy_delete_buffer();
 
 %%
 
-"SELECT"		return(SELECT);
-"FROM"			return(FROM);
-"WHERE"			return(WHERE);
-"AND"			return(AND);
-"OR"			return(OR);
-"AS"			return(AS);
-"DROP"			return(DROP);
-"CREATE"		return(CREATE);
-"TABLE"			return(TABLE);
-"ON"			return(ON);
-"INSERT"		return(INSERT);
-"INTO"			return(INTO);
-"SET"			return(SET);
-"OUTPUT"		return(OUTPUT);
-"EXIT"			return(EXIT);
+"select"		return(_select);
+"from"			return(from);
+"where"			return(where);
+"and"			return(and);
+"or"			return(or);
+"as"			return(as);
+"drop"			return(drop);
+"create"		return(create);
+"table"			return(_table);
+"on"			return(on);
+"insert"		return(insert);
+"into"			return(into);
+"set"			return(set);
+"output"		return(output);
 "("			return('(');
 "<"			return('<');
 ">"			return('>');
@@ -43,19 +42,19 @@ void yy_delete_buffer();
 ","    	        	return(',');
 -?[0-9]+		{
 				yylval.actualChars = strdup(yytext);
-				return(Int);
+				return(_int);
 			}
 -?[0-9]+\.[0-9]*	{
 				yylval.actualChars = strdup(yytext);
-				return(Float);
+				return(_float);
 			}
 [A-Za-z][A-Za-z0-9_-]*	{
 				yylval.actualChars = strdup(yytext);
-				return(Name);
+				return(_name);
 			}
 [A-Za-z][A-Za-z0-9_-]*\.[A-Za-z][A-Za-z0-9_-]*	{
 							yylval.actualChars = strdup(yytext);
-							return(Name);
+							return(_name);
 						}
 \'[^'\n]*\'		{
 				/* take care of ' in a string */
@@ -64,9 +63,10 @@ void yy_delete_buffer();
 				} else {
 					yylval.actualChars = strdup(yytext + 1);
 					yylval.actualChars[strlen(yylval.actualChars) - 1] = 0;
-					return(String);
+					return(_string);
 				}
 			}
+";"			;
 \n			lineno++;
 [ \t]             	;
 .                 	yyerror("LEX_ERROR: invalid character");
