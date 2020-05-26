@@ -62,6 +62,11 @@ void EmptyItOut (Schema *target,Page *rec)
     rec->numRecs = 0;
 }
 
+// NOTE
+// In the append function, since the page has already been allocated and accessed,
+// There is no need for page == NULL check in addLast
+// And since the page is and internal DS to File abstraction, File can manage the allocation for the page
+
 int Append (Record *rec, Schema *sch, Page *pg)
 {
     uint32_t len = sch->map->tot_len;
