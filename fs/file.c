@@ -1,14 +1,15 @@
-#include <sys/types.h>
+﻿#include <sys/types.h>
 #include <sys/stat.h>
 #include <unistd.h>
 #include <fcntl.h>
 #include <string.h>
 #include <stdlib.h>
 #include <stdio.h>
+
 #include "file.h"
-#include "db/schema.h"
-// LinkedList functions
-void addFirst (Record *t, Page *target) {
+
+void addFirst (Record *t, Page *target)
+{
     if(target->head == NULL){
         target->head = (struct Node*) malloc(sizeof(struct Node));
         target->last = (struct Node*) malloc(sizeof(struct Node));
@@ -23,7 +24,8 @@ void addFirst (Record *t, Page *target) {
     target->head = temp;
 }
 
-void addLast (Record *t, Page *target) {
+void addLast (Record *t, Page *target)
+{
     if(target->head == NULL){
         target->head = (struct Node*) malloc(sizeof(struct Node));
         target->last = (struct Node*) malloc(sizeof(struct Node));
@@ -40,26 +42,29 @@ void addLast (Record *t, Page *target) {
 }
 
 //Page
-void createPage(Page *rec){
-     rec = (struct Page*) malloc(sizeof(struct Page));
+void createPage(Page *rec)
+{
+    rec = (struct Page*) malloc(sizeof(struct Page));
     // rec->curSizeInBytes = sizeof (int);
     // rec->numRecs = 0;
 }
-void EmptyItOut (Schema *target,Page *rec) {
 
-	// get rid of all of the records
-	while (1) {
-		Record temp;
-		if (!GetFirst (&temp,target,rec))
-			break;
-	}
+void EmptyItOut (Schema *target,Page *rec)
+{
+    // get rid of all of the records
+    while (1) {
+        Record temp;
+        if (!GetFirst (&temp,target,rec))
+            break;
+    }
 
-	// reset the page size
-	rec->curSizeInBytes = sizeof (int);
-	rec->numRecs = 0;
+    // reset the page size
+    rec->curSizeInBytes = sizeof (int);
+    rec->numRecs = 0;
 }
 
-int Append (Record *addMe, Schema *target, Page *rec){
+int Append (Record *addMe, Schema *target, Page *rec)
+{
     uint32_t b = target->map->tot_len;
 
     //check if the record can fit inside the page
@@ -72,7 +77,8 @@ int Append (Record *addMe, Schema *target, Page *rec){
     return 1;
 }
 
-int GetFirst (Record *firstOne,Schema *target, Page *rec) {
+int GetFirst (Record *firstOne,Schema *target, Page *rec)
+{
     if(rec->head == NULL){
         return 0;
     }
@@ -84,7 +90,8 @@ int GetFirst (Record *firstOne,Schema *target, Page *rec) {
     return 1;
 }
 
-void ToBinary (int8_t *bits, Schema *target, Page *rec) {
+void ToBinary (int8_t *bits, Schema *target, Page *rec)
+{
     bits[0] = rec->numRecs;
     int8_t *curPos = bits + sizeof(int);
 
@@ -94,13 +101,14 @@ void ToBinary (int8_t *bits, Schema *target, Page *rec) {
     for(i = 0;i < rec->numRecs; i++) {
         int8_t *b = temp->val->bits;
         memcpy (curPos, b, target->map->tot_len);
-		curPos += target->map->tot_len;
+        curPos += target->map->tot_len;
         temp = temp->next;
     }  
 
 }
 
-void FromBinary (int8_t *bits, Schema *target, Page *rec) {
+void FromBinary (int8_t *bits, Schema *target, Page *rec)
+{
     rec->numRecs = target->map->tot_len;
     int8_t* curPos = bits + sizeof (int);
     Node *temp = rec->head;
