@@ -62,17 +62,16 @@ void EmptyItOut (Schema *target,Page *rec)
     rec->numRecs = 0;
 }
 
-int Append (Record *addMe, Schema *target, Page *rec)
+int Append (Record *rec, Schema *sch, Page *pg)
 {
-    uint32_t b = target->map->tot_len;
+    uint32_t len = sch->map->tot_len;
 
     //check if the record can fit inside the page
-    if(rec->curSizeInBytes + b > PAGE_SIZE) {
+    if((pg->curSizeInBytes + len ) > PAGE_SIZE)
         return 0;
-    }
 
-    addLast(addMe,rec);
-    rec->numRecs++;
+    addLast(rec, pg);
+    pg->numRecs++;
     return 1;
 }
 

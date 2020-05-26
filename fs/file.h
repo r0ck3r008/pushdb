@@ -17,8 +17,8 @@ typedef struct Page
 } Page;
 
 
-void addLast (Record *t, Page *target);
-void createPage (Page* rec);
+void addFirst (Record *, Page *);
+void addLast (Record *, Page *);
 Page *createPage ();
 void ToBinary (int8_t *bits, Schema *target, Page *rec);
 void FromBinary (int8_t *bits, Schema *target, Page *rec);
