@@ -1,10 +1,8 @@
 //#include "glbl/defs.h"
 #include <sys/types.h>
+
 #include "record.h"
-//linkedlist
-
-
-
+#include"db/schema.h"
 //Page
 typedef struct Node
 {
