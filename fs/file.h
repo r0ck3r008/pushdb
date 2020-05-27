@@ -31,7 +31,7 @@ typedef struct File {
     int fileOff;
     int curPage;
 } File;
-void createFile();
+File* createFile();
 //Returns the current length of the file in pages
 off_t GetLength();
 

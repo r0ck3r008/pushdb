@@ -132,28 +132,39 @@ void FromBinary (int8_t *bits, Schema *target, Page *rec)
 }
 
 // File
-// void createFile (File *fName) {
-//     fName->fileOff = 0;
-//     fName->curPage = 0;
-// }
-// void getPage (Page *putItHere, off_t  whichPage, File *owner, Schema *target) {
-//     //write the the number of pages here.
-//     //right now left as blank
-//     //whichPage++;
-//     if(whichPage >= owner->curPage) {
-//         fprintf(stderr,"BAD : you tried to read past the end of the file\n");
-//         exit(1);
-//     }
-//     char bits[PAGE_SIZE];
-//     if(bits == NULL) {
-//         printf("ERROR: Not enough memory. EXIT !!!\n");
-//         exit(1);
-//     }
-//     lseek(owner->fileOff,PAGE_SIZE * whichPage, SEEK_SET);
-//     read(owner->fileOff,bits, PAGE_SIZE);
-//     FromBinary(bits,target, putItHere);
-//     free(bits);
-// }
+File* createFile () {
+    File *fName = calloc(1, sizeof(File));
+    if(fName==NULL) {
+		fprintf(stderr, "[-]PAGE: Error in allocating the File!\n");
+		_exit(-1);
+	}
+    fName->fileOff = 0;
+    fName->curPage = 0;
+    return fName;
+}
+int Open (int fileLen, const char* fName,File *owner) {
+    
+    int mode;
+    if (fileLen == 0){
+        mode = O_TRUNC | O_RDWR | O_CREAT;
+    }else{
+        mode = O_RDWR;
+    }
+    owner->fileOff = open (fName, mode, S_IRUSR | S_IWUSR);
+    printf("file off is %d",owner->fileOff);
+    if (owner->fileOff < 0) {
+        fprintf(stderr, "BAD! Open did not work!");
+        return 0;
+    }
+    if(fileLen != 0) {
+        // read in the first few bits, which is the page size
+        lseek (owner->fileOff,0,SEEK_SET);
+        read (owner->fileOff, owner, sizeof(struct File));
+    }else{
+        owner->curPage = 0;
+    }
+    return 1;
+}
 // void addPage(Page *addMe, off_t whichPage, File*owner, Schema *target) {
 //     //not skipping the first page since number of records will be there.
 //     //for addition at the end
@@ -176,29 +187,27 @@ void FromBinary (int8_t *bits, Schema *target, Page *rec)
 //     ToBinary(bits,target,addMe);
 //     lseek (owner->fileOff,PAGE_SIZE * whichPage, SEEK_SET);
 //     write(owner->fileOff, bits, PAGE_SIZE);
+// }
+// void getPage (Page *putItHere, off_t  whichPage, File *owner, Schema *target) {
+//     //write the the number of pages here.
+//     //right now left as blank
+//     //whichPage++;
+//     if(whichPage >= owner->curPage) {
+//         fprintf(stderr,"BAD : you tried to read past the end of the file\n");
+//         exit(1);
+//     }
+//     char bits[PAGE_SIZE];
+//     if(bits == NULL) {
+//         printf("ERROR: Not enough memory. EXIT !!!\n");
+//         exit(1);
+//     }
+//     lseek(owner->fileOff,PAGE_SIZE * whichPage, SEEK_SET);
+//     read(owner->fileOff,bits, PAGE_SIZE);
+//     FromBinary(bits,target, putItHere);
 //     free(bits);
 // }
-// int Open (int fileLen, const char* fName,File *owner) {
-//     int mode;
-//     if (fileLen = 0){
-//         mode = O_TRUNC | O_RDWR | O_CREAT;
-//     }else{
-//         mode = O_RDWR;
-//     }
-//     owner->fileOff = open (fName, mode, S_IRUSR | S_IWUSR);
-//     if (owner->fileOff < 0) {
-//         fprintf(stderr, "BAD! Open did not work!");
-//         return 0;
-//     }
-//     if(fileLen != 0) {
-//         // read in the first few bits, which is the page size
-//         lseek (owner->fileOff,0,SEEK_SET);
-//         read (owner->fileOff, owner, sizeof(struct File));
-//     }else{
-//         owner->curPage = 0;
-//     }
-//     return 1;
-// }
+
+
 
 // int Close (File *owner) {
 //     lseek (&owner, 0, SEEK_SET);
