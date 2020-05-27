@@ -83,7 +83,7 @@ Schema *prep_schema()
 
 	return sch;
 }
-void main () {
+int main () {
     Schema *sch=prep_schema();
 	int8_t *delimiter=strdup("|");
     int8_t *rec_str=strdup("1|1.010|Hello");
