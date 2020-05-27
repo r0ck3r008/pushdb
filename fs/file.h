@@ -1,4 +1,3 @@
-//#include "glbl/defs.h"
 #include <sys/types.h>
 
 #include "record.h"
