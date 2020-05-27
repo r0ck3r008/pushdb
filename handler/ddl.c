@@ -17,7 +17,7 @@ uint8_t ddl_create(Query *q)
 	Schema *sch=schema_init(q->tbl_name);
 	for(AttrList *curr=q->cr_atts; curr!=NULL; curr=curr->next) {
 		uint32_t len;
-		if(curr->type=String)
+		if(curr->type==String)
 			len=curr->len;
 		else
 			len=0;
