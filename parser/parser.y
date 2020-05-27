@@ -139,6 +139,15 @@ newatts: _name _name
 		$$->type = 1;
 	$$->next = $4;
 }
+
+| _name _name '(' strLen ')' ',' newatts
+{
+	$$ = (struct AttrList *) malloc (sizeof (struct AttrList));
+	$$->name = $1;
+	$$->len=$4;
+	$$->type = 2;
+	$$->next = $7;
+}
 ;
 
 strLen: _int
