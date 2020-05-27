@@ -3,13 +3,13 @@
 
 #include<stdint.h>
 
-#include"db/schema.h"
-#include"fs/file.h"
+#include"schema.h"
+#include"file.h"
 
 typedef struct
 {
 	Schema *sch;
-	File *file
+	File *file;
 } ProjOp;
 
 void *proj_run(void *);

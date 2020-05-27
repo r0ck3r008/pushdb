@@ -4,7 +4,7 @@
 
 #include<stdint.h>
 
-#include"glbl/defs.h"
+#include"defs.h"
 
 typedef struct Attribute
 {

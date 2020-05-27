@@ -13,6 +13,7 @@ int handler_dispatch(Query *q)
 	case 2:
 		if(!ddl_insert(q))
 			return 0;
+		break;
 	case 3:
 		if(!ddl_drop(q))
 			return 0;

@@ -1,7 +1,7 @@
 #include<stdio.h>
 #include<pthread.h>
 
-#include"comparator/compare.h"
+#include"compare.h"
 #include"selop.h"
 
 void *selop_run(void *arg)

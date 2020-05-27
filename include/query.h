@@ -3,7 +3,7 @@
 
 #include<stdint.h>
 
-#include"parser/parse_tree.h"
+#include"parse_tree.h"
 
 #ifdef QUERY_INTERNAL
 

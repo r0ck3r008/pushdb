@@ -1,7 +1,7 @@
 #include <sys/types.h>
 
-#include "record.h"
-#include"db/schema.h"
+#include"record.h"
+#include"schema.h"
 //Page
 typedef struct Node
 {

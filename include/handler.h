@@ -1,7 +1,7 @@
 #ifndef HANDLER_H
 #define HANDLER_H
 
-#include"db/query.h"
+#include"query.h"
 
 int handler_dispatch(Query *);
 
