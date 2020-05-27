@@ -44,7 +44,11 @@ void addLast (Record *t, Page *target)
 //Page
 Page *createPage()
 {
-	Page *pg = malloc(sizeof(Page));
+	Page *pg = calloc(1, sizeof(Page));
+	if(pg==NULL) {
+		fprintf(stderr, "[-]PAGE: Error in allocating the page!\n");
+		_exit(-1);
+	}
 	return pg;
 }
 
