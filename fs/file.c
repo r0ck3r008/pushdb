@@ -150,10 +150,11 @@ File *Open (const char *fName) {
 	}
 
 	File *file=calloc(1, sizeof(File));
-	file->fd = open(fName, mode);
-	if (file->fd < 0) {
-		fprintf(stderr, "BAD! Open did not work!\n");
-		return NULL;
+	file->fd = open(fName, mode, 0644);
+	if(file->fd<0) {
+		fprintf(stderr, "[-]FILE: Error in opening the file: %s:%s\n",
+			fName, strerror(errno));
+		_exit(-1);
 	}
 
 	if(!status) {
