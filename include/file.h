@@ -31,12 +31,12 @@ typedef struct File {
     int fileOff;
     int curPage;
 } File;
-File* createFile();
+
 //Returns the current length of the file in pages
 off_t GetLength();
 
 //Opens a File.
-int Open(int length, const char *fName, File *owner);
+File *Open(const char *);
 
 //Retreive a specific page from the file.
 void getPage (Page *putItHere, off_t  whichPage, File *owner, Schema *target);

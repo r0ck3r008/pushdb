@@ -133,39 +133,46 @@ void FromBinary (int8_t *bits, Schema *target, Page *rec)
 }
 
 // File
+
+File *Open (const char *fName) {
     
-    int mode;
-    if (fileLen == 0){
+    int mode, status;
+	struct stat buf;
+	if(!(status=stat(fName, &buf))) {
         mode = O_TRUNC | O_RDWR | O_CREAT;
     }else{
         mode = O_RDWR;
     }
-    owner->fileOff = open (fName, mode, S_IRUSR | S_IWUSR);
-    printf("file off is %d",owner->fileOff);
-    if (owner->fileOff < 0) {
-        fprintf(stderr, "BAD! Open did not work!");
-        return 0;
+
+	File *file=calloc(1, sizeof(File));
+    file->fd = open(fName, mode);
+    if (file->fd < 0) {
+        fprintf(stderr, "BAD! Open did not work!\n");
+        return NULL;
     }
-    if(fileLen != 0) {
+
+    if(!status) {
         // read in the first few bits, which is the page size
         lseek (owner->fileOff,0,SEEK_SET);
         read (owner->fileOff, owner, sizeof(struct File));
     }else{
         owner->curPage = 0;
     }
-    return 1;
+
+    return file;
 }
+
 void addPage(Page *addMe, off_t whichPage, File*owner, Schema *target) {
     //not skipping the first page since number of records will be there.
     //for addition at the end
-    if(whichPage >= owner->curPage){
+    if(whichPage >= owner->curr_pg){
         off_t i;
-        for(i = owner->curPage;i < whichPage;i++) {
+        for(i = owner->curr_pg;i < whichPage;i++) {
             int foo = 0;
-            lseek (owner->fileOff,PAGE_SIZE *i,SEEK_SET);
-            write(owner->fileOff,&foo, sizeof(int));
+            lseek (owner->fd,PAGE_SIZE *i,SEEK_SET);
+            write(owner->fd,&foo, sizeof(int));
         }
-        owner->curPage = whichPage + 1;
+        owner->curr_pg = whichPage + 1;
     }
 
     //page writing
