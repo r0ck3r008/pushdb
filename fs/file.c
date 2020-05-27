@@ -5,6 +5,7 @@
 #include <string.h>
 #include <stdlib.h>
 #include <stdio.h>
+#include<errno.h>
 
 #include"alloc.h"
 #include "file.h"
@@ -138,10 +139,14 @@ File *Open (const char *fName) {
     
 	int mode, status;
 	struct stat buf;
-	if(!(status=stat(fName, &buf))) {
+	if((status=stat(fName, &buf))<0 && errno==ENOENT) {
 		mode = O_TRUNC | O_RDWR | O_CREAT;
-	}else{
+	} else if(!status) {
 		mode = O_RDWR;
+	} else {
+		fprintf(stderr, "[-]FILE: Error in opening file: %s:%s\n",
+			fName, strerror(errno));
+		return NULL;
 	}
 
 	File *file=calloc(1, sizeof(File));
