@@ -58,13 +58,13 @@ uint8_t ddl_drop(Query *q)
 
 	if(unlink(sch_fname)<0) {
 		fprintf(stderr, "[-]DDL: Error in unlinking %s file: %s\n",
-						sch_fname, strerror(errno));
+			sch_fname, strerror(errno));
 		_exit(-1);
 	}
 
 	if(unlink(bin_fname)<0) {
 		fprintf(stderr, "[-]DDL: Error in unlinking %s file: %s\n",
-						bin_fname, strerror(errno));
+			bin_fname, strerror(errno));
 		_exit(-1);
 	}
 
