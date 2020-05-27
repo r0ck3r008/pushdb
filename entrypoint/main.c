@@ -64,10 +64,10 @@
 #include <string.h>
 #include <stdlib.h>
 #include <stdio.h>
-#include "db/schema.h"
-#include "fs/file.h"
+#include "schema.h"
+#include "file.h"
 #include <sys/types.h>
-#include "fs/record.h"
+#include "record.h"
 #include <inttypes.h>
 Schema *prep_schema()
 {
