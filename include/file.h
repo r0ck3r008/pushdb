@@ -6,13 +6,13 @@
 typedef struct Node
 {
 	Record *val;
-    struct Node *next;
+	struct Node *next;
 } Node;
 typedef struct Page
 {
-    Node *last,*head;
-    int curSizeInBytes;
-    int numRecs;
+	Node *last,*head;
+	int curSizeInBytes;
+	int numRecs;
 } Page;
 
 
@@ -28,8 +28,8 @@ int get_curr_recs();
 
 //File
 typedef struct File {
-    int fd;
-    uint32_t pg_cnt;
+	int fd;
+	uint32_t pg_cnt;
 	uint32_t curr_pg;
 } File;
 

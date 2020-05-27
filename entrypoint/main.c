@@ -84,15 +84,15 @@ Schema *prep_schema()
 	return sch;
 }
 int main () {
-    Schema *sch=prep_schema();
+	Schema *sch=prep_schema();
 	int8_t *delimiter=strdup("|");
-    int8_t *rec_str=strdup("1|1.010|Hello");
-    Schema *sch2 = prep_schema();
-    int8_t *rec_str2=strdup("1|1.010|World");
+	int8_t *rec_str=strdup("1|1.010|Hello");
+	Schema *sch2 = prep_schema();
+	int8_t *rec_str2=strdup("1|1.010|World");
 	Record *rec=record_ser(rec_str, delimiter, sch);
-    Record *rec2=record_ser(rec_str2, delimiter, sch2);
+	Record *rec2=record_ser(rec_str2, delimiter, sch2);
 	Page *try = createPage();
-    Append(rec,sch,try);
+	Append(rec,sch,try);
 	// printf("\n new number of records %d",try->numRecs);
 	Append(rec2,sch2,try);
 	// printf("\n new number of records %d",try->numRecs);
