@@ -6,6 +6,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 
+#include"alloc.h"
 #include "file.h"
 
 void addFirst (Record *t, Page *target)
@@ -132,17 +133,6 @@ void FromBinary (int8_t *bits, Schema *target, Page *rec)
 }
 
 // File
-File* createFile () {
-    File *fName = calloc(1, sizeof(File));
-    if(fName==NULL) {
-		fprintf(stderr, "[-]PAGE: Error in allocating the File!\n");
-		_exit(-1);
-	}
-    fName->fileOff = 0;
-    fName->curPage = 0;
-    return fName;
-}
-int Open (int fileLen, const char* fName,File *owner) {
     
     int mode;
     if (fileLen == 0){
