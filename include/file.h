@@ -28,8 +28,9 @@ int get_curr_recs();
 
 //File
 typedef struct File {
-    int fileOff;
-    int curPage;
+    int fd;
+    uint32_t pg_cnt;
+	uint32_t curr_pg;
 } File;
 
 //Returns the current length of the file in pages

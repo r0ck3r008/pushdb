@@ -153,10 +153,11 @@ File *Open (const char *fName) {
 
     if(!status) {
         // read in the first few bits, which is the page size
-        lseek (owner->fileOff,0,SEEK_SET);
-        read (owner->fileOff, owner, sizeof(struct File));
-    }else{
-        owner->curPage = 0;
+        lseek (file->fd, 0, SEEK_SET);
+		int8_t *buf=fs_char_alloc(NULL, PAGE_SIZE);
+        read (file->fd, buf, PAGE_SIZE);
+		file->pg_cnt=(uint32_t)strtol(buf, NULL, 10);
+		free(buf);
     }
 
     return file;
@@ -182,8 +183,8 @@ void addPage(Page *addMe, off_t whichPage, File*owner, Schema *target) {
         exit(1);
     }
     ToBinary(bits,target,addMe);
-    lseek (owner->fileOff,PAGE_SIZE * whichPage, SEEK_SET);
-    write(owner->fileOff, bits, PAGE_SIZE);
+    lseek (owner->fd,PAGE_SIZE * whichPage, SEEK_SET);
+    write(owner->fd, bits, PAGE_SIZE);
 }
 // void getPage (Page *putItHere, off_t  whichPage, File *owner, Schema *target) {
 //     //write the the number of pages here.
@@ -198,8 +199,8 @@ void addPage(Page *addMe, off_t whichPage, File*owner, Schema *target) {
 //         printf("ERROR: Not enough memory. EXIT !!!\n");
 //         exit(1);
 //     }
-//     lseek(owner->fileOff,PAGE_SIZE * whichPage, SEEK_SET);
-//     read(owner->fileOff,bits, PAGE_SIZE);
+//     lseek(owner->fd,PAGE_SIZE * whichPage, SEEK_SET);
+//     read(owner->fd,bits, PAGE_SIZE);
 //     FromBinary(bits,target, putItHere);
 //     free(bits);
 // }
@@ -208,7 +209,7 @@ void addPage(Page *addMe, off_t whichPage, File*owner, Schema *target) {
 
 // int Close (File *owner) {
 //     lseek (&owner, 0, SEEK_SET);
-// 	if(write (owner->fileOff, &owner, sizeof (struct File))==-1)
+// 	if(write (owner->fd, &owner, sizeof (struct File))==-1)
 // 		return 0;
 
 // 	// close the file
