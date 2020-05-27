@@ -96,9 +96,8 @@ int main () {
 	// printf("\n new number of records %d",try->numRecs);
 	Append(rec2,sch2,try);
 	// printf("\n new number of records %d",try->numRecs);
-	int retval;
-	retval = Open(0,"/mnt/d/Naman_Group_Project/project/fs/akshit",ftry);
 	//File *ftry = createFile();
+	File *ftry=Open("/mnt/d/Naman_Group_Project/project/fs/akshit");
 	// Append(rec,sch,try);
 	addPage(try,0,ftry,sch);
 }
