@@ -100,4 +100,5 @@ void main () {
 	int retval;
 	retval = Open(0,"/mnt/d/Naman_Group_Project/project/fs/akshit",ftry);
 	// Append(rec,sch,try);
+	addPage(try,0,ftry,sch);
 }
