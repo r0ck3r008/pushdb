@@ -5,8 +5,8 @@
 #include<string.h>
 #include<unistd.h>
 
-#include"db/query.h"
-#include"handler/handler.h"
+#include"query.h"
+#include"handler.h"
 
 void init_loop(FILE *f)
 {

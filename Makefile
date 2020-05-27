@@ -5,7 +5,7 @@ TEST_COMPILER_FLAGS := '-g -fpic'
 TEST_LINKER_FLAGS := -lcheck -pthread -L${PWD}/bin -lpushdb
 LIB_LINKER_FLAGS := -shared
 LINKER_FLAGS := -pthread
-COMPILE_PATH := ${PWD}
+COMPILE_PATH := ${PWD}/include
 
 # OBJECT DEFINITIONS
 ALL_OBJS := entrypoint/*.o fs/*.o db/*.o parser/*.o comparator/*.o handler/*.o

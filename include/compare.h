@@ -3,10 +3,10 @@
 
 #include<stdint.h>
 
-#include"parser/parse_tree.h"
-#include"glbl/defs.h"
-#include"db/schema.h"
-#include"fs/record.h"
+#include"parse_tree.h"
+#include"defs.h"
+#include"schema.h"
+#include"record.h"
 
 typedef struct Literal
 {

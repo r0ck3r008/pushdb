@@ -3,9 +3,9 @@
 
 #include<stdint.h>
 
-#include "db/schema.h"
-#include"db/attmap.h"
-#include"glbl/defs.h"
+#include"schema.h"
+#include"attmap.h"
+#include"defs.h"
 
 typedef struct Record
 {

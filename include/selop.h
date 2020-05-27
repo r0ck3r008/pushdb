@@ -3,9 +3,9 @@
 
 #include<stdint.h>
 
-#include"db/schema.h"
-#include"parser/parse_tree.h"
-#include"fs/file.h"
+#include"schema.h"
+#include"parse_tree.h"
+#include"file.h"
 
 typedef struct
 {
