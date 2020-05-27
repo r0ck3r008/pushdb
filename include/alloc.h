@@ -1,6 +1,9 @@
 #ifndef ALLOC_H
 #define ALLOC_H
 
+// TODO
+// merge similar allocation functions like char
+
 #include<stdint.h>
 
 #include"record.h"
