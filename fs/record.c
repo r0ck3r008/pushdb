@@ -5,10 +5,10 @@
 #include"alloc.h"
 #include"record.h"
 
-Record *record_ser(int8_t *_str, int8_t *delim, Schema *sch)
+Record *record_ser(int8_t *_str, Schema *sch)
 {
 	int8_t *str=fs_char_copy(_str);
-	int8_t *attr=strtok(str, delim);
+	int8_t *attr=strtok(str, sch->delim);
 	Attribute *att=sch->map->head;
 	Record *rec=fs_record_alloc(1);
 	rec->bits=fs_char_alloc(NULL, sch->map->tot_len);
@@ -27,14 +27,14 @@ Record *record_ser(int8_t *_str, int8_t *delim, Schema *sch)
 		}
 
 		att=att->nxt_sq;
-		attr=strtok(NULL, delim);
+		attr=strtok(NULL, sch->delim);
 	}
 
 	free(str);
 	return rec;
 }
 
-int8_t *record_deser(Record *rec, Schema *sch, int8_t *delim)
+int8_t *record_deser(Record *rec, Schema *sch)
 {
 	int8_t *str=fs_char_alloc(NULL, sch->map->tot_len);
 	Attribute *curr=sch->map->head;
@@ -53,7 +53,7 @@ int8_t *record_deser(Record *rec, Schema *sch, int8_t *delim)
 
 		curr=curr->nxt_sq;
 		if(curr!=NULL)
-			sprintf(str, "%s%s", str, delim);
+			sprintf(str, "%s%s", str, sch->delim);
 	}
 
 	return str;

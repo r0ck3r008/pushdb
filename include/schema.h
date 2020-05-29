@@ -13,6 +13,7 @@
 typedef struct Schema
 {
 	int8_t *name;
+	int8_t *delim;
 	AttMap *map;
 } Schema;
 
