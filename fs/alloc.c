@@ -43,6 +43,17 @@ Page *fs_page_alloc()
 	return pg;
 }
 
+File *fs_file_alloc()
+{
+	File *file=calloc(1, sizeof(File));
+	if(file==NULL) {
+		fprintf(stderr, "[-]FILE: Error in allocating file\n");
+		_exit(-1);
+	}
+
+	return file;
+}
+
 int8_t *fs_char_copy(int8_t *str_in)
 {
 	int8_t *str=strdup(str_in);
