@@ -11,9 +11,10 @@ typedef struct Record
 {
 	uint8_t bitmap[32];
 	int8_t *bits;
+	struct Record *next;
 } Record;
 
-Record *record_ser(int8_t *, int8_t *, Schema *);
-int8_t *record_deser(Record *, Schema *, int8_t *);
+Record *record_ser(int8_t *, Schema *);
+int8_t *record_deser(Record *, Schema *);
 
 #endif
