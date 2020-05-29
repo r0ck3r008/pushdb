@@ -18,6 +18,7 @@
 	char *outputVar=NULL;
 	char *tableName=NULL;
 	char *fileToInsert=NULL;
+	char *delim=NULL;
 	struct AttrList *attsToCreate=NULL;
 %}
 
@@ -54,6 +55,8 @@
 %token into
 %token set
 %token output
+%token separated
+%token by
 
 %type <myOrList> orlist
 %type <myAndList> andlist
@@ -95,10 +98,11 @@ sql: _select whatiwant from tables
 	queryType = 1;
 }
 
-| insert _string into _name
+| insert _string into _name separated by _string
 {
 	fileToInsert = $2;
 	tableName = $4;
+	delim=$7;
 	queryType = 2;
 }
 

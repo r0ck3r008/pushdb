@@ -30,6 +30,8 @@ void yy_delete_buffer();
 "into"			return(into);
 "set"			return(set);
 "output"		return(output);
+"separated"             return(separated);
+"by"                    return(by);
 "("			return('(');
 "<"			return('<');
 ">"			return('>');
