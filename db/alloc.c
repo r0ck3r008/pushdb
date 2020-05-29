@@ -29,7 +29,7 @@ int8_t *db_char_alloc(uint32_t size)
 
 Schema *db_schema_alloc()
 {
-	Schema *sch=malloc(sizeof(Schema));
+	Schema *sch=calloc(1, sizeof(Schema));
 	if(sch==NULL) {
 		fprintf(stderr, "[-]Schema: Unable to alloc schema!\n");
 		_exit(-1);
