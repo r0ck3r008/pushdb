@@ -10,10 +10,12 @@
 #include"query.h"
 #include"schema.h"
 #include"compare.h"
+#include"page.h"
 
 Record *fs_record_alloc(uint16_t);
 int8_t *fs_char_alloc(int8_t *, uint16_t);
 int8_t *fs_char_copy(int8_t *);
+Page *fs_page_alloc();
 
 // These functions exist just to check return
 // status of malloc/strdup
@@ -30,4 +32,4 @@ Cnf *comparator_cnf_alloc();
 
 int8_t *handler_char_alloc(uint32_t);
 
-#endif // __ALLOC_H_
+#endif

@@ -32,6 +32,17 @@ int8_t *fs_char_alloc(int8_t *prev, uint16_t size)
 	return ret;
 }
 
+Page *fs_page_alloc()
+{
+	Page *pg=calloc(1, sizeof(PAGE_SIZE));
+	if(pg==NULL) {
+		fprintf(stderr, "[-]PAGE: Error in allocating the memory!\n");
+		_exit(-1);
+	}
+
+	return pg;
+}
+
 int8_t *fs_char_copy(int8_t *str_in)
 {
 	int8_t *str=strdup(str_in);
