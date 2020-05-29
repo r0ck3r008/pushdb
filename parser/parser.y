@@ -98,6 +98,14 @@ sql: _select whatiwant from tables
 	queryType = 1;
 }
 
+| insert _string into _name
+{
+	fileToInsert = $2;
+	tableName = $4;
+	delim=strdup(",");
+	queryType = 2;
+}
+
 | insert _string into _name separated by _string
 {
 	fileToInsert = $2;
