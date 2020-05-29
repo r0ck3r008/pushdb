@@ -25,6 +25,7 @@ Query *query_init(const char *str)
 	q->tbl_name=tableName;
 	q->ins_fname=fileToInsert;
 	q->cr_atts=attsToCreate;
+	q->delim=delim;
 
 	return q;
 }
@@ -111,6 +112,6 @@ void query_deinit(Query *q)
 	free(q->tbl_name);
 	free(q->opvar);
 	alist_deinit(q->alist, NULL); free(q->alist);
-	free(q->tbl); free(q->sel_atts); free(q->cr_atts);
+	free(q->tbl); free(q->sel_atts); free(q->cr_atts); free(q->delim);
 	free(q);
 }
