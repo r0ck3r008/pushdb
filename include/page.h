@@ -10,13 +10,12 @@ typedef struct Page
 {
 	Record *first, *last;
 	uint32_t curr_sz;
-	Schema *sch;
 } Page;
 
-Page *page_init(Schema *);
-uint8_t page_add_rec(Page *, int8_t *);
+Page *page_init();
+uint8_t page_add_rec(Page *, int8_t *, Schema *);
 // Expects an empty but allocated buffer of PAGE_SIZE
-void page_to_bin(Page *, int8_t **);
+void page_to_bin(Page *, int8_t **, Schema *);
 void page_deinit(Page *);
 
 #endif

@@ -6,40 +6,39 @@
 #include"alloc.h"
 #include"page.h"
 
-Page *page_init(Schema *sch)
+Page *page_init()
 {
 	Page *pg=fs_page_alloc();
-	pg->sch=sch;
 
 	return pg;
 }
 
-uint8_t page_add_rec(Page *pg, int8_t *rec_str)
+uint8_t page_add_rec(Page *pg, int8_t *rec_str, Schema *sch)
 {
-	if(pg->sch->delim==NULL) {
+	if(sch->delim==NULL) {
 		fprintf(stderr, "[-]PAGE: delimiter not found in schema!\n");
 		return 0;
 	}
 
 	// +1 is for the delimiter
-	if((pg->curr_sz + pg->sch->map->tot_len + 1) >= PAGE_SIZE) {
+	if((pg->curr_sz + sch->map->tot_len + 1) >= PAGE_SIZE) {
 		fprintf(stderr, "[-]PAGE: page full!\n");
 		return 0;
 	}
 
-	Record *rec=record_ser(rec_str, pg->sch);
+	Record *rec=record_ser(rec_str, sch);
 	if(pg->first==NULL)
 		pg->first=rec;
 	else
 		pg->last->next=rec;
 
 	pg->last=rec;
-	pg->curr_sz+=pg->sch->map->tot_len;
+	pg->curr_sz+=sch->map->tot_len;
 
 	return 1;
 }
 
-void page_to_bin(Page *pg, int8_t **buf)
+void page_to_bin(Page *pg, int8_t **buf, Schema *sch)
 {
 	if(*buf==NULL) {
 		fprintf(stderr, "[-]PAGE: Unallocated buffer placeholder!\n");
@@ -48,7 +47,7 @@ void page_to_bin(Page *pg, int8_t **buf)
 
 	Record *curr=pg->first;
 	while(curr!=NULL) {
-		sprintf(*buf, "%s%s%s", *buf, pg->sch->delim, curr->bits);
+		sprintf(*buf, "%s%s%s", *buf, sch->delim, curr->bits);
 		curr=curr->next;
 	}
 }
