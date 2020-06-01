@@ -1,4 +1,4 @@
-#include<stdio.h>
+﻿#include<stdio.h>
 #include<stdlib.h>
 #include<sys/types.h>
 #include<sys/stat.h>
@@ -59,13 +59,25 @@ int file_add_page(File *f)
 	f->curr_pgno=f->tot_pgs;
 	page_deinit(f->curr_pg);
 	f->curr_pg=NULL;
-
 	return 0;
 }
 
 Page *file_get_page(File *f, off_t pgnum)
 {
 	Page *pg=page_init();
+	if(pgnum >= f->curr_pg) {
+        fprintf(stderr,"BAD : you tried to read past the end of the file\n");
+        exit(1);
+    }
+    char bits[PAGE_SIZE];
+    if(bits == NULL) {
+        printf("ERROR: Not enough memory. EXIT !!!\n");
+        exit(1);
+    }
+    lseek(f->curr_pg,PAGE_SIZE * pgnum, SEEK_SET);
+    read(f->curr_pg,bits, PAGE_SIZE);
+    FromBinary(bits,f->sch, pg);
+    free(bits);
 	return pg;
 }
 
@@ -88,6 +100,5 @@ void file_close(File *f)
 			strerror(errno));
 		_exit(-1);
 	}
-
 	free(f);
 }

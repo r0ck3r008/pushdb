@@ -16,6 +16,7 @@ Page *page_init();
 uint8_t page_add_rec(Page *, int8_t *, Schema *);
 // Expects an empty but allocated buffer of PAGE_SIZE
 void page_to_bin(Page *, int8_t **, Schema *);
+void page_from_bin(int8_t **, Schema *, Page *);
 void page_deinit(Page *);
 
 #endif

@@ -63,3 +63,27 @@ void page_deinit(Page *pg)
 	free(pg->first);
 	free(pg);
 }
+
+void page_from_bin (int8_t **buf, Schema *target, Page *rec)
+{
+	rec->curr_sz = target->map->tot_len;
+	int8_t* curPos = *buf + sizeof (int);
+	Record *temp = malloc(sizeof(struct Record));
+	temp = rec->first;
+	while (temp!=NULL) {
+		Record *temp1 = temp;
+		temp = temp->next;
+		free(temp);
+	}
+	Record *temp1 = malloc(sizeof(struct Record));
+	rec->curr_sz = sizeof (int);
+	int i;
+	for(i=0;i<rec->curr_sz;i++) {
+		int len = curPos[0];
+		rec->curr_sz += len;
+		memcpy (temp1->bits, *buf, len);
+		page_add_rec(rec, temp1, target);
+	}
+	free(temp1);
+}
+
