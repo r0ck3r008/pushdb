@@ -5,9 +5,9 @@
 
 #include"alloc.h"
 
-int8_t *db_char_copy(int8_t *str)
+char *db_char_copy(char *str)
 {
-	int8_t *ret=strdup(str);
+	char *ret=strdup(str);
 	if(ret==NULL) {
 		fprintf(stderr, "[-]Schema: Unable to copy string!\n");
 		_exit(-1);
@@ -16,10 +16,10 @@ int8_t *db_char_copy(int8_t *str)
 	return ret;
 }
 
-int8_t *db_char_alloc(uint32_t size)
+char *db_char_alloc(int size)
 {
-	int8_t *ret=calloc(size, 1);
-	if(ret=NULL) {
+	char *ret=calloc(size, 1);
+	if(ret==NULL) {
 		fprintf(stderr, "[-]Schema: Unable to allocate char memory!\n");
 		_exit(-1);
 	}
@@ -38,7 +38,7 @@ Schema *db_schema_alloc()
 	return sch;
 }
 
-Attribute **db_attributep_alloc(uint8_t size)
+Attribute **db_attributep_alloc(int size)
 {
 	Attribute **atts=calloc(size, sizeof(Attribute *));
 	if(atts==NULL) {
@@ -84,4 +84,6 @@ Query *db_query_alloc()
 		fprintf(stderr, "[-]Query: Unable to allocate space!\n");
 		_exit(-1);
 	}
+
+	return q;
 }

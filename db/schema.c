@@ -9,7 +9,7 @@
 #include"alloc.h"
 #include"schema.h"
 
-Schema *schema_init(int8_t *name)
+Schema *schema_init(char *name)
 {
 	Schema *sch=db_schema_alloc();
 	sch->name=db_char_copy(name);
@@ -18,16 +18,16 @@ Schema *schema_init(int8_t *name)
 	return sch;
 }
 
-void schema_add_att(Schema *sch, int8_t *aname, uint32_t len, DataType type)
+void schema_add_att(Schema *sch, char *aname, int len, DataType type)
 {
 	attmap_add_att(sch->map, aname, type, len);
 }
 
-FILE *fhandle(int8_t *fname, int8_t *perm)
+FILE *fhandle(char *fname, char *perm)
 {
 	FILE *f=NULL;
 	struct stat buf;
-	uint8_t ret=stat(fname, &buf);
+	int ret=stat(fname, &buf);
 	if(!strcmp(perm, "w") && !ret) {
 		fprintf(stderr, "[-]Schema: Overwriting existing schema!\n");
 		if(unlink(fname)<0) {
@@ -47,7 +47,7 @@ FILE *fhandle(int8_t *fname, int8_t *perm)
 
 void schema_write(Schema *sch)
 {
-	int8_t *fname=db_char_alloc(128);
+	char *fname=db_char_alloc(128);
 	sprintf(fname, "%s.sql", sch->name);
 	FILE *f=fhandle(fname, "w");
 	if(f==NULL)
@@ -58,9 +58,9 @@ void schema_write(Schema *sch)
 			att->pos);
 }
 
-Schema *schema_read(int8_t *rname)
+Schema *schema_read(char *rname)
 {
-	int8_t *fname=db_char_alloc(128);
+	char *fname=db_char_alloc(128);
 	sprintf(fname, "%s.sql", rname);
 	FILE *f=fhandle(fname, "r");
 	if(f==NULL)
@@ -70,13 +70,13 @@ Schema *schema_read(int8_t *rname)
 	char *line=NULL; /* doesnt work with int8_t * */
 	size_t n=0;
 	while(!feof(f)) {
-		uint32_t stat=getline(&line, &n, f);
+		int stat=getline(&line, &n, f);
 		if(stat==-1)
 			break;
 		char *attname=strtok(line, ":");
 		DataType type=(DataType)strtol(strtok(NULL, ":"),
 						NULL, 10);
-		uint32_t pos=(uint32_t)strtol(strtok(NULL, ":"),
+		int pos=(uint32_t)strtol(strtok(NULL, ":"),
 						NULL, 10);
 		schema_add_att(sch, attname, type, pos);
 		free(line);

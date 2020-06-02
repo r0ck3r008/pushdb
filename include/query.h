@@ -29,8 +29,8 @@ typedef struct Query
 	TableList *tbl;
 	AndList *alist;
 	NameList *sel_atts;
-	uint8_t qtype;
-	int8_t *opvar, *tbl_name, *ins_fname, *delim;
+	int qtype;
+	char *opvar, *tbl_name, *ins_fname, *delim;
 	AttrList *cr_atts;
 } Query;
 

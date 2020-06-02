@@ -5,7 +5,7 @@
 
 #include"alloc.h"
 
-Record *fs_record_alloc(uint16_t size)
+Record *fs_record_alloc(int size)
 {
 	Record *rec=calloc(size, sizeof(Record));
 	if(rec==NULL) {
@@ -16,9 +16,9 @@ Record *fs_record_alloc(uint16_t size)
 	return rec;
 }
 
-int8_t *fs_char_alloc(int8_t *prev, uint16_t size)
+char *fs_char_alloc(char *prev, int size)
 {
-	int8_t *ret;
+	char *ret;
 	if(prev==NULL)
 		ret=calloc(size, 1);
 	else
@@ -54,9 +54,9 @@ File *fs_file_alloc()
 	return file;
 }
 
-int8_t *fs_char_copy(int8_t *str_in)
+char *fs_char_copy(char *str_in)
 {
-	int8_t *str=strdup(str_in);
+	char *str=strdup(str_in);
 	if(str==NULL) {
 		fprintf(stderr, "[-]Fs: Error in copying the string!\n");
 		_exit(-1);

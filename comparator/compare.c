@@ -17,7 +17,7 @@ void alist_trav(AndList *alist, OrList *olist, Cnf *cnf,
 			_exit(-1);
 		}
 		Operand *left=olist->left->left, *right=olist->left->right;
-		uint32_t lenL, lenR;
+		int lenL, lenR;
 		cnf->lit[cnf->nlit].attL=attmap_find(schL->map,
 							left->value, &lenL);
 		if(schR!=NULL)
@@ -50,13 +50,13 @@ Cnf *cnf_init_lr(Schema *schL, Schema *schR, AndList *alist)
 	return cnf;
 }
 
-uint8_t cnf_compare_ll(Schema *sch, Record *rec, Cnf *cnf)
+int cnf_compare_ll(Schema *sch, Record *rec, Cnf *cnf)
 {
 	for(uint8_t i=0; i<cnf->nlit; i++) {
 		Attribute *att=cnf->lit[i].attL;
 		if(att->type==Int) {
-			uint32_t rec_val=((uint32_t *)rec->bits)[att->pos];
-			uint32_t val=(uint32_t)strtol(cnf->lit[i].val,
+			int rec_val=((int *)rec->bits)[att->pos];
+			int val=(int)strtol(cnf->lit[i].val,
 								NULL, 10);
 			if(rec_val!=val)
 				return 0;
@@ -67,7 +67,7 @@ uint8_t cnf_compare_ll(Schema *sch, Record *rec, Cnf *cnf)
 				return 0;
 		} else if(att->type==String) {
 			uint32_t len=attribute_get_len(sch->map, att);
-			if(strncmp(&(((int8_t *)rec->bits)[att->pos]),
+			if(strncmp(&(((char *)rec->bits)[att->pos]),
 					cnf->lit[i].val, len))
 				return 0;
 		}
@@ -76,7 +76,7 @@ uint8_t cnf_compare_ll(Schema *sch, Record *rec, Cnf *cnf)
 	return 1;
 }
 
-uint8_t cnf_compare_lr(Schema *schL, Schema *schR,
+int cnf_compare_lr(Schema *schL, Schema *schR,
 			Record *recL, Record *recR, Cnf *cnf)
 {
 	for(uint8_t i=0; i<cnf->nlit; i++) {
@@ -95,8 +95,8 @@ uint8_t cnf_compare_lr(Schema *schL, Schema *schR,
 		} else if(attL->type==String) {
 			uint32_t lenL=attribute_get_len(schL->map, attL);
 			uint32_t lenR=attribute_get_len(schR->map, attR);
-			if(strncmp(&(((int8_t *)recL->bits)[attL->pos]),
-				&(((int8_t *)recR->bits)[attR->pos]),
+			if(strncmp(&(((char *)recL->bits)[attL->pos]),
+				&(((char *)recR->bits)[attR->pos]),
 				((lenL>=lenR) ? (lenR) : (lenL))))
 				return 0;
 		}

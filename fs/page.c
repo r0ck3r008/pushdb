@@ -1,6 +1,7 @@
 #include<stdio.h>
 #include<stdlib.h>
 #include<unistd.h>
+#include<string.h>
 
 #include"defs.h"
 #include"alloc.h"
@@ -13,7 +14,7 @@ Page *page_init()
 	return pg;
 }
 
-uint8_t page_add_rec(Page *pg, int8_t *rec_str, Schema *sch)
+int page_add_rec(Page *pg, char *rec_str, Schema *sch)
 {
 	if(sch->delim==NULL) {
 		fprintf(stderr, "[-]PAGE: delimiter not found in schema!\n");
@@ -38,7 +39,7 @@ uint8_t page_add_rec(Page *pg, int8_t *rec_str, Schema *sch)
 	return 1;
 }
 
-void page_to_bin(Page *pg, int8_t **buf, Schema *sch)
+void page_to_bin(Page *pg, char **buf, Schema *sch)
 {
 	if(*buf==NULL) {
 		fprintf(stderr, "[-]PAGE: Unallocated buffer placeholder!\n");
@@ -63,27 +64,3 @@ void page_deinit(Page *pg)
 	free(pg->first);
 	free(pg);
 }
-
-void page_from_bin (int8_t **buf, Schema *target, Page *rec)
-{
-	rec->curr_sz = target->map->tot_len;
-	int8_t* curPos = *buf + sizeof (int);
-	Record *temp = malloc(sizeof(struct Record));
-	temp = rec->first;
-	while (temp!=NULL) {
-		Record *temp1 = temp;
-		temp = temp->next;
-		free(temp);
-	}
-	Record *temp1 = malloc(sizeof(struct Record));
-	rec->curr_sz = sizeof (int);
-	int i;
-	for(i=0;i<rec->curr_sz;i++) {
-		int len = curPos[0];
-		rec->curr_sz += len;
-		memcpy (temp1->bits, *buf, len);
-		page_add_rec(rec, temp1, target);
-	}
-	free(temp1);
-}
-

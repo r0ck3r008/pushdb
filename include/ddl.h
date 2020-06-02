@@ -7,8 +7,8 @@
 #include"query.h"
 #include"parse_tree.h"
 
-uint8_t ddl_create(Query *);
-uint8_t ddl_insert(Query *);
-uint8_t ddl_drop(Query *);
+int ddl_create(Query *);
+int ddl_insert(Query *);
+int ddl_drop(Query *);
 
 #endif

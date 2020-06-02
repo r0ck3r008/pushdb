@@ -1,8 +1,6 @@
 #ifndef PARSE_TREE_H
 #define PARSE_TREE_H
 
-#include<stdint.h>
-
 // these are the types of operands that can appear in a CNF expression
 #define FLOAT 1
 #define INT 2
@@ -38,9 +36,9 @@ typedef struct FuncOperator
 typedef struct TableList
 {
 	// this is the original table name
-	int8_t *tableName;
+	char *tableName;
 	// this is the value it is aliased to
-	int8_t *aliasAs;
+	char *aliasAs;
 	// and this the next alias
 	struct TableList *next;
 } TableList;
@@ -48,7 +46,7 @@ typedef struct TableList
 typedef struct NameList
 {
 	// this is the name
-	int8_t *name;
+	char *name;
 	// and this is the next name in the list
 	struct NameList *next;
 } NameList;
@@ -60,7 +58,7 @@ typedef struct Operand
 	// this tells us the type of the operand: FLOAT, INT, STRING...
 	int code;
 	// this is the actual operand
-	int8_t *value;
+	char *value;
 } Operand;
 
 typedef struct ComparisonOp
@@ -87,7 +85,7 @@ typedef struct AndList
 	// this is the disjunction to the left of the AND
 	struct OrList *left;
 	// assuming atomic operations per AndList->left
-	uint8_t is_join;
+	int is_join;
 	// this is the AndList to the right of the AND
 	// note that this can be NULL if the right is a disjunction
 	struct AndList *rightAnd;
@@ -96,9 +94,9 @@ typedef struct AndList
 // Used in DDL Commands
 typedef struct AttrList
 {
-	int8_t *name;
-	uint8_t type;
-	uint16_t len;
+	char *name;
+	int type;
+	int len;
 	struct AttrList *next;
 
 } AttrList;

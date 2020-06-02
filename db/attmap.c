@@ -5,9 +5,9 @@
 #include"alloc.h"
 #include"attmap.h"
 
-uint8_t hash_it(int8_t *key)
+int hash_it(char *key)
 {
-	uint8_t indx=0;
+	int indx=0;
 	while(*key!='\0') {
 		indx+=*key;
 		key+=1;
@@ -41,10 +41,10 @@ void attmap_deinit(AttMap *map)
 	free(map);
 }
 
-void attmap_add_att(AttMap *map, int8_t *aname, DataType type, uint32_t len)
+void attmap_add_att(AttMap *map, char *aname, DataType type, int len)
 {
 	//create attribute
-	uint8_t indx=hash_it(aname);
+	int indx=hash_it(aname);
 	Attribute *att=db_attribute_alloc();
 	att->name=db_char_copy(aname);
 	att->type=type;
@@ -64,14 +64,14 @@ void attmap_add_att(AttMap *map, int8_t *aname, DataType type, uint32_t len)
 		curr->nxt=att;
 	}
 	if(type==Int)
-		map->tot_len+=sizeof(uint32_t);
+		map->tot_len+=sizeof(int);
 	else if(type==Float)
 		map->tot_len+=sizeof(float);
 	else if(type==String)
 		map->tot_len+=len;
 }
 
-uint32_t attribute_get_len(AttMap *map, Attribute *att)
+int attribute_get_len(AttMap *map, Attribute *att)
 {
 	if(att!=NULL && att->type==String) {
 		if(map->tail!=att)
@@ -81,12 +81,11 @@ uint32_t attribute_get_len(AttMap *map, Attribute *att)
 	}
 
 	return 0;
-
 }
 
-Attribute *attmap_find(AttMap *map, int8_t *name, uint32_t *len)
+Attribute *attmap_find(AttMap *map, char *name, int *len)
 {
-	uint8_t indx=hash_it(name);
+	int indx=hash_it(name);
 	Attribute *curr=map->map[indx];
 	if(curr!=NULL && curr->nxt!=NULL)
 		while(!(curr!=NULL && strcmp(name, curr->name) &&

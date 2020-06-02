@@ -4,9 +4,9 @@
 
 #include"alloc.h"
 
-int8_t *handler_char_alloc(uint32_t size)
+char *handler_char_alloc(int size)
 {
-	int8_t *ret=calloc(size, 1);
+	char *ret=calloc(size, 1);
 	if(ret==NULL) {
 		fprintf(stderr, "[-]HANDLER: Error in allocating memory!\n");
 		_exit(-1);

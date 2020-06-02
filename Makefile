@@ -1,6 +1,6 @@
 # COMPILER CONFIG
 COMPILER := gcc
-COMPILER_FLAGS := -g
+COMPILER_FLAGS := '-g -Wall'
 TEST_COMPILER_FLAGS := '-g -fpic'
 TEST_LINKER_FLAGS := -lcheck -pthread -L${PWD}/bin -lpushdb
 LIB_LINKER_FLAGS := -shared

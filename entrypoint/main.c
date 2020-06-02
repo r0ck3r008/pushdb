@@ -38,7 +38,7 @@ void init_loop(FILE *f)
 	free(query);
 }
 
-uint8_t main(uint8_t argc, int8_t **argv)
+int main(int argc, char **argv)
 {
 	if(argc!=2) {
 		fprintf(stderr,

@@ -8,9 +8,9 @@
 
 typedef struct Attribute
 {
-	int8_t *name;
+	char *name;
 	DataType type;
-	uint32_t pos;
+	int pos;
 	struct Attribute *nxt, *nxt_sq;
 } Attribute;
 
@@ -18,15 +18,13 @@ typedef struct AttMap
 {
 	Attribute **map;
 	Attribute *head, *tail;
-	uint32_t tot_len;
+	int tot_len;
 } AttMap;
 
 AttMap *attmap_init();
 void attmap_deinit(AttMap *);
-void attmap_add_att(AttMap *, int8_t *, DataType,
-			uint32_t);
-Attribute *attmap_find(AttMap *, int8_t *,
-			uint32_t *);
-uint32_t attribute_get_len(AttMap *, Attribute *);
+void attmap_add_att(AttMap *, char *, DataType, int);
+Attribute *attmap_find(AttMap *, char *, int *);
+int attribute_get_len(AttMap *, Attribute *);
 
 #endif

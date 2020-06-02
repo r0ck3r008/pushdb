@@ -1,8 +1,6 @@
 #ifndef SCHEMA_H
 #define SCHEMA_H
 
-#include<stdint.h>
-
 #include"defs.h"
 #include"attmap.h"
 
@@ -12,18 +10,18 @@
 
 typedef struct Schema
 {
-	int8_t *name;
-	int8_t *delim;
+	char *name;
+	char *delim;
 	AttMap *map;
 } Schema;
 
-Schema *schema_init(int8_t *);
+Schema *schema_init(char *);
 void schema_deinit(Schema *);
-void schema_add_att(Schema *, int8_t *,
-			uint32_t, DataType);
+void schema_add_att(Schema *, char *,
+			int, DataType);
 // both these functions read and write to a file that
 // directly relates to the name of the relation, a sql file.
 void schema_write(Schema *);
-Schema *schema_read(int8_t *);
+Schema *schema_read(char *);
 
 #endif
