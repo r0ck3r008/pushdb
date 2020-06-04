@@ -44,6 +44,36 @@ exit_err:
 	return NULL;
 }
 
+File *file_load(char *fname, Schema *sch)
+{
+	File *fbin=file_open(fname, sch);
+	FILE *f=NULL;
+	if((f=fopen(fname, "r"))==NULL) {
+		fprintf(stderr, "[-]FILE: %s\n", strerror(errno));
+		return NULL;
+	}
+	Page *pg=page_init();
+	fbin->curr_pg=pg;
+	char *line=NULL;
+	size_t n=0;
+	while(getline(&line, &n, f)!=-1) {
+		int flag=0;
+		if(!page_add_rec(pg, line, sch) && (flag=1) &&
+			!file_add_page(fbin)) {
+			fprintf(stderr, "[-]FILE: Error in adding record!\n");
+			return NULL;
+		}
+		if(flag) {
+			page_deinit(pg);
+			pg=page_init();
+			fbin->curr_pg=pg;
+		}
+	}
+
+	fclose(f);
+	return fbin;
+}
+
 int file_add_page(File *f)
 {
 	char buf[PAGE_SIZE];
