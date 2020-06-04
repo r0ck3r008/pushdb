@@ -39,16 +39,16 @@ int page_add_rec(Page *pg, char *rec_str, Schema *sch)
 	return 1;
 }
 
-void page_to_bin(Page *pg, char **buf, Schema *sch)
+void page_to_bin(Page *pg, char *buf, Schema *sch)
 {
-	if(*buf==NULL) {
+	if(buf==NULL) {
 		fprintf(stderr, "[-]PAGE: Unallocated buffer placeholder!\n");
 		_exit(-1);
 	}
 
 	Record *curr=pg->first;
 	while(curr!=NULL) {
-		sprintf(*buf, "%s%s%s", *buf, sch->delim, curr->bits);
+		sprintf(buf, "%s%s%s", buf, sch->delim, curr->bits);
 		curr=curr->next;
 	}
 }

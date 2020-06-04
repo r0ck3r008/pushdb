@@ -77,7 +77,7 @@ File *file_load(char *fname, Schema *sch)
 int file_add_page(File *f)
 {
 	char buf[PAGE_SIZE];
-	page_to_bin(f->curr_pg, &buf, f->sch);
+	page_to_bin(f->curr_pg, buf, f->sch);
 
 	lseek(f->fd, PAGE_SIZE*(f->tot_pgs+1), SEEK_SET);
 	if(write(f->fd, buf, PAGE_SIZE)<0) {

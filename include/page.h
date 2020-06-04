@@ -15,7 +15,7 @@ typedef struct Page
 Page *page_init();
 int page_add_rec(Page *, char *, Schema *);
 // Expects an empty but allocated buffer of PAGE_SIZE
-void page_to_bin(Page *, char **, Schema *);
+void page_to_bin(Page *, char *, Schema *);
 void page_deinit(Page *);
 
 #endif
