@@ -6,6 +6,7 @@
 
 #include"alloc.h"
 #include"ddl.h"
+#include"file.h"
 
 int ddl_create(Query *q)
 {
@@ -36,10 +37,11 @@ int ddl_insert(Query *q)
 		return 0;
 	}
 	Schema *sch=schema_read(q->tbl_name);
+	char fname[128];
+	sprintf(fname, "%s.bin", q->tbl_name);
+	File *fbin=file_load(fname, sch);
 
-	// fs/file implementation goes here, the per record serialization
-	// and bin file creation
-
+	file_close(fbin);
 	schema_deinit(sch);
 	return 1;
 }
