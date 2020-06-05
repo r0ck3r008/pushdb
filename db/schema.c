@@ -76,7 +76,7 @@ Schema *schema_read(char *rname)
 		char *attname=strtok(line, ":");
 		DataType type=(DataType)strtol(strtok(NULL, ":"),
 						NULL, 10);
-		int pos=(uint32_t)strtol(strtok(NULL, ":"),
+		int pos=(int)strtol(strtok(NULL, ":"),
 						NULL, 10);
 		schema_add_att(sch, attname, type, pos);
 		free(line);
