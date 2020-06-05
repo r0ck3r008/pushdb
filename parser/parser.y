@@ -40,6 +40,7 @@
 %token <actualChars> _float
 %token <actualChars> _int
 %token <actualChars> _string
+%token <actualChars> _delimiter
 %token _select /*_ due to collision with select function defined in stdlib */
 %token from
 %token where
