@@ -43,6 +43,7 @@ int ddl_insert(Query *q)
 	File *fbin=file_load(fname, sch);
 
 	file_close(fbin);
+	schema_write(sch);
 	schema_deinit(sch);
 	return 1;
 }
