@@ -89,7 +89,8 @@ int file_add_page(File *f)
 	f->curr_pgno=f->tot_pgs;
 	page_deinit(f->curr_pg);
 	f->curr_pg=NULL;
-	return 0;
+
+	return 1;
 }
 
 void file_close(File *f)
