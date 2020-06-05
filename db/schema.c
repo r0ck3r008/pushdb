@@ -48,7 +48,7 @@ FILE *fhandle(char *fname, char *perm)
 void schema_write(Schema *sch)
 {
 	char *fname=db_char_alloc(128);
-	sprintf(fname, "%s.sql", sch->name);
+	sprintf(fname, "tmp/%s.sql", sch->name);
 	FILE *f=fhandle(fname, "w");
 	if(f==NULL)
 		return;

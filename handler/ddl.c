@@ -38,7 +38,7 @@ int ddl_insert(Query *q)
 	}
 	Schema *sch=schema_read(q->tbl_name);
 	char fname[128];
-	sprintf(fname, "%s.bin", q->tbl_name);
+	sprintf(fname, "tmp/%s.bin", q->tbl_name);
 	File *fbin=file_load(fname, sch);
 
 	file_close(fbin);
@@ -55,8 +55,8 @@ int ddl_drop(Query *q)
 
 	char *sch_fname=handler_char_alloc(128),
 		*bin_fname=handler_char_alloc(128);
-	sprintf(sch_fname, "%s.sql", q->tbl_name);
-	sprintf(bin_fname, "%s.bin", q->tbl_name);
+	sprintf(sch_fname, "tmp/%s.sql", q->tbl_name);
+	sprintf(bin_fname, "tmp/%s.bin", q->tbl_name);
 
 	if(unlink(sch_fname)<0) {
 		fprintf(stderr, "[-]DDL: Error in unlinking %s file: %s\n",
