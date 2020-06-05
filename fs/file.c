@@ -70,6 +70,8 @@ File *file_load(char *fname, Schema *sch)
 		}
 	}
 
+	page_deinit(pg);
+	free(line);
 	fclose(f);
 	return fbin;
 }
