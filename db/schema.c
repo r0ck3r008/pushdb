@@ -63,7 +63,7 @@ void schema_write(Schema *sch)
 Schema *schema_read(char *rname)
 {
 	char *fname=db_char_alloc(128);
-	sprintf(fname, "%s.sql", rname);
+	sprintf(fname, "tmp/%s.sql", rname);
 	FILE *f=fhandle(fname, "r");
 	if(f==NULL)
 		return NULL;
