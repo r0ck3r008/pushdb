@@ -37,6 +37,7 @@ int ddl_insert(Query *q)
 		return 0;
 	}
 	Schema *sch=schema_read(q->tbl_name);
+	sch->delim=db_char_copy(q->delim);
 	char fname[128];
 	sprintf(fname, "tmp/%s.bin", q->tbl_name);
 	File *fbin=file_load(fname, sch);
