@@ -67,7 +67,7 @@ Schema *schema_read(char *rname)
 		return NULL;
 
 	Schema *sch=schema_init(rname);
-	char *line=NULL; /* doesnt work with int8_t * */
+	char *line=NULL;
 	size_t n=0;
 	while(!feof(f)) {
 		int stat=getline(&line, &n, f);
