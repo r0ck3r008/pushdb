@@ -58,8 +58,7 @@ File *file_load(char *fname, Schema *sch)
 	size_t n=0;
 	while(getline(&line, &n, f)!=-1) {
 		int flag=0;
-		if(!page_add_rec(pg, line, sch) && (flag=1) &&
-			!(flag=file_add_page(fbin))) {
+		if(!page_add_rec(pg, line, sch) && !(flag=file_add_page(fbin))) {
 			fprintf(stderr, "[-]FILE: Error in adding record!\n");
 			return NULL;
 		}
