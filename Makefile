@@ -10,7 +10,7 @@ ALL_OBJS := entrypoint/*.o fs/*.o db/*.o parser/*.o comparator/*.o handler/*.o
 # TARGETS
 all: pushdb_bin
 
-pushdb_bin: entrypoint_objs db_objs fs_objs parser_objs comparator_objs handler_objs
+pushdb_bin: entrypoint_objs db_objs fs_objs parser_objs comparator_objs handler_objs tpch_bin
 	${COMPILER} ${LINKER_FLAGS} ${ALL_OBJS} -o bin/pushdb.out
 	make clean_objs
 
@@ -43,6 +43,9 @@ handler_objs:
 		     COMPILER=${COMPILER} \
 		     COMPILER_FLAGS=${COMPILER_FLAGS} make -C handler/
 
+tpch_bin:
+	make -C tpch-dbgen/
+
 clean_objs:
 	make -C db/ clean
 	make -C fs/ clean
@@ -53,3 +56,4 @@ clean_objs:
 
 clean: clean_objs
 	rm -f bin/*.out
+	make -C tpch-dbgen/ clean
