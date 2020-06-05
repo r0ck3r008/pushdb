@@ -1,5 +1,0 @@
-#+TITLE: Todo List
-
-* Pending Get Page function in file <2020-05-29 Fri>
-* Updated the ddl module, insert function with file capture <2020-05-29 Fri>
-** Testing of fs/ module
