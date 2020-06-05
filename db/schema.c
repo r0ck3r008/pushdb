@@ -56,6 +56,8 @@ void schema_write(Schema *sch)
 	for(Attribute *att=sch->map->head; att!=NULL; att=att->nxt_sq)
 		fprintf(f, "%s:%d:%d\n", att->name, att->type,
 			att->pos);
+
+	fclose(f);
 }
 
 Schema *schema_read(char *rname)
@@ -84,6 +86,7 @@ Schema *schema_read(char *rname)
 	}
 
 	free(line);
+	fclose(f);
 	return sch;
 }
 
