@@ -4,3 +4,6 @@
 [submodule "include/cargparse"]
 	path = include/cargparse
 	url = git@gitlab.com:r0ck3r008/cargparse.git
+[submodule "include/clogger"]
+	path = include/clogger
+	url = git@gitlab.com:r0ck3r008/clogger.git
