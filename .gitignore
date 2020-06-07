@@ -3,4 +3,3 @@ tmp/*
 bin/*
 !bin/.gitkeep
 .dir-locals.el
-.syntastic_config
