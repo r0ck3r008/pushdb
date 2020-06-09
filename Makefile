@@ -2,7 +2,7 @@
 COMPILER := gcc
 COMPILER_FLAGS := '-g -Wall'
 LINKER_FLAGS := -pthread -L${shell pwd}/include/cargparse -lcargparse -L${shell pwd}/include/clogger -lclogger
-COMPILE_PATH := '${shell pwd}/include -I${shell pwd}/include/cargparse -I${shell pwd}/include/clogger'
+COMPILE_PATH := '-I${shell pwd}/include -I${shell pwd}/include/cargparse -I${shell pwd}/include/clogger'
 
 # OBJECT DEFINITIONS
 ALL_OBJS := entrypoint/*.o fs/*.o db/*.o parser/*.o comparator/*.o handler/*.o
