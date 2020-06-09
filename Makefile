@@ -10,7 +10,7 @@ ALL_OBJS := entrypoint/*.o fs/*.o db/*.o parser/*.o comparator/*.o handler/*.o
 # TARGETS
 all: pushdb_bin
 
-pushdb_bin: entrypoint_objs db_objs fs_objs parser_objs comparator_objs handler_objs tpch_bin
+pushdb_bin: entrypoint_objs db_objs fs_objs parser_objs comparator_objs handler_objs clogger cargparse tpch-dbgen
 	${COMPILER} ${LINKER_FLAGS} ${ALL_OBJS} -o bin/pushdb.out
 	make clean_objs
 
