@@ -48,6 +48,10 @@ tpch_bin:
 
 clogger:
 	make -C include/clogger/
+
+cargparse:
+	make -C include/cargparse/
+
 clean_objs:
 	make -C db/ clean
 	make -C fs/ clean
@@ -59,4 +63,5 @@ clean_objs:
 clean: clean_objs
 	rm -f bin/*.out
 	make -C tpch-dbgen/ clean
+	make -C include/cargparse clean
 	make -C include/clogger clean
