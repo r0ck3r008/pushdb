@@ -44,7 +44,16 @@ void multi_mode(FILE *f)
 
 void single_mode(FILE *f)
 {
+	char query[512];
+	fgets(query, sizeof(char)*512, f);
+	Query *q=query_init(query);
+	if(!handler_dispatch(q)) {
+		fprintf(stderr, "[-]Bad Query!\n");
+		goto exit;
+	}
 
+exit:
+	query_deinit(q);
 }
 
 struct arg *manage_args(int argc, char **argv)
