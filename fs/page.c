@@ -6,6 +6,9 @@
 #include"defs.h"
 #include"alloc.h"
 #include"page.h"
+#include"clogger/clogger.h"
+
+extern Logger *logger;
 
 Page *page_init()
 {
@@ -17,13 +20,14 @@ Page *page_init()
 int page_add_rec(Page *pg, char *rec_str, Schema *sch)
 {
 	if(sch->delim==NULL) {
-		fprintf(stderr, "[-]PAGE: delimiter not found in schema!\n");
+		logger_msg(logger, LOG_ERR,
+			"[-]PAGE: delimiter not found in schema!\n");
 		return 0;
 	}
 
 	// +1 is for the delimiter
 	if((pg->curr_sz + sch->map->tot_len + 1) >= PAGE_SIZE) {
-		fprintf(stderr, "[-]PAGE: page full!\n");
+		logger_msg(logger, LOG_ERR, "[-]PAGE: page full!\n");
 		return 0;
 	}
 
@@ -42,7 +46,8 @@ int page_add_rec(Page *pg, char *rec_str, Schema *sch)
 void page_to_bin(Page *pg, char *buf, Schema *sch)
 {
 	if(buf==NULL) {
-		fprintf(stderr, "[-]PAGE: Unallocated buffer placeholder!\n");
+		logger_msg(logger, LOG_ERR,
+			"[-]PAGE: Unallocated buffer placeholder!\n");
 		_exit(-1);
 	}
 

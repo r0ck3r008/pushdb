@@ -7,11 +7,15 @@
 #include"alloc.h"
 #include"ddl.h"
 #include"file.h"
+#include"clogger/clogger.h"
+
+extern Logger *logger;
 
 int ddl_create(Query *q)
 {
 	if(q->tbl_name==NULL || q->cr_atts==NULL) {
-		fprintf(stderr, "[-]DDL: Empty table/attribute name!\n");
+		logger_msg(logger, LOG_ERR,
+				"[-]DDL: Empty table/attribute name!\n");
 		return 0;
 	}
 
@@ -33,7 +37,8 @@ int ddl_create(Query *q)
 int ddl_insert(Query *q)
 {
 	if(q->tbl_name==NULL || q->ins_fname==NULL) {
-		fprintf(stderr, "[-]DDL: Empty table/attribute name!\n");
+		logger_msg(logger, LOG_ERR,
+				"[-]DDL: Empty table/attribute name!\n");
 		return 0;
 	}
 	Schema *sch=schema_read(q->tbl_name);
@@ -51,7 +56,8 @@ int ddl_insert(Query *q)
 int ddl_drop(Query *q)
 {
 	if(q->tbl_name==NULL) {
-		fprintf(stderr, "[-]DDL: Empty table name!\n");
+		logger_msg(logger, LOG_ERR,
+				"[-]DDL: Empty table name!\n");
 		return 0;
 	}
 
@@ -61,14 +67,16 @@ int ddl_drop(Query *q)
 	sprintf(bin_fname, "tmp/%s.bin", q->tbl_name);
 
 	if(unlink(sch_fname)<0) {
-		fprintf(stderr, "[-]DDL: Error in unlinking %s file: %s\n",
-			sch_fname, strerror(errno));
+		logger_msg(logger, LOG_ERR,
+			"[-]DDL: Error in unlinking %s file: %s\n", sch_fname,
+			strerror(errno));
 		_exit(-1);
 	}
 
 	if(unlink(bin_fname)<0) {
-		fprintf(stderr, "[-]DDL: Error in unlinking %s file: %s\n",
-			bin_fname, strerror(errno));
+		logger_msg(logger, LOG_ERR,
+			"[-]DDL: Error in unlinking %s file: %s\n", bin_fname,
+			strerror(errno));
 		_exit(-1);
 	}
 

@@ -8,6 +8,9 @@
 
 #include"alloc.h"
 #include"schema.h"
+#include"clogger/clogger.h"
+
+extern Logger *logger;
 
 Schema *schema_init(char *name)
 {
@@ -29,18 +32,21 @@ FILE *fhandle(char *fname, char *perm)
 	struct stat buf;
 	int ret=stat(fname, &buf);
 	if(!strcmp(perm, "w") && !ret) {
-		fprintf(stderr, "[-]Schema: Overwriting existing schema!\n");
+		logger_msg(logger, LOG_ERR,
+			"[-]Schema: Overwriting existing schema!\n");
 		if(unlink(fname)<0) {
-			fprintf(stderr, "[-]Unlink: Error!\n");
+			logger_msg(logger, LOG_ERR, "[-]Unlink: Error!\n");
 			_exit(-1);
 		}
 	} else if(!strcmp(perm, "r") && ret==-1) {
-		fprintf(stderr, "[-]Schema: No such schema exists!\n");
+		logger_msg(logger, LOG_ERR,
+				"[-]Schema: No such schema exists!\n");
 		return NULL;
 	}
 
 	if((f=fopen(fname, perm))==NULL)
-		fprintf(stderr, "[-]Schema: Error in opening sch file!\n");
+		logger_msg(logger, LOG_ERR,
+				"[-]Schema: Error in opening sch file!\n");
 
 	return f;
 }

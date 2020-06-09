@@ -6,6 +6,9 @@
 
 #include"alloc.h"
 #include"query.h"
+#include"clogger/clogger.h"
+
+extern Logger *logger;
 
 Query *query_init(const char *str)
 {

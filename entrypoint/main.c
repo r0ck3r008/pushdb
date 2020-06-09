@@ -31,7 +31,7 @@ void multi_mode(FILE *f)
 		if(!feof(f)) {
 			Query *q=query_init(query);
 			if(!handler_dispatch(q))
-				fprintf(stderr, "[-]Bad Query!\n");
+				logger_msg(logger, LOG_ERR, "Bad Query!");
 			query_deinit(q);
 		} else {
 			printf("Exit!\n");
@@ -48,7 +48,7 @@ void single_mode(FILE *f)
 	fgets(query, sizeof(char)*512, f);
 	Query *q=query_init(query);
 	if(!handler_dispatch(q)) {
-		fprintf(stderr, "[-]Bad Query!\n");
+		logger_msg(logger, LOG_ERR, "Bad Query");
 		goto exit;
 	}
 
