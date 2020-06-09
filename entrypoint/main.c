@@ -8,6 +8,9 @@
 #include"query.h"
 #include"handler.h"
 #include"cargparse/cargparse.h"
+#include"clogger/clogger.h"
+
+Logger *logger;
 
 {
 	char *query=calloc(512, sizeof(char));
@@ -39,6 +42,7 @@
 }
 
 int main(int argc, char **argv)
+
 struct arg *manage_args(int argc, char **argv)
 {
 
@@ -64,9 +68,20 @@ struct arg *manage_args(int argc, char **argv)
 	return args;
 }
 
+Logger *logger_setup(struct arg *args)
+{
+	char *path=find_arg_val(args, "outf");
+	int lvl=strtol(find_arg_val(args, "verbosity"), NULL, 10);
+
+	Logger *log=logger_init(path, (LOG_LVL)lvl);
+
+	return log;
+}
+
 int main(int argc, char **argv)
 {
 	struct arg *args=manage_args(argc, argv);
+	logger=logger_setup(args);
 	int exec_type=strtol(find_arg_val(args, "single"), NULL, 10);
 	FILE *inf=NULL;
 	char *inf_path=find_arg_val(args, "inf");
@@ -82,5 +97,6 @@ int main(int argc, char **argv)
 	else
 		multi_mode(inf);
 
+	logger_deinit(logger);
 	clean(args);
 }
