@@ -86,7 +86,7 @@ Schema *schema_read(char *rname)
 						NULL, 10);
 		int pos=(int)strtol(strtok(NULL, ":"),
 						NULL, 10);
-		schema_add_att(sch, attname, type, pos);
+		schema_add_att(sch, attname, pos, type);
 		free(line);
 		line=NULL;
 	}
