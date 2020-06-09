@@ -7,8 +7,8 @@
 
 #include"query.h"
 #include"handler.h"
+#include"cargparse/cargparse.h"
 
-void init_loop(FILE *f)
 {
 	char *query=calloc(512, sizeof(char));
 	while(1) {
@@ -39,20 +39,48 @@ void init_loop(FILE *f)
 }
 
 int main(int argc, char **argv)
+struct arg *manage_args(int argc, char **argv)
 {
-	if(argc!=2) {
-		fprintf(stderr,
-			"[-] Usage: bin/pushdb.out <ip_fname>{- or path}\n");
+
+	struct arg *args=init_lib();
+
+	add_argument(args, "-f", "--out_file", "outf",
+			"The Log output file, - for stdout", 1);
+	add_argument(args, "-i", "--in_file", "inf",
+			"The Input file, - for stdin", 1);
+	add_argument(args, "-v", "--verb", "verbosity",
+			"The log output verbosity, 0, 1 or 2", 1);
+	add_argument(args, "-s", "--single", "single",
+			"One command execution mode, single mode", 0);
+
+	if(argc<3 || argc>4) {
+		show_help(args);
+		clean(args);
 		_exit(-1);
 	}
-	FILE *f=NULL;
-	if(!strcmp(argv[1], "-"))
-		f=stdin;
+
+	parse_args(args, argc, argv);
+
+	return args;
+}
+
+int main(int argc, char **argv)
+{
+	struct arg *args=manage_args(argc, argv);
+	int exec_type=strtol(find_arg_val(args, "single"), NULL, 10);
+	FILE *inf=NULL;
+	char *inf_path=find_arg_val(args, "inf");
+	if(!strcmp("-", inf_path)) {
+		inf=stdin;
+	} else if((inf=fopen(inf_path, "r"))==NULL) {
+		fprintf(stderr, "[-]Error in opening input file!\n");
+		_exit(-1);
+	}
+
+	if(exec_type)
+		single_mode(inf);
 	else
-		f=fopen(argv[1], "r");
-	if(f==NULL) {
-		fprintf(stderr, "[-]Error in opening the file %s\n", argv[1]);
-		_exit(-1);
-	}
-	init_loop(f);
+		multi_mode(inf);
+
+	clean(args);
 }
