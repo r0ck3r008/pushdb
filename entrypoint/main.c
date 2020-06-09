@@ -62,15 +62,15 @@ struct arg *manage_args(int argc, char **argv)
 	struct arg *args=init_lib();
 
 	add_argument(args, "-f", "--out_file", "outf",
-			"The Log output file, - for stdout", 1);
+			"The Log output file, - for stdout", 0);
 	add_argument(args, "-i", "--in_file", "inf",
-			"The Input file, - for stdin", 1);
+			"The Input file, - for stdin", 0);
 	add_argument(args, "-v", "--verb", "verbosity",
-			"The log output verbosity, 0, 1 or 2", 1);
+			"The log output verbosity, 0, 1 or 2", 0);
 	add_argument(args, "-s", "--single", "single",
 			"One command execution mode, single mode", 0);
 
-	if(argc<7 || argc>9) {
+	if(argc>9) {
 		show_help(args);
 		_exit(-1);
 	}
