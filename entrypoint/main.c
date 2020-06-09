@@ -12,6 +12,7 @@
 
 Logger *logger;
 
+void multi_mode(FILE *f)
 {
 	char *query=calloc(512, sizeof(char));
 	while(1) {
@@ -41,7 +42,10 @@ Logger *logger;
 	free(query);
 }
 
-int main(int argc, char **argv)
+void single_mode(FILE *f)
+{
+
+}
 
 struct arg *manage_args(int argc, char **argv)
 {
