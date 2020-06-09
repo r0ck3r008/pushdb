@@ -70,7 +70,7 @@ struct arg *manage_args(int argc, char **argv)
 	add_argument(args, "-s", "--single", "single",
 			"One command execution mode, single mode", 0);
 
-	if(argc<3 || argc>4) {
+	if(argc<7 || argc>9) {
 		show_help(args);
 		_exit(-1);
 	}
