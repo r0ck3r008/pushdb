@@ -72,7 +72,6 @@ struct arg *manage_args(int argc, char **argv)
 
 	if(argc<3 || argc>4) {
 		show_help(args);
-		clean(args);
 		_exit(-1);
 	}
 
