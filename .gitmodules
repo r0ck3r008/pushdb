@@ -1,9 +1,9 @@
 [submodule "tpch-dbgen"]
 	path = tpch-dbgen
 	url = https://github.com/electrum/tpch-dbgen
-[submodule "include/cargparse"]
-	path = include/cargparse
-	url = git@gitlab.com:r0ck3r008/cargparse.git
 [submodule "include/clogger"]
 	path = include/clogger
 	url = git@gitlab.com:r0ck3r008/clogger.git
+[submodule "include/cargparse2"]
+	path = include/cargparse2
+	url = git@gitlab.com:r0ck3r008/cargparse2.git
