@@ -1,7 +1,7 @@
 # COMPILER CONFIG
 COMPILER := gcc
 COMPILER_FLAGS := '-g -Wall'
-LINKER_FLAGS := -pthread -L${shell pwd}/include/cargparse -lcargparse -L${shell pwd}/include/clogger -lclogger
+LINKER_FLAGS := -pthread -L${shell pwd}/include/cargparse2 -lcargparse2 -L${shell pwd}/include/clogger -lclogger
 COMPILE_PATH := '-I${shell pwd}/include -I${shell pwd}/include/cargparse -I${shell pwd}/include/clogger'
 
 # OBJECT DEFINITIONS
@@ -10,7 +10,7 @@ ALL_OBJS := entrypoint/*.o fs/*.o db/*.o parser/*.o comparator/*.o handler/*.o
 # TARGETS
 all: pushdb_bin
 
-pushdb_bin: entrypoint_objs db_objs fs_objs parser_objs comparator_objs handler_objs clogger cargparse tpch_bin
+pushdb_bin: entrypoint_objs db_objs fs_objs parser_objs comparator_objs handler_objs clogger cargparse2 tpch_bin
 	${COMPILER} ${LINKER_FLAGS} ${ALL_OBJS} -o bin/pushdb.out
 	make clean_objs
 
@@ -49,8 +49,8 @@ tpch_bin:
 clogger:
 	make -C include/clogger/
 
-cargparse:
-	make -C include/cargparse/
+cargparse2:
+	make -C include/cargparse2/
 
 clean_objs:
 	make -C db/ clean
@@ -63,5 +63,5 @@ clean_objs:
 clean: clean_objs
 	rm -f bin/*.out
 	make -C tpch-dbgen/ clean
-	make -C include/cargparse clean
+	make -C include/cargparse2 clean
 	make -C include/clogger clean
