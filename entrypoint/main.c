@@ -4,10 +4,11 @@
 #include<stdlib.h>
 #include<string.h>
 #include<unistd.h>
+#include<errno.h>
 
 #include"query.h"
 #include"handler.h"
-#include"cargparse/cargparse.h"
+#include"cargparse2/cargparse2.h"
 #include"clogger/clogger.h"
 
 Logger *logger;
@@ -56,67 +57,55 @@ exit:
 	query_deinit(q);
 }
 
-struct arg *manage_args(int argc, char **argv)
+ArgParse *handle_args(int argc , char **argv)
 {
-
-	struct arg *args=init_lib();
-
-	add_argument(args, "-f", "--out_file", "outf",
-			"The Log output file, - for stdout", 0);
-	add_argument(args, "-i", "--in_file", "inf",
-			"The Input file, - for stdin", 0);
-	add_argument(args, "-v", "--verb", "verbosity",
-			"The log output verbosity, 0, 1 or 2", 0);
-	add_argument(args, "-s", "--single", "single",
-			"One command execution mode, single mode", 0);
-
-	if(argc>9) {
-		show_help(args);
-		_exit(-1);
-	}
+	ArgParse *args=argparse_init();
+	char *def_file="-";
+	int def_verb=2;
+	add_argument(args, "-i", "--ifile",
+		"The input file name", "ifile", StrType, 0, def_file);
+	add_argument(args, "-o", "--ofile",
+		"The outptut file name", "ofile", StrType, 0, def_file);
+	add_argument(args, "-v", "--verb",
+		"Output verbosity, 0, 1, 2", "verb", IntType, 0, &def_verb);
+	add_argument(args, "-s", "--single",
+		"Single command execution mode", "single", NoneType, 0, NULL);
 
 	parse_args(args, argc, argv);
 
 	return args;
 }
 
-Logger *logger_setup(struct arg *args)
+Logger *logger_args(ArgParse *args)
 {
-	char *path=find_arg_val(args, "outf"),
-		*verb=find_arg_val(args, "verbosity");
-	int lvl=0;
-	if(path==NULL)
-		path="-";
-	if(verb!=NULL)
-		lvl=strtol(verb, NULL, 10);
-
-	Logger *log=logger_init(path, (LOG_LVL)lvl);
+	Logger *log=logger_init(argparse_get_char(args, "ofile"),
+				(LOG_LVL)argparse_get_int(args, "verb"));
 
 	return log;
 }
 
 int main(int argc, char **argv)
 {
-	struct arg *args=manage_args(argc, argv);
-	logger=logger_setup(args);
-	char *single_exec=find_arg_val(args, "single");
-	int exec_type=0;
-	if(single_exec!=NULL)
-		exec_type=strtol(single_exec, NULL, 10);
-	FILE *inf=NULL;
-	char *inf_path=find_arg_val(args, "inf");
-	if(inf_path==NULL || !strcmp("-", inf_path)) {
-		inf=stdin;
-	} else if((inf=fopen(inf_path, "r"))==NULL) {
-		fprintf(stderr, "[-]Error in opening input file!\n");
-		_exit(-1);
+	ArgParse *args=handle_args(argc, argv);
+	logger=logger_args(args);
+
+	FILE *ifile=NULL;
+	char *ifile_path=argparse_get_char(args, "ifile");
+	if(!strcmp(ifile_path, "-")) {
+		ifile=stdin;
+	} else {
+		if((ifile=fopen(ifile_path, "r"))==NULL) {
+			fprintf(stderr, "[-]Error in opening file: %s: %s\n",
+				ifile_path, strerror(errno));
+			_exit(-1);
+		}
 	}
 
-	if(exec_type)
-		single_mode(inf);
+	if(argparse_get_int(args, "single"))
+		single_mode(ifile);
 	else
-		multi_mode(inf);
+		multi_mode(ifile);
 
-	logger_deinit(logger);
 	clean(args);
+	logger_deinit(logger);
 }
