@@ -73,7 +73,7 @@ int file_load(char *ifname, char *ofname, Schema *sch)
 		}
 	}
 
-	page_deinit(pg);
+	file_close(fbin);
 	free(line);
 	fclose(f);
 	return 1;
