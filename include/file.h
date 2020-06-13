@@ -14,7 +14,7 @@ typedef struct File
 } File;
 
 File *file_open(char *, Schema *);
-File *file_load(char *, Schema *);
+int file_load(char *, char *, Schema *);
 int file_add_page(File *);
 void file_close(File *);
 

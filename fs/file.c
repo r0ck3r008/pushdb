@@ -47,13 +47,13 @@ exit_err:
 	return NULL;
 }
 
-File *file_load(char *fname, Schema *sch)
+int file_load(char *ifname, char *ofname, Schema *sch)
 {
-	File *fbin=file_open(fname, sch);
+	File *fbin=file_open(ofname, sch);
 	FILE *f=NULL;
-	if((f=fopen(fname, "r"))==NULL) {
+	if((f=fopen(ifname, "r"))==NULL) {
 		logger_msg(logger, LOG_ERR, "[-]FILE: %s\n", strerror(errno));
-		return NULL;
+		return 0;
 	}
 	Page *pg=page_init();
 	fbin->curr_pg=pg;
@@ -64,7 +64,7 @@ File *file_load(char *fname, Schema *sch)
 		if(!page_add_rec(pg, line, sch) && !(flag=file_add_page(fbin))) {
 			logger_msg(logger, LOG_ERR,
 					"[-]FILE: Error in adding record!\n");
-			return NULL;
+			return 0;
 		}
 		if(flag) {
 			page_deinit(pg);
@@ -76,7 +76,7 @@ File *file_load(char *fname, Schema *sch)
 	page_deinit(pg);
 	free(line);
 	fclose(f);
-	return fbin;
+	return 1;
 }
 
 int file_add_page(File *f)
