@@ -65,6 +65,7 @@ void page_deinit(Page *pg)
 		pg->first->next=curr->next;
 		free(curr->bits);
 		free(curr);
+		curr=pg->first->next;
 	}
 	free(pg->first);
 	free(pg);
