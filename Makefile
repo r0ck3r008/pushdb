@@ -65,3 +65,6 @@ clean: clean_objs
 	make -C tpch-dbgen/ clean
 	make -C include/cargparse2 clean
 	make -C include/clogger clean
+
+distclean: clean
+	rm -f tmp/*
