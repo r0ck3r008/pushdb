@@ -68,3 +68,4 @@ clean: clean_objs
 
 distclean: clean
 	rm -f tmp/*
+	rm -f tpch-dbgen/*.tbl
