@@ -41,7 +41,7 @@ exit_err:
 
 int file_load(char *ifname, char *ofname, Schema *sch)
 {
-	File *fbin=file_open(ofname, sch);
+	File *fbin=file_open(ofname, 0, sch);
 	FILE *f=NULL;
 	if((f=fopen(ifname, "r"))==NULL) {
 		logger_msg(logger, LOG_ERR, "[-]FILE: %s\n", strerror(errno));
