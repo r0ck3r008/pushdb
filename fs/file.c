@@ -14,7 +14,7 @@ File *file_open(char *path, int flag, Schema *sch)
 {
 	File *file=fs_file_alloc();
 	int mode;
-	if(!flag)
+	if(flag)
 		mode=O_RDWR;
 	else
 		mode=O_CREAT | O_RDWR;
@@ -25,7 +25,7 @@ File *file_open(char *path, int flag, Schema *sch)
 		goto exit_err;
 	}
 
-	if(!flag) {
+	if(flag) {
 		char buf[PAGE_SIZE];
 		lseek(file->fd, 0, SEEK_SET);
 		read(file->fd, buf, PAGE_SIZE);
