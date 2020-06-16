@@ -1,6 +1,10 @@
 ## PushDB: An updated approach to Database
 ___
 
+### Depends on
+This will run on most GNU/Linux systems, without providing root privilages.
+Any deviation from this behavior is welcome to be reported.
+
 ### Clone
 ```bash
 # HTTPS
