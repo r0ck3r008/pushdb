@@ -67,5 +67,5 @@ clean: clean_objs
 	make -C include/clogger clean
 
 distclean: clean
-	rm -f tmp/*
+	find ./tmp/* ! -empty ! -name "*.sql" -exec rm -f {} \;
 	rm -f tpch-dbgen/*.tbl
