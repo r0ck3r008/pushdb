@@ -3,6 +3,8 @@
 #include<stdlib.h>
 #include<unistd.h>
 #include<errno.h>
+#include<sys/types.h>
+#include<sys/stat.h>
 
 #include"alloc.h"
 #include"ddl.h"
@@ -10,6 +12,16 @@
 #include"clogger/clogger.h"
 
 extern Logger *logger;
+
+int ddl_fexists(char *fname)
+{
+	struct stat buf;
+	int status=0;
+
+	status=stat(fname, &buf);
+
+	return status;
+}
 
 int ddl_create(Query *q)
 {
