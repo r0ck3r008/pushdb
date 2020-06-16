@@ -57,6 +57,11 @@ int ddl_insert(Query *q)
 	sch->delim=db_char_copy(q->delim);
 	char fname[128];
 	sprintf(fname, "tmp/%s.bin", q->tbl_name);
+	if(!ddl_fexists(fname)) {
+		logger_msg(logger, LOG_ERR,
+				"[-]DDL: Database exists!\n");
+		return 0;
+	}
 	if(!file_load(q->ins_fname, fname, sch)) {
 		logger_msg(logger, LOG_ERR,
 			"[-]DDL: Error in loading file %s\n", q->ins_fname);
