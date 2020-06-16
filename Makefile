@@ -43,12 +43,15 @@ handler_objs:
 		     COMPILER=${COMPILER} \
 		     COMPILER_FLAGS=${COMPILER_FLAGS} make -C handler/
 
+.PHONY: tpch_bin
 tpch_bin:
 	make -C tpch-dbgen/
 
+.PHONY: clogger
 clogger:
 	make -C include/clogger/
 
+.PHONY: cargparse2
 cargparse2:
 	make -C include/cargparse2/
 
