@@ -50,6 +50,8 @@ void single_mode(FILE *f)
 		strncat(query, buf, sizeof(char)*64);
 
 	Query *q=query_init(query);
+	if(q==NULL)
+		_exit(-1);
 	if(!handler_dispatch(q)) {
 		logger_msg(logger, LOG_ERR, "Bad Query");
 		goto exit;
