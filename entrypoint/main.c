@@ -45,8 +45,10 @@ void multi_mode(FILE *f)
 
 void single_mode(FILE *f)
 {
-	char query[512];
-	fgets(query, sizeof(char)*512, f);
+	char query[512], buf[64];
+	while(fgets(buf, sizeof(char)*64, f)!=NULL)
+		strncat(query, buf, sizeof(char)*64);
+
 	Query *q=query_init(query);
 	if(!handler_dispatch(q)) {
 		logger_msg(logger, LOG_ERR, "Bad Query");
