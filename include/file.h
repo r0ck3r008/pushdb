@@ -13,7 +13,7 @@ typedef struct File
 	Page *curr_pg;
 } File;
 
-File *file_open(char *, Schema *);
+File *file_open(char *, int, Schema *);
 int file_load(char *, char *, Schema *);
 int file_add_page(File *);
 void file_close(File *);

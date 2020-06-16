@@ -1,7 +1,5 @@
 ﻿#include<stdio.h>
 #include<stdlib.h>
-#include<sys/types.h>
-#include<sys/stat.h>
 #include<string.h>
 #include<fcntl.h>
 #include<errno.h>
@@ -12,20 +10,14 @@
 
 extern Logger *logger;
 
-File *file_open(char *path, Schema *sch)
+File *file_open(char *path, int flag, Schema *sch)
 {
 	File *file=fs_file_alloc();
-	struct stat buf;
-	int mode, status;
-	if(!(status=stat(path, &buf))) {
+	int mode;
+	if(!flag)
 		mode=O_RDWR;
-	} else if(status<0 && errno==ENOENT) {
+	else
 		mode=O_CREAT | O_RDWR;
-	} else {
-		logger_msg(logger, LOG_ERR, "File: %s\n",
-				strerror(errno));
-		goto exit_err;
-	}
 
 	if((file->fd=open(path, mode, 0644))<0) {
 		logger_msg(logger, LOG_ERR, "[-]FILE: %s: %s\n",
@@ -33,7 +25,7 @@ File *file_open(char *path, Schema *sch)
 		goto exit_err;
 	}
 
-	if(!status) {
+	if(!flag) {
 		char buf[PAGE_SIZE];
 		lseek(file->fd, 0, SEEK_SET);
 		read(file->fd, buf, PAGE_SIZE);
