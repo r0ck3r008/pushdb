@@ -1,6 +1,10 @@
 ## PushDB: An updated approach to Database
 ___
 
+
+### Philosophy
+This is an experimental database, primarily to implement an updated approach to [The DataPath system: a data-centric analytic processing engine for large data warehouses](https://dl.acm.org/doi/abs/10.1145/1807167.1807224), work presented in 2010 by _Arumugam et. al_.
+
 ### Depends on
 This will run on most GNU/Linux systems, without providing root privilages.
 Any deviation from this behavior is welcome to be reported.
