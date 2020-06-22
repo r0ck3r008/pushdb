@@ -15,6 +15,7 @@ typedef struct Record
 } Record;
 
 Record *record_ser(char *, Schema *);
+void record_deinit(Record *);
 char *record_deser(Record *, Schema *);
 
 #endif

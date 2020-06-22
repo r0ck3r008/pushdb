@@ -33,6 +33,12 @@ Record *record_ser(char *_str, Schema *sch)
 	return rec;
 }
 
+void record_deinit(Record *rec)
+{
+	free(rec->bits);
+	free(rec);
+}
+
 char *record_deser(Record *rec, Schema *sch)
 {
 	char *str=fs_char_alloc(NULL, sch->map->tot_len);
