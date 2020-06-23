@@ -83,13 +83,13 @@ File *file_load(char *rname, FILE *f, Schema *sch)
 	fbin->curr_pg=pg;
 	while(getline(&line, &n, f)!=-1) {
 		int flag=-1;
-		if(!(page_add_rec(pg, line)) && !(flag=file_writeback(fbin)))
+		if(!(page_add_rec(pg, line, 1)) && !(flag=file_writeback(fbin)))
 			return NULL;
 		if(flag==1) {
 			page_deinit(pg);
 			pg=page_init(sch);
 			fbin->curr_pg=pg;
-			page_add_rec(pg, line);
+			page_add_rec(pg, line, 1);
 		}
 		free(line);
 	}
