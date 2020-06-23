@@ -20,9 +20,8 @@ int file_writeback(File *fbin)
 	Page *pg=fbin->curr_pg;
 	if(pg==NULL)
 		return 0;
-	for(Record *curr=pg->head; curr!=NULL; curr=curr->next)
-		strncat(buf, curr->bits, pg->sch->map->tot_len);
 
+	page_tobin(pg, buf);
 	if(write(fbin->fd, buf, sizeof(char)*PAGE_SIZE)<0) {
 		logger_msg(logger, LOG_ERR,
 				"FILE: Write: %s\n", strerror(errno));
