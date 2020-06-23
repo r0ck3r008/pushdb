@@ -50,10 +50,15 @@ Page *page_frombin(char *bits, Schema *sch)
 	return pg;
 }
 
+int page_add_rec(Page *pg, char *str, int ser)
 {
 	int ret=1;
 	if(((pg->nrecs)*(pg->sch->map->tot_len))<PAGE_SIZE) {
-		Record *rec=record_ser(str, pg->sch);
+		Record *rec;
+		if(ser)
+			rec=record_ser(str, pg->sch);
+		else
+			rec=record_init(str);
 		if(pg->head==NULL)
 			pg->head=rec;
 		else

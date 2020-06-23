@@ -13,9 +13,9 @@ typedef struct
 } Page;
 
 Page *page_init(Schema *);
-int page_add_rec(Page *, char *);
 void page_tobin(Page *, char *);
 Page *page_frombin(char *, Schema *);
+int page_add_rec(Page *, char *, int);
 void page_deinit(Page *);
 
 #endif
