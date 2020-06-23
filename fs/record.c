@@ -5,6 +5,14 @@
 #include"alloc.h"
 #include"record.h"
 
+Record *record_init(char *_str)
+{
+	Record *rec=fs_record_alloc(1);
+	rec->bits=fs_char_copy(_str);
+
+	return rec;
+}
+
 Record *record_ser(char *_str, Schema *sch)
 {
 	char *str=fs_char_copy(_str);
