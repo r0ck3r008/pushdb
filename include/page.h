@@ -3,6 +3,7 @@
 
 #include"record.h"
 #include"schema.h"
+#include"defs.h"
 
 typedef struct
 {
@@ -13,6 +14,8 @@ typedef struct
 
 Page *page_init(Schema *);
 int page_add_rec(Page *, char *);
+void page_tobin(Page *, char *);
+Page *page_frombin(char *, Schema *);
 void page_deinit(Page *);
 
 #endif

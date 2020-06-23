@@ -1,5 +1,6 @@
 #include<stdio.h>
 #include<stdlib.h>
+#include<string.h>
 #include<unistd.h>
 
 #include"defs.h"
@@ -21,7 +22,34 @@ Page *page_init(Schema *sch)
 	return pg;
 }
 
-int page_add_rec(Page *pg, char *str)
+void page_tobin(Page *pg, char *buf)
+{
+	if(buf==NULL)
+		return;
+
+	for(Record *curr=pg->head; curr!=NULL; curr=curr->next)
+		strncat(buf, curr->bits, pg->sch->map->tot_len);
+}
+
+Page *page_frombin(char *bits, Schema *sch)
+{
+	Page *pg=page_init(sch);
+	int reclen=sch->map->tot_len, remainder=PAGE_SIZE%reclen;
+	int nrecs=(!remainder) ? (PAGE_SIZE/reclen) : ((PAGE_SIZE-remainder)/reclen);
+
+	for(int i=0; i<nrecs; i++) {
+		char tmp[reclen];
+		snprintf(tmp, reclen, &(bits[i*reclen]));
+		if(page_add_rec(pg, tmp, 0)) {
+			logger_msg(logger, LOG_ERR,
+			"PAGE: From Bin: Some error in converting bits to records!\n");
+			return NULL;
+		}
+	}
+
+	return pg;
+}
+
 {
 	int ret=1;
 	if(((pg->nrecs)*(pg->sch->map->tot_len))<PAGE_SIZE) {
