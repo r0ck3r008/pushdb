@@ -12,6 +12,7 @@
 #include"clogger/clogger.h"
 
 Logger *logger;
+char *tmp_prefix="tmp/";
 
 void multi_mode(FILE *f)
 {
