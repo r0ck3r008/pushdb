@@ -94,3 +94,21 @@ File *file_load(char *rname, FILE *f, Schema *sch)
 		free(line);
 	}
 }
+
+void file_close(File *fbin)
+{
+	if(fbin->curr_pg!=NULL && !file_writeback(fbin))
+		_exit(-1);
+
+	lseek(fbin->fd, 0, SEEK_SET);
+	char buf[PAGE_SIZE]={0};
+	sprintf(buf, "%d", fbin->npgs+1);
+	if(write(fbin->fd, buf, PAGE_SIZE)<0) {
+		logger_msg(logger, LOG_ERR,
+				"FILE: Write: %s\n", strerror(errno));
+		_exit(-1);
+	}
+
+	close(fbin->fd);
+	free(fbin);
+}
