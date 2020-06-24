@@ -57,7 +57,7 @@ int ddl_insert(Query *q)
 	Schema *sch=schema_read(q->tbl_name);
 	sch->delim=db_char_copy(q->delim);
 	char fname[128];
-	sprintf(fname, "tmp/%s.bin", q->tbl_name);
+	sprintf(fname, "%s%s.bin", tmp_prefix, q->tbl_name);
 	if(!ddl_fexists(fname)) {
 		logger_msg(logger, LOG_ERR,
 				"[-]DDL: Database exists!\n");
@@ -69,6 +69,7 @@ int ddl_insert(Query *q)
 		return 0;
 	}
 
+	fclose(dbf);
 	schema_write(sch);
 	schema_deinit(sch);
 	return 1;
