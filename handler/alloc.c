@@ -12,7 +12,7 @@ char *handler_char_alloc(int size)
 	char *ret=calloc(size, 1);
 	if(ret==NULL) {
 		logger_msg(logger, LOG_ERR,
-				"[-]HANDLER: Error in allocating memory!\n");
+				"HANDLER: Error in allocating memory!\n");
 		_exit(-1);
 	}
 

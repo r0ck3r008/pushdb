@@ -13,7 +13,7 @@ char *db_char_copy(char *str)
 	char *ret=strdup(str);
 	if(ret==NULL) {
 		logger_msg(logger, LOG_ERR,
-			"[-]Schema: Unable to copy string!\n");
+			"Schema: Unable to copy string!\n");
 		_exit(-1);
 	}
 
@@ -25,7 +25,7 @@ char *db_char_alloc(int size)
 	char *ret=calloc(size, 1);
 	if(ret==NULL) {
 		logger_msg(logger, LOG_ERR,
-			"[-]Schema: Unable to allocate char memory!\n");
+			"Schema: Unable to allocate char memory!\n");
 		_exit(-1);
 	}
 
@@ -37,7 +37,7 @@ Schema *db_schema_alloc()
 	Schema *sch=calloc(1, sizeof(Schema));
 	if(sch==NULL) {
 		logger_msg(logger, LOG_ERR,
-			"[-]Schema: Unable to alloc schema!\n");
+			"Schema: Unable to alloc schema!\n");
 		_exit(-1);
 	}
 
@@ -49,7 +49,7 @@ Attribute **db_attributep_alloc(int size)
 	Attribute **atts=calloc(size, sizeof(Attribute *));
 	if(atts==NULL) {
 		logger_msg(logger, LOG_ERR,
-			"[-]Schema: Unable to allocate attributes!\n");
+			"Schema: Unable to allocate attributes!\n");
 		_exit(-1);
 	}
 
@@ -61,7 +61,7 @@ Attribute *db_attribute_alloc()
 	Attribute *att=calloc(1, sizeof(Attribute));
 	if(att==NULL) {
 		logger_msg(logger, LOG_ERR,
-				"[-]Schema: Unable to allocate attribute!\n");
+				"Schema: Unable to allocate attribute!\n");
 		_exit(-1);
 	}
 
@@ -73,14 +73,14 @@ AttMap *db_attmap_alloc()
 	AttMap *map=calloc(1, sizeof(AttMap));
 	if(map==NULL) {
 		logger_msg(logger, LOG_ERR,
-				"[-]AttMap: Error in allocating memory!\n");
+				"AttMap: Error in allocating memory!\n");
 		_exit(-1);
 	}
 
 	map->map=db_attributep_alloc(ATTMAP_SIZE);
 	if(map->map==NULL) {
 		logger_msg(logger, LOG_ERR,
-				"[-]AttMap: Error in allocating memory!\n");
+				"AttMap: Error in allocating memory!\n");
 		_exit(-1);
 	}
 
@@ -92,7 +92,7 @@ Query *db_query_alloc()
 	Query *q=malloc(sizeof(Query));
 	if(q==NULL) {
 		logger_msg(logger, LOG_ERR,
-				"[-]Query: Unable to allocate space!\n");
+				"Query: Unable to allocate space!\n");
 		_exit(-1);
 	}
 

@@ -100,7 +100,7 @@ int main(int argc, char **argv)
 		ifile=stdin;
 	} else {
 		if((ifile=fopen(ifile_path, "r"))==NULL) {
-			fprintf(stderr, "[-]Error in opening file: %s: %s\n",
+			fprintf(stderr, "Error in opening file: %s: %s\n",
 				ifile_path, strerror(errno));
 			_exit(-1);
 		}

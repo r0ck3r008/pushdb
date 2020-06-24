@@ -35,18 +35,18 @@ FILE *fhandle(char *fname, char *perm)
 		logger_msg(logger, LOG_WRN,
 			"Schema: Overwriting existing schema!\n");
 		if(unlink(fname)<0) {
-			logger_msg(logger, LOG_ERR, "[-]Unlink: Error!\n");
+			logger_msg(logger, LOG_ERR, "Unlink: Error!\n");
 			_exit(-1);
 		}
 	} else if(!strcmp(perm, "r") && ret==-1) {
 		logger_msg(logger, LOG_ERR,
-				"[-]Schema: No such schema exists!\n");
+				"Schema: No such schema exists!\n");
 		return NULL;
 	}
 
 	if((f=fopen(fname, perm))==NULL)
 		logger_msg(logger, LOG_ERR,
-				"[-]Schema: Error in opening sch file!\n");
+				"Schema: Error in opening sch file!\n");
 
 	return f;
 }
