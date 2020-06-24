@@ -32,8 +32,8 @@ FILE *fhandle(char *fname, char *perm)
 	struct stat buf;
 	int ret=stat(fname, &buf);
 	if(!strcmp(perm, "w") && !ret) {
-		logger_msg(logger, LOG_ERR,
-			"[-]Schema: Overwriting existing schema!\n");
+		logger_msg(logger, LOG_WRN,
+			"Schema: Overwriting existing schema!\n");
 		if(unlink(fname)<0) {
 			logger_msg(logger, LOG_ERR, "[-]Unlink: Error!\n");
 			_exit(-1);
