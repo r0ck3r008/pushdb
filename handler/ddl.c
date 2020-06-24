@@ -12,6 +12,7 @@
 #include"clogger/clogger.h"
 
 extern Logger *logger;
+extern char *tmp_prefix;
 
 int ddl_fexists(char *fname)
 {
