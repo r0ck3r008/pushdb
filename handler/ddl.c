@@ -63,7 +63,14 @@ int ddl_insert(Query *q)
 				"[-]DDL: Database exists!\n");
 		return 0;
 	}
-	if(!file_load(q->ins_fname, fname, sch)) {
+
+	FILE *dbf=NULL;
+	if((dbf=fopen(q->ins_fname, "r"))==NULL) {
+		logger_msg(logger, LOG_ERR,
+			"DDL: Fopen: %s: %s\n", q->ins_fname, strerror(errno));
+		return 0;
+	}
+	if(!file_load(fname, dbf, sch)) {
 		logger_msg(logger, LOG_ERR,
 			"[-]DDL: Error in loading file %s\n", q->ins_fname);
 		return 0;
