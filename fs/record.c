@@ -23,7 +23,6 @@ Record *record_ser(char *_str, Schema *sch)
 	int pos=0;
 
 	while(att!=NULL && attr!=NULL) {
-		pos+=att->len;
 		if(att->type==Int) {
 			((int *)rec->bits)[pos]= (int)strtol(attr, NULL, 10);
 		} else if(att->type==Float) {
@@ -32,6 +31,7 @@ Record *record_ser(char *_str, Schema *sch)
 			strncat(&(((char *)rec->bits)[pos]), attr, att->len);
 		}
 
+		pos+=att->len;
 		att=att->nxt_sq;
 		attr=strtok(NULL, sch->delim);
 	}
@@ -53,7 +53,6 @@ char *record_deser(Record *rec, Schema *sch)
 	int pos=0;
 
 	while(curr!=NULL) {
-		pos+=curr->len;
 		if(curr->type==Int) {
 			sprintf(str, "%s%d", str, ((int *)rec->bits)[pos]);
 		} else if(curr->type==Float) {
@@ -62,6 +61,7 @@ char *record_deser(Record *rec, Schema *sch)
 			strncat(str, &(((char *)rec->bits)[pos]), curr->len);
 		}
 
+		pos+=curr->len;
 		curr=curr->nxt_sq;
 		if(curr!=NULL)
 			sprintf(str, "%s%s", str, sch->delim);
