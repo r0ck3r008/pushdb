@@ -91,7 +91,12 @@ File *file_load(char *rname, FILE *f, Schema *sch)
 			page_add_rec(pg, line, 1);
 		}
 		free(line);
+		line=NULL;
+		n=0;
 	}
+
+	free(line);
+	return fbin;
 }
 
 void file_close(File *fbin)
