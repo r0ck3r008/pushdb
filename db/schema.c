@@ -78,10 +78,7 @@ Schema *schema_read(char *rname)
 	Schema *sch=schema_init(rname);
 	char *line=NULL;
 	size_t n=0;
-	while(!feof(f)) {
-		int stat=getline(&line, &n, f);
-		if(stat==-1)
-			break;
+	while((getline(&line, &n, f))!=-1) {
 		char *attname=strtok(line, ":");
 		DataType type=(DataType)strtol(strtok(NULL, ":"),
 						NULL, 10);
@@ -90,6 +87,7 @@ Schema *schema_read(char *rname)
 		schema_add_att(sch, attname, pos, type);
 		free(line);
 		line=NULL;
+		n=0;
 	}
 
 	free(line);
