@@ -71,27 +71,13 @@ void attmap_add_att(AttMap *map, char *aname, DataType type, int len)
 		map->tot_len+=len;
 }
 
-int attribute_get_len(AttMap *map, Attribute *att)
-{
-	if(att!=NULL && att->type==String) {
-		if(map->tail!=att)
-			return ((att->nxt_sq->pos)-(att->pos));
-		else
-			return ((map->tot_len)-(att->pos));
-	}
-
-	return 0;
-}
-
-Attribute *attmap_find(AttMap *map, char *name, int *len)
+Attribute *attmap_find(AttMap *map, char *name)
 {
 	int indx=hash_it(name);
 	Attribute *curr=map->map[indx];
 	if(curr!=NULL && curr->nxt!=NULL)
 		while(!(curr!=NULL && strcmp(name, curr->name) &&
 			(curr=curr->nxt)));
-
-	*len=attribute_get_len(map, curr);
 
 	return curr;
 }

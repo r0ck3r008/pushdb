@@ -24,7 +24,6 @@ typedef struct AttMap
 AttMap *attmap_init();
 void attmap_deinit(AttMap *);
 void attmap_add_att(AttMap *, char *, DataType, int);
-Attribute *attmap_find(AttMap *, char *, int *);
-int attribute_get_len(AttMap *, Attribute *);
+Attribute *attmap_find(AttMap *, char *);
 
 #endif
