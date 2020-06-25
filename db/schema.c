@@ -10,6 +10,7 @@
 #include"schema.h"
 #include"clogger/clogger.h"
 
+extern char *tmp_prefix;
 extern Logger *logger;
 
 Schema *schema_init(char *name)
@@ -54,7 +55,7 @@ FILE *fhandle(char *fname, char *perm)
 void schema_write(Schema *sch)
 {
 	char *fname=db_char_alloc(128);
-	sprintf(fname, "tmp/%s.sql", sch->name);
+	sprintf(fname, "%s%s.sql", tmp_prefix, sch->name);
 	FILE *f=fhandle(fname, "w");
 	if(f==NULL)
 		return;
@@ -69,7 +70,7 @@ void schema_write(Schema *sch)
 Schema *schema_read(char *rname)
 {
 	char *fname=db_char_alloc(128);
-	sprintf(fname, "tmp/%s.sql", rname);
+	sprintf(fname, "%s%s.sql", tmp_prefix, rname);
 	FILE *f=fhandle(fname, "r");
 	if(f==NULL)
 		return NULL;
