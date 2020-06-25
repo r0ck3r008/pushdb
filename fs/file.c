@@ -45,7 +45,7 @@ File *file_create(char *fname, int flag)
 		_exit(-1);
 	}
 
-	if((fbin->fd=open(fname, mode))) {
+	if((fbin->fd=open(fname, mode, 644))<0) {
 		logger_msg(logger, LOG_ERR,
 				"FILE: Open: %s: %s\n", fname, strerror(errno));
 		return NULL;
