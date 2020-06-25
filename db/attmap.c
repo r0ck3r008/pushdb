@@ -48,7 +48,14 @@ void attmap_add_att(AttMap *map, char *aname, DataType type, int len)
 	Attribute *att=db_attribute_alloc();
 	att->name=db_char_copy(aname);
 	att->type=type;
-	att->len=len;
+
+	if(type==Int)
+		att->len=sizeof(int);
+	else if(type==Float)
+		att->len=sizeof(float);
+	else if(type==String)
+		att->len=len;
+	map->tot_len+=att->len;
 
 	//update map
 	if(map->head==NULL)
@@ -63,12 +70,6 @@ void attmap_add_att(AttMap *map, char *aname, DataType type, int len)
 		while(!(curr->nxt!=NULL && (curr=curr->nxt)));
 		curr->nxt=att;
 	}
-	if(type==Int)
-		map->tot_len+=sizeof(int);
-	else if(type==Float)
-		map->tot_len+=sizeof(float);
-	else if(type==String)
-		map->tot_len+=len;
 }
 
 Attribute *attmap_find(AttMap *map, char *name)
