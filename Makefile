@@ -5,12 +5,12 @@ LINKER_FLAGS := -pthread -L${shell pwd}/include/cargparse2 -lcargparse2 -L${shel
 COMPILE_PATH := '-I${shell pwd}/include -I${shell pwd}/include/cargparse -I${shell pwd}/include/clogger'
 
 # OBJECT DEFINITIONS
-ALL_OBJS := entrypoint/*.o fs/*.o db/*.o parser/*.o comparator/*.o handler/*.o
+ALL_OBJS := entrypoint/*.o fs/*.o db/*.o parser/*.o handler/*.o
 
 # TARGETS
 all: pushdb_bin
 
-pushdb_bin: entrypoint_objs db_objs fs_objs parser_objs comparator_objs handler_objs clogger cargparse2 tpch_bin
+pushdb_bin: entrypoint_objs db_objs fs_objs parser_objs handler_objs clogger cargparse2 tpch_bin
 	${COMPILER} ${LINKER_FLAGS} ${ALL_OBJS} -o bin/pushdb.out
 	make clean_objs
 
