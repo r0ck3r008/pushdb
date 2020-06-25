@@ -66,12 +66,9 @@ File *file_create(char *fname, int flag)
 	return fbin;
 }
 
-File *file_load(char *rname, FILE *f, Schema *sch)
+File *file_load(char *fname, FILE *f, Schema *sch)
 {
-	char fbin_name[64];
-	sprintf(fbin_name, "%s%s.bin", tmp_prefix, rname);
-
-	File *fbin=file_create(fbin_name, 0);
+	File *fbin=file_create(fname, 0);
 	if(fbin==NULL) {
 		return NULL;
 	}

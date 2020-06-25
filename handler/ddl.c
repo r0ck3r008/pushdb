@@ -70,7 +70,8 @@ int ddl_insert(Query *q)
 			"DDL: Fopen: %s: %s\n", q->ins_fname, strerror(errno));
 		return 0;
 	}
-	if(!file_load(fname, dbf, sch)) {
+	File *fbin=NULL;
+	if((fbin=file_load(fname, dbf, sch))==NULL) {
 		logger_msg(logger, LOG_ERR,
 			"DDL: Error in loading file %s\n", q->ins_fname);
 		return 0;
