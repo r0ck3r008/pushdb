@@ -13,7 +13,7 @@ Record *fs_record_alloc(int size)
 	Record *rec=calloc(size, sizeof(Record));
 	if(rec==NULL) {
 		logger_msg(logger, LOG_ERR,
-				"Fs: Error in allocating Record!\n");
+				"Fs: Error in allocating Record!");
 		_exit(-1);
 	}
 
@@ -29,7 +29,7 @@ char *fs_char_alloc(char *prev, int size)
 		ret=realloc(prev, size);
 
 	if(ret==NULL) {
-		logger_msg(logger, LOG_ERR, "Fs: Error in allocating!\n");
+		logger_msg(logger, LOG_ERR, "Fs: Error in allocating!");
 		_exit(-1);
 	}
 
@@ -41,7 +41,7 @@ Page *fs_page_alloc()
 	Page *pg=calloc(1, sizeof(PAGE_SIZE));
 	if(pg==NULL) {
 		logger_msg(logger, LOG_ERR,
-			"PAGE: Error in allocating the memory!\n");
+			"PAGE: Error in allocating the memory!");
 		_exit(-1);
 	}
 
@@ -53,7 +53,7 @@ File *fs_file_alloc()
 	File *file=calloc(1, sizeof(File));
 	if(file==NULL) {
 		logger_msg(logger, LOG_ERR,
-			"FILE: Error in allocating file\n");
+			"FILE: Error in allocating file");
 		_exit(-1);
 	}
 
@@ -65,7 +65,7 @@ char *fs_char_copy(char *str_in)
 	char *str=strdup(str_in);
 	if(str==NULL) {
 		logger_msg(logger, LOG_ERR,
-				"Fs: Error in copying the string!\n");
+				"Fs: Error in copying the string!");
 		_exit(-1);
 	}
 

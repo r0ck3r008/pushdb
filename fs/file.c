@@ -24,7 +24,7 @@ int file_writeback(File *fbin)
 	page_tobin(pg, buf);
 	if(write(fbin->fd, buf, sizeof(char)*PAGE_SIZE)<0) {
 		logger_msg(logger, LOG_ERR,
-				"FILE: Write: %s\n", strerror(errno));
+				"FILE: Write: %s", strerror(errno));
 		return 0;
 	}
 	fbin->npgs++;
@@ -41,13 +41,13 @@ File *file_create(char *fname, int flag)
 
 	File *fbin=calloc(1, sizeof(File));
 	if(fbin==NULL) {
-		logger_msg(logger, LOG_ERR, "FILE: Malloc: Error in allocating memory!\n");
+		logger_msg(logger, LOG_ERR, "FILE: Malloc: Error in allocating memory!");
 		_exit(-1);
 	}
 
 	if((fbin->fd=open(fname, mode, 644))<0) {
 		logger_msg(logger, LOG_ERR,
-				"FILE: Open: %s: %s\n", fname, strerror(errno));
+				"FILE: Open: %s: %s", fname, strerror(errno));
 		return NULL;
 	}
 
@@ -56,7 +56,7 @@ File *file_create(char *fname, int flag)
 		char buf[PAGE_SIZE];
 		if(read(fbin->fd, buf, PAGE_SIZE*sizeof(char))<0) {
 			logger_msg(logger, LOG_ERR,
-					"FILE: Read: %s: %s\n", fname, strerror(errno));
+					"FILE: Read: %s: %s", fname, strerror(errno));
 			return NULL;
 		}
 
@@ -106,7 +106,7 @@ void file_close(File *fbin)
 	sprintf(buf, "%d", fbin->npgs+1);
 	if(write(fbin->fd, buf, PAGE_SIZE)<0) {
 		logger_msg(logger, LOG_ERR,
-				"FILE: Write: %s\n", strerror(errno));
+				"FILE: Write: %s", strerror(errno));
 		_exit(-1);
 	}
 

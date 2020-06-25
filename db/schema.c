@@ -34,20 +34,20 @@ FILE *fhandle(char *fname, char *perm)
 	int ret=stat(fname, &buf);
 	if(!strcmp(perm, "w") && !ret) {
 		logger_msg(logger, LOG_WRN,
-			"Schema: Overwriting existing schema!\n");
+			"Schema: Overwriting existing schema!");
 		if(unlink(fname)<0) {
-			logger_msg(logger, LOG_ERR, "Unlink: Error!\n");
+			logger_msg(logger, LOG_ERR, "Unlink: Error!");
 			_exit(-1);
 		}
 	} else if(!strcmp(perm, "r") && ret==-1) {
 		logger_msg(logger, LOG_ERR,
-				"Schema: No such schema exists!\n");
+				"Schema: No such schema exists!");
 		return NULL;
 	}
 
 	if((f=fopen(fname, perm))==NULL)
 		logger_msg(logger, LOG_ERR,
-				"Schema: Error in opening sch file!\n");
+				"Schema: Error in opening sch file!");
 
 	return f;
 }
@@ -61,7 +61,7 @@ void schema_write(Schema *sch)
 		return;
 
 	for(Attribute *att=sch->map->head; att!=NULL; att=att->nxt_sq)
-		fprintf(f, "%s:%d:%d\n", att->name, att->type,
+		fprintf(f, "%s:%d:%d", att->name, att->type,
 			att->len);
 
 	fclose(f);

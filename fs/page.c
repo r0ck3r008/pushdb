@@ -14,7 +14,7 @@ Page *page_init(Schema *sch)
 	Page *pg=calloc(1, sizeof(Page));
 	if(pg==NULL) {
 		logger_msg(logger, LOG_ERR,
-				"PAGE: Malloc: Error in allocating memory!\n");
+				"PAGE: Malloc: Error in allocating memory!");
 		_exit(-1);
 	}
 	pg->sch=sch;
@@ -42,7 +42,7 @@ Page *page_frombin(char *bits, Schema *sch)
 		snprintf(tmp, reclen, &(bits[i*reclen]));
 		if(page_add_rec(pg, tmp, 0)) {
 			logger_msg(logger, LOG_ERR,
-			"PAGE: From Bin: Some error in converting bits to records!\n");
+			"PAGE: From Bin: Some error in converting bits to records!");
 			return NULL;
 		}
 	}

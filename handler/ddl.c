@@ -28,7 +28,7 @@ int ddl_create(Query *q)
 {
 	if(q->tbl_name==NULL || q->cr_atts==NULL) {
 		logger_msg(logger, LOG_ERR,
-				"DDL: Empty table/attribute name!\n");
+				"DDL: Empty table/attribute name!");
 		return 0;
 	}
 
@@ -51,7 +51,7 @@ int ddl_insert(Query *q)
 {
 	if(q->tbl_name==NULL || q->ins_fname==NULL) {
 		logger_msg(logger, LOG_ERR,
-				"DDL: Empty table/attribute name!\n");
+				"DDL: Empty table/attribute name!");
 		return 0;
 	}
 	Schema *sch=schema_read(q->tbl_name);
@@ -60,20 +60,20 @@ int ddl_insert(Query *q)
 	sprintf(fname, "%s%s.bin", tmp_prefix, q->tbl_name);
 	if(!ddl_fexists(fname)) {
 		logger_msg(logger, LOG_ERR,
-				"DDL: Database exists!\n");
+				"DDL: Database exists!");
 		return 0;
 	}
 
 	FILE *dbf=NULL;
 	if((dbf=fopen(q->ins_fname, "r"))==NULL) {
 		logger_msg(logger, LOG_ERR,
-			"DDL: Fopen: %s: %s\n", q->ins_fname, strerror(errno));
+			"DDL: Fopen: %s: %s", q->ins_fname, strerror(errno));
 		return 0;
 	}
 	File *fbin=NULL;
 	if((fbin=file_load(fname, dbf, sch))==NULL) {
 		logger_msg(logger, LOG_ERR,
-			"DDL: Error in loading file %s\n", q->ins_fname);
+			"DDL: Error in loading file %s", q->ins_fname);
 		return 0;
 	}
 
@@ -88,7 +88,7 @@ int ddl_drop(Query *q)
 {
 	if(q->tbl_name==NULL) {
 		logger_msg(logger, LOG_ERR,
-				"DDL: Empty table name!\n");
+				"DDL: Empty table name!");
 		return 0;
 	}
 
@@ -99,14 +99,14 @@ int ddl_drop(Query *q)
 
 	if(unlink(sch_fname)<0) {
 		logger_msg(logger, LOG_ERR,
-			"DDL: Error in unlinking %s file: %s\n", sch_fname,
+			"DDL: Error in unlinking %s file: %s", sch_fname,
 			strerror(errno));
 		_exit(-1);
 	}
 
 	if(unlink(bin_fname)<0) {
 		logger_msg(logger, LOG_ERR,
-			"DDL: Error in unlinking %s file: %s\n", bin_fname,
+			"DDL: Error in unlinking %s file: %s", bin_fname,
 			strerror(errno));
 		_exit(-1);
 	}
