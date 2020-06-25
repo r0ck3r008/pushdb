@@ -10,7 +10,7 @@ typedef struct Attribute
 {
 	char *name;
 	DataType type;
-	int pos;
+	int len;
 	struct Attribute *nxt, *nxt_sq;
 } Attribute;
 

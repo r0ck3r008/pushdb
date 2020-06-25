@@ -48,7 +48,7 @@ void attmap_add_att(AttMap *map, char *aname, DataType type, int len)
 	Attribute *att=db_attribute_alloc();
 	att->name=db_char_copy(aname);
 	att->type=type;
-	att->pos=map->tot_len;
+	att->len=len;
 
 	//update map
 	if(map->head==NULL)
