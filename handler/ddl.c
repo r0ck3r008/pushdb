@@ -77,6 +77,7 @@ int ddl_insert(Query *q)
 		return 0;
 	}
 
+	file_close(fbin);
 	fclose(dbf);
 	schema_write(sch);
 	schema_deinit(sch);
