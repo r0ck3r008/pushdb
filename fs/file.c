@@ -35,10 +35,9 @@ int file_writeback(File *fbin)
 
 File *file_create(char *fname, int flag)
 {
-	int mode=0;
+	int mode=O_RDWR;
 	if(!flag)
-		mode=O_CREAT;
-	mode|=O_RDWR;
+		mode|=O_CREAT;
 
 	File *fbin=calloc(1, sizeof(File));
 	if(fbin==NULL) {
