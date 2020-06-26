@@ -49,6 +49,7 @@ void attmap_add_att(AttMap *map, char *aname, DataType type, int len)
 	att->name=db_char_copy(aname);
 	att->type=type;
 
+	att->pos=map->tot_len;
 	if(type==Int)
 		att->len=sizeof(int);
 	else if(type==Float)
