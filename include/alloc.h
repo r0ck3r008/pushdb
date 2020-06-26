@@ -7,7 +7,6 @@
 #include"record.h"
 #include"query.h"
 #include"schema.h"
-#include"compare.h"
 #include"page.h"
 #include"file.h"
 
@@ -27,8 +26,6 @@ Attribute *db_attribute_alloc();
 Attribute **db_attributep_alloc(int);
 AttMap *db_attmap_alloc();
 Query *db_query_alloc();
-
-Cnf *comparator_cnf_alloc();
 
 char *handler_char_alloc(int);
 
