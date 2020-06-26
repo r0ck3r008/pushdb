@@ -17,6 +17,11 @@ char *tmp_prefix="tmp/";
 void multi_mode(FILE *f)
 {
 	char *query=calloc(512, sizeof(char));
+	if(query==NULL) {
+		logger_msg(logger, LOG_ERR,
+			"ENTRYPOINT: Mallco: Error in allocating memory!\n");
+		_exit(-1);
+	}
 	while(1) {
 		int begin=1;
 		printf("[>] ");
