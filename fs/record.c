@@ -20,18 +20,15 @@ Record *record_ser(char *_str, Schema *sch)
 	Attribute *att=sch->map->head;
 	Record *rec=fs_record_alloc(1);
 	rec->bits=fs_char_alloc(NULL, sch->map->tot_len);
-	int pos=0;
 
 	while(att!=NULL && attr!=NULL) {
-		if(att->type==Int) {
-			((int *)rec->bits)[pos]= (int)strtol(attr, NULL, 10);
-		} else if(att->type==Float) {
-			((float *)rec->bits)[pos]= (float)strtof(attr, NULL);
-		} else if(att->type==String) {
-			strncat(&(((char *)rec->bits)[pos]), attr, att->len);
-		}
+		if(att->type==Int)
+			((int *)rec->bits)[att->pos]=(int)strtol(attr, NULL, 10);
+		else if(att->type==Float)
+			((float *)rec->bits)[att->pos]=(float)strtof(attr, NULL);
+		else if(att->type==String)
+			strncat(&(((char *)rec->bits)[att->pos]), attr, att->len);
 
-		pos+=att->len;
 		att=att->nxt_sq;
 		attr=strtok(NULL, sch->delim);
 	}
@@ -50,18 +47,15 @@ char *record_deser(Record *rec, Schema *sch)
 {
 	char *str=fs_char_alloc(NULL, sch->map->tot_len);
 	Attribute *curr=sch->map->head;
-	int pos=0;
 
 	while(curr!=NULL) {
-		if(curr->type==Int) {
-			sprintf(str, "%s%d", str, ((int *)rec->bits)[pos]);
-		} else if(curr->type==Float) {
-			sprintf(str, "%s%.3f", str, ((float *)rec->bits)[pos]);
-		} else if(curr->type==String) {
-			strncat(str, &(((char *)rec->bits)[pos]), curr->len);
-		}
+		if(curr->type==Int)
+			sprintf(str, "%s%d", str, ((int *)rec->bits)[curr->pos]);
+		else if(curr->type==Float)
+			sprintf(str, "%s%.3f", str, ((float *)rec->bits)[curr->pos]);
+		else if(curr->type==String)
+			strncat(str, &(((char *)rec->bits)[curr->pos]), curr->len);
 
-		pos+=curr->len;
 		curr=curr->nxt_sq;
 		if(curr!=NULL)
 			sprintf(str, "%s%s", str, sch->delim);
