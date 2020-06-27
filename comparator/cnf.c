@@ -83,3 +83,10 @@ Cnf *cnf_init_lr(AndList *alist, Schema *schL, Schema *schR)
 	return cnf;
 }
 
+void cnf_free(Cnf *cnf)
+{
+	if(cnf->type==STR_COMP)
+		free(cnf->sval);
+	free(cnf);
+}
+
