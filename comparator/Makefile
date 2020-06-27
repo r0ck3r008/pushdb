@@ -1,7 +1,7 @@
-all: compare.o alloc.o
+all: cnf.o alloc.o
 
-compare.o: compare.c
-	${COMPILER} ${COMPILE_PATH} ${COMPILER_FLAGS} -c compare.c
+cnf.o: cnf.c
+	${COMPILER} ${COMPILE_PATH} ${COMPILER_FLAGS} -c cnf.c
 
 alloc.o: alloc.c
 	${COMPILER} ${COMPILE_PATH} ${COMPILER_FLAGS} -c alloc.c
