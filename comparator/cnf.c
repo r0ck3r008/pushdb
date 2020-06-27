@@ -66,3 +66,20 @@ Cnf *cnf_alist_parse(AndList *alist, OrList *olist,
 
 	return cnf;
 }
+
+// For select family comparisons.
+Cnf *cnf_init_l(AndList *alist, Schema *sch)
+{
+	Cnf *cnf=cnf_alist_parse(alist, NULL, sch, NULL);
+
+	return cnf;
+}
+
+// For join family of comparisons.
+Cnf *cnf_init_lr(AndList *alist, Schema *schL, Schema *schR)
+{
+	Cnf *cnf=cnf_alist_parse(alist, NULL, schL, schR);
+
+	return cnf;
+}
+
