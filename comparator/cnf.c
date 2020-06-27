@@ -90,17 +90,22 @@ void cnf_free(Cnf *cnf)
 	free(cnf);
 }
 
-void cnf_deinit(Cnf *cnf)
+void cnf_traverse(Cnf *cnf, void (*fn)(Cnf *))
 {
 	while(cnf!=NULL) {
 		Cnf *curr=cnf->dwn;
 		while(curr!=NULL) {
 			cnf->dwn=curr->dwn;
-			cnf_free(curr);
+			fn(curr);
 			curr=cnf->dwn;
 		}
 		Cnf *tmp=cnf->nxt;
-		cnf_free(cnf);
+		fn(cnf);
 		cnf=tmp;
 	}
+}
+
+void cnf_deinit(Cnf *cnf)
+{
+	cnf_traverse(cnf, cnf_free);
 }

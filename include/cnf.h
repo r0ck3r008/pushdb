@@ -30,6 +30,7 @@ typedef struct Cnf
 
 Cnf *cnf_init_l(AndList *, Schema *);
 Cnf *cnf_init_lr(AndList *, Schema *, Schema *);
+void cnf_traverse(Cnf *, void (*fn)(Cnf *));
 void cnf_deinit(Cnf *);
 
 #endif
