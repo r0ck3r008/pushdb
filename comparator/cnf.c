@@ -90,3 +90,17 @@ void cnf_free(Cnf *cnf)
 	free(cnf);
 }
 
+void cnf_deinit(Cnf *cnf)
+{
+	while(cnf!=NULL) {
+		Cnf *curr=cnf->dwn;
+		while(curr!=NULL) {
+			cnf->dwn=curr->dwn;
+			cnf_free(curr);
+			curr=cnf->dwn;
+		}
+		Cnf *tmp=cnf->nxt;
+		cnf_free(cnf);
+		cnf=tmp;
+	}
+}
