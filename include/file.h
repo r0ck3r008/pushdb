@@ -1,6 +1,8 @@
 #ifndef FILE_H
 #define FILE_H
 
+#include<stdio.h>
+
 #include"schema.h"
 #include"page.h"
 
