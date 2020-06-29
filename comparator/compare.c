@@ -58,4 +58,7 @@ exit:
 	return ret;
 }
 
+int compare_lr(Cnf *cnf, Record *rec1, Record *rec2)
+{
+	return compare_cnf_exec(cnf, rec1, rec2);
 }
