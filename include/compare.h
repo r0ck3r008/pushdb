@@ -4,6 +4,7 @@
 #include"record.h"
 #include"cnf.h"
 
+int compare_cnf_exec(Cnf *, Record *, Record *);
 // Returns -1, 1 if rejected or accepted respectively
 int compare_l(Cnf *, Record *);
 // Returns -1, 0, 1 if left is less than, equal to or greater than right,
