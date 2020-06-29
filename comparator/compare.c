@@ -24,7 +24,6 @@ int compare_cnf_exec(Cnf *cnf, Record *rec1)
 		ret=(!strncmp(cnf->sval, val, cnf->att1->len)) ? (1) : (0);
 	}
 
-
 	return ret;
 }
 
