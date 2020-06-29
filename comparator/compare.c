@@ -31,6 +31,31 @@ int compare_cnf_exec(Cnf *cnf, Record *rec1, Record *rec2)
 	return ret;
 }
 
+int compare_l(Cnf *cnf, Record * rec)
 {
+	int ret=1;
+
+	if(cnf->dwn!=NULL) {
+		ret=compare_l(cnf->dwn, rec);
+		if(ret && cnf->nxt==NULL)
+		// Since this cnf is being Or'd and one of the Or'd Cnf has
+		// returned 1, we can skip all remaining ones and short circuit.
+			goto exit;
+	}
+
+	if(cnf->nxt!=NULL) {
+		ret=compare_l(cnf->nxt, rec);
+		if(!ret)
+		// Since this cnf is being And'd and one of the Cnfs has
+		// returned 0, we can skip all others and return false by short
+		// circuting.
+			goto exit;
+	}
+
+	ret=compare_cnf_exec(cnf, rec, NULL);
+
+exit:
+	return ret;
+}
 
 }
