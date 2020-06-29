@@ -83,17 +83,17 @@ Cnf *cnf_init_lr(AndList *alist, Schema *schL, Schema *schR)
 	return cnf;
 }
 
-void cnf_traverse(Cnf *cnf, void (*fn)(Cnf *))
+void cnf_deinit(Cnf *cnf)
 {
 	while(cnf!=NULL) {
 		Cnf *curr=cnf->dwn;
 		while(curr!=NULL) {
 			cnf->dwn=curr->dwn;
-			fn(curr);
+			cnf_free(curr);
 			curr=cnf->dwn;
 		}
 		Cnf *tmp=cnf->nxt;
-		fn(cnf);
+		cnf_free(cnf);
 		cnf=tmp;
 	}
 }
