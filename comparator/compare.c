@@ -21,13 +21,9 @@ int compare_cnf_exec(Cnf *cnf, Record *rec1, Record *rec2)
 	} else if(cnf->type==STR_COMP) {
 		char *val=&(((char *)rec1->bits)[pos]);
 		ret=(!strncmp(cnf->sval, val, cnf->att1->len)) ? (1) : (0);
-	} else if(cnf->type==ATT_COMP) {
-		// TODO
-		// Implement rec-rec comparison here!
-		logger_msg(logger, LOG_WRN,
-				"Record comparison unimplemented!");
-		_exit(-1);
 	}
+
+
 	return ret;
 }
 
