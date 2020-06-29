@@ -5,9 +5,9 @@
 #include"cnf.h"
 
 // Returns -1, 1 if rejected or accepted respectively
-int compare(Record *, Cnf *);
+int compare_l(Cnf *, Record *);
 // Returns -1, 0, 1 if left is less than, equal to or greater than right,
 // respectively
-int compare(Record *, Record *, Cnf *);
+int compare_lr(Cnf *, Record *, Record *);
 
 #endif
