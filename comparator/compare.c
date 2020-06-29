@@ -8,7 +8,7 @@
 
 extern Logger *logger;
 
-int compare_cnf_exec(Cnf *cnf, Record *rec1, Record *rec2)
+int compare_cnf_exec(Cnf *cnf, Record *rec1)
 {
 	int ret=0, pos=cnf->att1->pos;
 
@@ -48,7 +48,7 @@ int compare_l(Cnf *cnf, Record * rec)
 			goto exit;
 	}
 
-	ret=compare_cnf_exec(cnf, rec, NULL);
+	ret=compare_cnf_exec(cnf, rec);
 
 exit:
 	return ret;
