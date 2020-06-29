@@ -3,6 +3,7 @@
 #include<string.h>
 #include<unistd.h>
 
+#include"defs.h"
 #include"compare.h"
 #include"clogger/clogger.h"
 
@@ -56,5 +57,32 @@ exit:
 
 int compare_lr(Cnf *cnf, Record *rec1, Record *rec2)
 {
-	return compare_cnf_exec(cnf, rec1, rec2);
+	int pos1=cnf->att1->pos, pos2=cnf->att2->pos, ret=0;
+	DataType type=cnf->att1->type;
+
+	if(type==Int) {
+		int val1=((int  *)rec1->bits)[pos1],
+			val2=((int *)rec2->bits)[pos2];
+		if(val1<val2)
+			ret=-1;
+		else if(val1>val2)
+			ret=1;
+	} else if(type==Float) {
+		float val1=((float *)rec1->bits)[pos1],
+			val2=((float *)rec2->bits)[pos2];
+		if(val1<val2)
+			ret=-1;
+		else if(val1>val2)
+			ret=1;
+	} else if(type==String) {
+		char *val1=&(((char *)rec1->bits)[pos1]),
+			*val2=&(((char *)rec2->bits)[pos2]);
+		int stat=strncmp(val1, val2, cnf->att1->len);
+		if(stat<0)
+			ret=-1;
+		else if(stat>0)
+			ret=1;
+	}
+
+	return ret;
 }
