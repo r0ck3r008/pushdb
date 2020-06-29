@@ -83,6 +83,13 @@ Cnf *cnf_init_lr(AndList *alist, Schema *schL, Schema *schR)
 	return cnf;
 }
 
+void cnf_free(Cnf *cnf)
+{
+	if(cnf->type==STR_COMP)
+		free(cnf->sval);
+	free(cnf);
+}
+
 void cnf_deinit(Cnf *cnf)
 {
 	while(cnf!=NULL) {
@@ -96,16 +103,4 @@ void cnf_deinit(Cnf *cnf)
 		cnf_free(cnf);
 		cnf=tmp;
 	}
-}
-
-void cnf_free(Cnf *cnf)
-{
-	if(cnf->type==STR_COMP)
-		free(cnf->sval);
-	free(cnf);
-}
-
-void cnf_deinit(Cnf *cnf)
-{
-	cnf_traverse(cnf, cnf_free);
 }
