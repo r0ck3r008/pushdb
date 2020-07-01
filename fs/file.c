@@ -55,7 +55,7 @@ File *file_create(char *fname, int flag)
 		char buf[PAGE_SIZE];
 		if(read(fbin->fd, buf, PAGE_SIZE*sizeof(char))<0) {
 			logger_msg(logger, LOG_ERR,
-					"FILE: Read: %s: %s", fname, strerror(errno));
+				"FILE: Read: %s: %s", fname, strerror(errno));
 			return NULL;
 		}
 
