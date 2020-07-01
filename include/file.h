@@ -12,7 +12,7 @@ typedef struct
 	Page *curr_pg;
 } File;
 
-int file_writeback(File *);
+int file_writeback(File *, int);
 File *file_create(char *, int);
 File *file_load(char *, FILE *, Schema *);
 void file_close(File *);
