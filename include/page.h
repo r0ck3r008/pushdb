@@ -5,11 +5,12 @@
 #include"schema.h"
 #include"defs.h"
 
-typedef struct
+typedef struct Page
 {
 	Record *head, *tail;
 	Schema *sch;
 	int nrecs;
+	struct Page *next;
 } Page;
 
 Page *page_init(Schema *);
