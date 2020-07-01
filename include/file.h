@@ -9,7 +9,7 @@
 typedef struct
 {
 	int npgs, pgno, fd;
-	Page *curr_pg;
+	Page *pg_head, *pg_tail, *curr_pg;
 } File;
 
 int file_writeback(File *, int);
