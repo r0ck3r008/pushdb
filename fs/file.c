@@ -28,3 +28,18 @@ int file_getnpgs(int fd)
 	return ((int)buf.st_size/PAGE_SIZE);
 }
 
+void file_add_pg(File *fbin, Page *pg)
+{
+	if(fbin->npgs==N_CACHE_PAGES) {
+		logger_msg(logger, LOG_WRN,
+			"FILE: PageAdd: Deleting cached page!");
+	}
+
+	if(fbin->pg_head==NULL)
+		fbin->pg_head=pg;
+	else
+		fbin->pg_tail->next=pg;
+	fbin->pg_tail=pg;
+	fbin->npgs++;
+}
+
