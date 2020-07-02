@@ -8,8 +8,9 @@
 
 typedef struct
 {
-	int npgs, pgno, fd;
-	Page *pg_head, *pg_tail, *curr_pg;
+	int npgs, tot_pgs, fd;
+	Page *pg_head, *pg_tail, *lst_pg,
+		*curr_pg;
 } File;
 
 int file_writeback(File *, int);
