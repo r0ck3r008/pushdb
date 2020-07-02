@@ -13,7 +13,7 @@ typedef struct
 } File;
 
 int file_writeback(File *, int);
-File *file_create(char *, int);
+File *file_create(char *, Schema *, int);
 File *file_load(char *, FILE *, Schema *);
 void file_close(File *);
 
