@@ -35,7 +35,8 @@ Page *page_frombin(char *bits, Schema *sch)
 {
 	Page *pg=page_init(sch);
 	int reclen=sch->map->tot_len, remainder=PAGE_SIZE%reclen;
-	int nrecs=(!remainder) ? (PAGE_SIZE/reclen) : ((PAGE_SIZE-remainder)/reclen);
+	int nrecs=(!remainder) ? (PAGE_SIZE/reclen) :
+		((PAGE_SIZE-remainder)/reclen);
 
 	for(int i=0; i<nrecs; i++) {
 		char tmp[reclen];
