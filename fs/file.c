@@ -61,3 +61,31 @@ File *file_create(char *fbin_name, Schema *sch, int flag)
 
 	return fbin;
 }
+
+File *file_load(char *fbin_name, FILE *insf, Schema *sch)
+{
+	File *fbin=file_create(fbin_name, sch, 0);
+
+	char *line=NULL;
+	size_t n=0;
+	fbin->curr_pg=page_init(sch);
+	while(getline(&line, &n, insf)>0) {
+		int flag=0;
+		if(!page_add_rec(fbin->curr_pg, line, 1) &&
+			!(flag=file_add_pg(fbin))) {
+			logger_msg(logger, LOG_ERR,
+				"FILE: Load: Error in adding record!");
+			return NULL;
+		}
+		if(flag)
+			fbin->curr_pg=page_init(sch);
+
+		free(line);
+		line=NULL;
+		n=0;
+	}
+	free(line);
+
+	return fbin;
+}
+
