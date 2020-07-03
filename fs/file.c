@@ -28,6 +28,16 @@ int file_getnpgs(int fd)
 	return ((int)buf.st_size/PAGE_SIZE);
 }
 
+int file_addpg(File *file)
+{
+	if(file->pg_head==NULL)
+		file->pg_head=file->curr_pg;
+	else
+		file->pg_tail->next=file->curr_pg;
+	file->pg_tail=file->curr_pg;
+	file->npgs++;
+}
+
 File *file_create(char *fbin_name, Schema *sch, int flag)
 {
 	int mode=O_RDWR;
@@ -52,8 +62,8 @@ File *file_create(char *fbin_name, Schema *sch, int flag)
 				"FILE: Read: %s: %s", fbin_name, strerror(errno));
 				return NULL;
 			}
-			Page *pg=page_frombin(buf, sch);
-			file_add_pg(fbin, pg);
+			fbin->curr_pg=page_frombin(buf, sch);
+			file_addpg(fbin);
 		}
 		if(fbin->tot_pgs==npgs)
 			fbin->lst_pg=fbin->pg_tail;
@@ -72,7 +82,7 @@ File *file_load(char *fbin_name, FILE *insf, Schema *sch)
 	while(getline(&line, &n, insf)>0) {
 		int flag=0;
 		if(!page_add_rec(fbin->curr_pg, line, 1) &&
-			!(flag=file_add_pg(fbin))) {
+			!(flag=file_addpg(fbin))) {
 			logger_msg(logger, LOG_ERR,
 				"FILE: Load: Error in adding record!");
 			return NULL;

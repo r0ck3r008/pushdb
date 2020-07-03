@@ -14,6 +14,7 @@ typedef struct
 } File;
 
 int file_writeback(File *, int);
+int file_addpg(File *);
 File *file_create(char *, Schema *, int);
 File *file_load(char *, FILE *, Schema *);
 int file_close(File *);
