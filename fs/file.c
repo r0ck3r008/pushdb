@@ -89,3 +89,15 @@ File *file_load(char *fbin_name, FILE *insf, Schema *sch)
 	return fbin;
 }
 
+int file_close(File *fbin)
+{
+	if(!file_writeback(fbin, 1))
+		return 0;
+
+	close(fbin->fd);
+	page_deinit(fbin->pg_head); page_deinit(fbin->pg_tail);
+	page_deinit(fbin->lst_pg); page_deinit(fbin->curr_pg);
+	free(fbin);
+
+	return 1;
+}
