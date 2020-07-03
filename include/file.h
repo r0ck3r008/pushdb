@@ -16,6 +16,6 @@ typedef struct
 int file_writeback(File *, int);
 File *file_create(char *, Schema *, int);
 File *file_load(char *, FILE *, Schema *);
-void file_close(File *);
+int file_close(File *);
 
 #endif
