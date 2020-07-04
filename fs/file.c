@@ -65,7 +65,7 @@ int file_addpg(File *file, int pgno)
 	else
 		file->pg_tail->next=file->curr_pg;
 	file->pg_tail=file->curr_pg;
-	file->npgs++;
+	file->cache_pgs++;
 }
 
 File *file_create(char *fbin_name, Schema *sch, int flag)
