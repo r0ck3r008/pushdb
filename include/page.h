@@ -9,7 +9,7 @@ typedef struct Page
 {
 	Record *head, *tail;
 	Schema *sch;
-	int nrecs, pgno;
+	int nrecs, pgno, sync;
 	struct Page *next;
 } Page;
 
