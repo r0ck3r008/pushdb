@@ -8,14 +8,22 @@
 
 typedef struct
 {
-	int npgs, tot_pgs, fd;
+	// The File descriptor
+	int fd;
+	//The total number of pages written in file
+	int tot_pgs;
+	// The total number of pages currently cached, <= N_CACHE_PAGES
+	int cache_pgs;
+	// The total number of pages encountered by the code, cached + uncached,
+	// new + old
+	int npgs;
 	Page *pg_head, *pg_tail, *lst_pg,
 		*curr_pg;
 } File;
 
 int file_writeback(File *, int);
-int file_addpg(File *);
 int file_syncpg(File *);
+int file_addpg(File *, int);
 File *file_create(char *, Schema *, int);
 File *file_load(char *, FILE *, Schema *);
 int file_close(File *);

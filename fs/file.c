@@ -28,7 +28,6 @@ int file_getnpgs(int fd)
 	return ((int)buf.st_size/PAGE_SIZE);
 }
 
-int file_addpg(File *file)
 int file_syncpg(File *file)
 {
 	int ret=1;
@@ -48,6 +47,19 @@ int file_syncpg(File *file)
 	return ret;
 }
 
+int file_addpg(File *file, int pgno)
+{
+	int flag=1;
+	if(file->cache_pgs==N_CACHE_PAGES && (flag=file_syncpg(file))) {
+		Page *pg=file->pg_head;
+		file->pg_head=file->pg_head->next;
+		page_deinit(pg);
+		file->cache_pgs--;
+	} else if(!flag) {
+		return 0;
+	}
+
+	file->curr_pg->pgno=(pgno==-1) ? (file->npgs++) : (pgno);
 	if(file->pg_head==NULL)
 		file->pg_head=file->curr_pg;
 	else
@@ -81,7 +93,7 @@ File *file_create(char *fbin_name, Schema *sch, int flag)
 				return NULL;
 			}
 			fbin->curr_pg=page_frombin(buf, sch);
-			file_addpg(fbin);
+			file_addpg(fbin, i);
 		}
 		if(fbin->tot_pgs==npgs)
 			fbin->lst_pg=fbin->pg_tail;
@@ -100,7 +112,7 @@ File *file_load(char *fbin_name, FILE *insf, Schema *sch)
 	while(getline(&line, &n, insf)>0) {
 		int flag=0;
 		if(!page_add_rec(fbin->curr_pg, line, 1) &&
-			!(flag=file_addpg(fbin))) {
+			!(flag=file_addpg(fbin, -1))) {
 			logger_msg(logger, LOG_ERR,
 				"FILE: Load: Error in adding record!");
 			return NULL;
