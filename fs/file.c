@@ -83,6 +83,7 @@ File *file_create(char *fbin_name, Schema *sch, int flag)
 
 	if(flag) {
 		fbin->tot_pgs=file_getnpgs(fbin->fd);
+		fbin->npgs=fbin->tot_pgs;
 		int npgs=(fbin->npgs < N_CACHE_PAGES) ?
 			(fbin->npgs) : (N_CACHE_PAGES);
 		for(int i=0; i<npgs; i++) {
