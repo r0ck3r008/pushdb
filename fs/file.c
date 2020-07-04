@@ -43,7 +43,6 @@ int file_writeback(File *file)
 
 int file_syncpg(File *file)
 {
-	int ret=1;
 	if(!file->pg_head->sync) {
 		char buf[PAGE_SIZE];
 		Page *pg=file->pg_head;
@@ -52,12 +51,13 @@ int file_syncpg(File *file)
 		if(write(file->fd, buf, PAGE_SIZE*sizeof(char))<0) {
 			logger_msg(logger, LOG_ERR,
 				"FILE: Write: %s", strerror(errno));
-			ret=0;
+			return 0;
 		}
 	}
 
 	file->pg_head->sync=ret;
 	return ret;
+	return 1;
 }
 
 int file_addpg(File *file, int pgno)
