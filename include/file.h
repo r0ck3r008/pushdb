@@ -21,7 +21,7 @@ typedef struct
 		*curr_pg;
 } File;
 
-int file_writeback(File *, int);
+int file_writeback(File *);
 int file_syncpg(File *);
 int file_addpg(File *, int);
 File *file_create(char *, Schema *, int);

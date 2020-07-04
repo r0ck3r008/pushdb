@@ -28,6 +28,19 @@ int file_getnpgs(int fd)
 	return ((int)buf.st_size/PAGE_SIZE);
 }
 
+int file_writeback(File *file)
+{
+	while(file->npgs!=file->tot_pgs) {
+		if(!file_syncpg(file))
+			return 0;
+		Page *pg=file->pg_head;
+		file->pg_head=pg->next;
+		page_deinit(pg);
+	}
+
+	return 1;
+}
+
 int file_syncpg(File *file)
 {
 	int ret=1;
@@ -134,7 +147,7 @@ File *file_load(char *fbin_name, FILE *insf, Schema *sch)
 
 int file_close(File *fbin)
 {
-	if(!file_writeback(fbin, 1))
+	if(!file_writeback(fbin))
 		return 0;
 
 	close(fbin->fd);
