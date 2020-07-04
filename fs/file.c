@@ -88,6 +88,7 @@ File *file_create(char *fbin_name, Schema *sch, int flag)
 			(fbin->npgs) : (N_CACHE_PAGES);
 		for(int i=0; i<npgs; i++) {
 			char buf[PAGE_SIZE];
+			lseek(fbin->fd, i*PAGE_SIZE*sizeof(char), SEEK_SET);
 			if(read(fbin->fd, buf, PAGE_SIZE*sizeof(char))<0) {
 				logger_msg(logger, LOG_ERR,
 				"FILE: Read: %s: %s", fbin_name, strerror(errno));
