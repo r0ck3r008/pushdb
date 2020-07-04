@@ -95,6 +95,7 @@ File *file_create(char *fbin_name, Schema *sch, int flag)
 				return NULL;
 			}
 			fbin->curr_pg=page_frombin(buf, sch);
+			fbin->curr_pg->sync=1;
 			file_addpg(fbin, i);
 		}
 		if(fbin->tot_pgs==npgs)
