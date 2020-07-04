@@ -53,10 +53,10 @@ int file_syncpg(File *file)
 				"FILE: Write: %s", strerror(errno));
 			return 0;
 		}
+		file->pg_head->sync=1;
+		file->tot_pgs+=1;
 	}
 
-	file->pg_head->sync=ret;
-	return ret;
 	return 1;
 }
 
