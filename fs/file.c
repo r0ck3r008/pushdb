@@ -47,7 +47,7 @@ int file_syncpg(File *file)
 		char buf[PAGE_SIZE];
 		Page *pg=file->pg_head;
 		page_tobin(pg, buf);
-		lseek(file->fd, pg->pgno*PAGE_SIZE, SEEK_SET);
+		lseek(file->fd, pg->pgno*PAGE_SIZE*sizeof(char), SEEK_SET);
 		if(write(file->fd, buf, PAGE_SIZE*sizeof(char))<0) {
 			logger_msg(logger, LOG_ERR,
 				"FILE: Write: %s", strerror(errno));
