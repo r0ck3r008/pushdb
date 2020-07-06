@@ -57,6 +57,13 @@ File *fs_file_alloc()
 		_exit(-1);
 	}
 
+	file->fcache=calloc(1, sizeof(FCache));
+	if(file->fcache==NULL) {
+		logger_msg(logger, LOG_ERR,
+			"FILE: FCache: Error in allocating memory!");
+		_exit(-1);
+	}
+
 	return file;
 }
 

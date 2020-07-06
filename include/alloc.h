@@ -9,6 +9,7 @@
 #include"schema.h"
 #include"page.h"
 #include"file.h"
+#include"fcache.h"
 #include"cnf.h"
 
 Record *fs_record_alloc(int);
