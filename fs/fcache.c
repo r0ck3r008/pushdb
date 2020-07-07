@@ -32,10 +32,10 @@ int fcache_addpg(FCache *fcache, Page *pg, int fd)
 	if(fcache->cache_pgs == N_CACHE_PAGES) {
 		if(!fcache_syncpg(fcache, fcache->pg_head, fd))
 			return 0;
-		Page *pg=fcache->pg_head;
-		fcache->pg_head=pg->next;
+		Page *currpg=fcache->pg_head;
+		fcache->pg_head=currpg->next;
 		fcache->cache_pgs--;
-		page_deinit(pg);
+		page_deinit(currpg);
 	}
 
 	if(fcache->pg_head==NULL)
