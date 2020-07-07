@@ -27,3 +27,29 @@ int fcache_getnpgs(FCache *fcache, int fd)
 	return fcache->tot_pgs;
 }
 
+int fcache_addpg(FCache *fcache, Page *pg, int fd)
+{
+	if(fcache->cache_pgs == N_CACHE_PAGES) {
+		if(!fcache_syncpg(fcache, fcache->pg_head, fd))
+			return 0;
+		Page *pg=fcache->pg_head;
+		fcache->pg_head=pg->next;
+		fcache->cache_pgs--;
+		page_deinit(pg);
+	}
+
+	if(fcache->pg_head==NULL)
+		fcache->pg_head=pg;
+	else
+		fcache->pg_tail->next=pg;
+	fcache->pg_tail=pg;
+	fcache->cache_pgs++;
+	if(!pg->sync)
+		// This helps in identifying if the page was ever in cache
+		// before this, since if it hasn't been synced to disk yet, it
+		// is a new one. Otherwise, npgs includes tot_pgs already, that
+		// were synced
+		fcache->npgs++;
+
+	return 1;
+}
