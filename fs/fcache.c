@@ -92,6 +92,36 @@ unlock:
 	return ret;
 }
 
+int fcache_syncpg(FCache *fcache, Page *pg, int fd)
+{
+	int error=0;
+	if(!pg->sync) {
+		char buf[PAGE_SIZE];
+		page_tobin(pg, buf);
+		if(flock(fd, LOCK_EX)<0) {
+			logger_msg(logger, LOG_ERR,
+				"FCACHE: Flock: %s", strerror(errno));
+			return 0;
+		}
+		lseek(fd, pg->pgno*sizeof(char)*PAGE_SIZE, SEEK_SET);
+		if(write(fd, buf, sizeof(char)*PAGE_SIZE)) {
+			logger_msg(logger, LOG_ERR,
+				"FCACHE: Write: %s", strerror(errno));
+			error=1;
+		}
+		if(flock(fd, LOCK_UN)<0) {
+			logger_msg(logger, LOG_ERR,
+				"FCACHE: Flock: %s", strerror(errno));
+			_exit(-1);
+		}
+	}
+
+	if(error)
+		return 0;
+
+	return 1;
+}
+
 int fcache_writeback(FCache *fcache, int fd)
 {
 	for(Page *currpg=fcache->pg_head; currpg!=NULL; currpg=currpg->next)
