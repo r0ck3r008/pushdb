@@ -1,4 +1,5 @@
 #include<stdio.h>
+#include<stdlib.h>
 #include<string.h>
 #include<string.h>
 #include<sys/stat.h>
@@ -52,4 +53,17 @@ int fcache_addpg(FCache *fcache, Page *pg, int fd)
 		fcache->npgs++;
 
 	return 1;
+}
+
+void fcache_deinit(FCache *fcache)
+{
+	// must be called after writeback is called.
+	Page *currpg=fcache->pg_head->next;
+	while(currpg!=NULL) {
+		fcache->pg_head->next=currpg->next;
+		page_deinit(currpg);
+		currpg=fcache->pg_head->next;
+	}
+	page_deinit(fcache->pg_head);
+	free(fcache);
 }
