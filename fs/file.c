@@ -82,7 +82,7 @@ File *file_load(char *relname, FILE *insf, Schema *sch)
 	return fbin;
 }
 
-Page *file_getpg(File *fbin, int pgno)
+Page *file_getpg(File *fbin, Schema *sch, int pgno)
 {
 	return (fcache_getpg(fbin->fcache, sch, fbin->fd, pgno));
 }

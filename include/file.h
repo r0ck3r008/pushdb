@@ -19,7 +19,7 @@ typedef struct
 
 File *file_create(char *, Schema *, int);
 File *file_load(char *, FILE *, Schema *);
-Page *file_getpg(File *, int);
+Page *file_getpg(File *, Schema *, int);
 int file_addpg(File *);
 void file_close(File *);
 
