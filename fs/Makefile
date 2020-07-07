@@ -1,4 +1,4 @@
-all: record.o alloc.o file.o fcache.c page.o
+all: record.o alloc.o file.o fcache.o page.o
 
 file.o: file.c
 	${COMPILER} ${COMPILE_PATH} ${COMPILER_FLAGS} -c file.c
