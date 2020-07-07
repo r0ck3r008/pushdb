@@ -18,6 +18,7 @@ typedef struct
 int fcache_getnpgs(FCache *, int);
 int fcache_addpg(FCache *, Page *, int);
 Page *fcache_getpg(FCache *, int, int);
+int fcache_writeback(FCache *, int);
 int fcache_syncpg(FCache *, Page *, int);
 void fcache_deinit(FCache *);
 

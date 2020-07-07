@@ -96,6 +96,8 @@ void file_close(File *fbin)
 {
 	if(!fcache_addpg(fbin->fcache, fbin->currpg, fbin->fd))
 		_exit(-1);
+	if(!fcache_writeback(fbin->fcache, fbin->fd))
+		_exit(-1);
 	fcache_deinit(fbin->fcache);
 	close(fbin->fd);
 	free(fbin);

@@ -55,6 +55,15 @@ int fcache_addpg(FCache *fcache, Page *pg, int fd)
 	return 1;
 }
 
+int fcache_writeback(FCache *fcache, int fd)
+{
+	for(Page *currpg=fcache->pg_head; currpg!=NULL; currpg=currpg->next)
+		if(!fcache_syncpg(fcache, currpg, fd))
+			return 0;
+
+	return 1;
+}
+
 void fcache_deinit(FCache *fcache)
 {
 	// must be called after writeback is called.
