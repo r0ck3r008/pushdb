@@ -2,6 +2,7 @@
 #include<stdlib.h>
 #include<string.h>
 #include<string.h>
+#include<sys/file.h>
 #include<sys/stat.h>
 #include<sys/types.h>
 #include<fcntl.h>
@@ -53,6 +54,42 @@ int fcache_addpg(FCache *fcache, Page *pg, int fd)
 		fcache->npgs++;
 
 	return 1;
+}
+
+Page *fcache_getpg(FCache *fcache, Schema *sch, int fd, int pgno)
+{
+	//first search in cache
+	for(Page *currpg=fcache->pg_head; currpg!=NULL; currpg=currpg->next)
+		if(currpg->pgno==pgno)
+			return currpg;
+
+	// if still here, lock the fd
+	char buf[PAGE_SIZE];
+	Page *ret=NULL;
+	int error=0;
+	if(flock(fd, LOCK_SH)<0) {
+		logger_msg(logger, LOG_ERR,
+			"FCACHE: Flock: %s", strerror(errno));
+		error=1;
+		goto unlock;
+	}
+	lseek(fd, pgno*sizeof(char)*PAGE_SIZE, SEEK_SET);
+	if(read(fd, buf, sizeof(char)*PAGE_SIZE)<0) {
+		logger_msg(logger, LOG_ERR,
+			"FCACHE: Read: %s", strerror(errno));
+		error=1;
+	}
+unlock:
+	if(flock(fd, LOCK_UN)<0) {
+		logger_msg(logger, LOG_ERR,
+			"FCACHE: Flock: %s", strerror(errno));
+		// unlock faliure must result in hard exit
+		_exit(-1);
+	}
+
+	if(!error)
+		ret=page_frombin(buf, sch);
+	return ret;
 }
 
 int fcache_writeback(FCache *fcache, int fd)
