@@ -17,7 +17,7 @@ typedef struct
 	FCache *fcache;
 } File;
 
-File *file_create(char *, int);
+File *file_create(char *, Schema *, int);
 File *file_load(char *, FILE *, Schema *);
 Page *file_getpg(File *, int);
 int file_addpg(File *);

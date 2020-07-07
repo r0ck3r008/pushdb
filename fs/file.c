@@ -24,7 +24,7 @@ int file_fexists(char *fname)
 		return 1;
 }
 
-File *file_create(char *fbin_name, int fexists)
+File *file_create(char *fbin_name, Schema *sch, int fexists)
 {
 	int mode=O_RDWR;
 	if(!fexists)
@@ -59,7 +59,7 @@ File *file_load(char *relname, FILE *insf, Schema *sch)
 	if(file_fexists(fbin_name))
 		return NULL;
 
-	File *fbin=file_create(fbin_name, 0);
+	File *fbin=file_create(fbin_name, sch, 0);
 
 	char *line=NULL;
 	size_t n=0;
