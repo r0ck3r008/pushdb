@@ -76,6 +76,8 @@ Page *fcache_getpg(FCache *fcache, Schema *sch, int fd, int pgno)
 	if(read(fd, buf, sizeof(char)*PAGE_SIZE)<0) {
 		logger_msg(logger, LOG_ERR,
 			"FCACHE: Read: %s", strerror(errno));
+		// Even tho read failed, unlocking is necessary, so
+		// dont just return yet.
 		error=1;
 	}
 	if(flock(fd, LOCK_UN)<0) {
@@ -105,11 +107,14 @@ int fcache_syncpg(FCache *fcache, Page *pg, int fd)
 		if(write(fd, buf, sizeof(char)*PAGE_SIZE)) {
 			logger_msg(logger, LOG_ERR,
 				"FCACHE: Write: %s", strerror(errno));
+			// Even tho write failed, unlocking is necessary, so
+			// dont just return yet.
 			error=1;
 		}
 		if(flock(fd, LOCK_UN)<0) {
 			logger_msg(logger, LOG_ERR,
 				"FCACHE: Flock: %s", strerror(errno));
+			// Unlock faliure must result in hard exit
 			_exit(-1);
 		}
 	}
