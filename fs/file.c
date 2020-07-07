@@ -43,7 +43,7 @@ File *file_create(char *fbin_name, int fexists)
 		int tot_pgs=fcache_getnpgs(fbin->fcache, fbin->fd);
 		int pgcnt=(tot_pgs < N_CACHE_PAGES) ? (tot_pgs) : (N_CACHE_PAGES);
 		for(int i=0; i<pgcnt; i++) {
-			fbin->currpg=fcache_getpg(fbin->fcache, fbin->fd, i);
+			fbin->currpg=fcache_getpg(fbin->fcache, sch, fbin->fd, i);
 			if(!fcache_addpg(fbin->fcache, fbin->currpg, fbin->fd))
 				return NULL;
 		}
@@ -84,7 +84,7 @@ File *file_load(char *relname, FILE *insf, Schema *sch)
 
 Page *file_getpg(File *fbin, int pgno)
 {
-	return (fcache_getpg(fbin->fcache, fbin->fd, pgno));
+	return (fcache_getpg(fbin->fcache, sch, fbin->fd, pgno));
 }
 
 int file_addpg(File *fbin)
