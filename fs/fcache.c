@@ -70,8 +70,7 @@ Page *fcache_getpg(FCache *fcache, Schema *sch, int fd, int pgno)
 	if(flock(fd, LOCK_SH)<0) {
 		logger_msg(logger, LOG_ERR,
 			"FCACHE: Flock: %s", strerror(errno));
-		error=1;
-		goto unlock;
+		return NULL;
 	}
 	lseek(fd, pgno*sizeof(char)*PAGE_SIZE, SEEK_SET);
 	if(read(fd, buf, sizeof(char)*PAGE_SIZE)<0) {
@@ -79,7 +78,6 @@ Page *fcache_getpg(FCache *fcache, Schema *sch, int fd, int pgno)
 			"FCACHE: Read: %s", strerror(errno));
 		error=1;
 	}
-unlock:
 	if(flock(fd, LOCK_UN)<0) {
 		logger_msg(logger, LOG_ERR,
 			"FCACHE: Flock: %s", strerror(errno));
