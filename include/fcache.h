@@ -2,7 +2,6 @@
 #define FCACHE_H
 
 #include"page.h"
-#include"file.h"
 
 typedef struct
 {
