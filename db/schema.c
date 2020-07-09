@@ -61,7 +61,7 @@ void schema_write(Schema *sch)
 		return;
 
 	for(Attribute *att=sch->map->head; att!=NULL; att=att->nxt_sq)
-		fprintf(f, "%s:%d:%d", att->name, att->type,
+		fprintf(f, "%s:%d:%d\n", att->name, att->type,
 			att->len);
 
 	fclose(f);
