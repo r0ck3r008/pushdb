@@ -56,13 +56,6 @@ int ddl_insert(Query *q)
 	}
 	Schema *sch=schema_read(q->tbl_name);
 	sch->delim=db_char_copy(q->delim);
-	char fname[128];
-	sprintf(fname, "%s%s.bin", tmp_prefix, q->tbl_name);
-	if(!ddl_fexists(fname)) {
-		logger_msg(logger, LOG_ERR,
-				"DDL: Database exists!");
-		return 0;
-	}
 
 	FILE *dbf=NULL;
 	if((dbf=fopen(q->ins_fname, "r"))==NULL) {
