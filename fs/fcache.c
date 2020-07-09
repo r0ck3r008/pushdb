@@ -117,6 +117,7 @@ int fcache_syncpg(FCache *fcache, Page *pg, int fd)
 			// Unlock faliure must result in hard exit
 			_exit(-1);
 		}
+		pg->sync=1;
 	}
 
 	if(error)
