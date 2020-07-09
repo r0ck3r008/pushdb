@@ -32,7 +32,7 @@ File *file_create(char *fbin_name, Schema *sch, int fexists)
 
 	File *fbin=fs_file_alloc();
 
-	if((fbin->fd=open(fbin_name, mode))<0) {
+	if((fbin->fd=open(fbin_name, mode, 0644))<0) {
 		logger_msg(logger, LOG_ERR,
 			"FILE: Open: %s: %s\n", fbin_name, strerror(errno));
 		file_close(fbin);
