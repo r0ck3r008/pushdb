@@ -64,7 +64,7 @@ int ddl_insert(Query *q)
 		return 0;
 	}
 	File *fbin=NULL;
-	if((fbin=file_load(fname, dbf, sch))==NULL) {
+	if((fbin=file_load(q->tbl_name, dbf, sch))==NULL) {
 		logger_msg(logger, LOG_ERR,
 			"DDL: Error in loading file %s", q->ins_fname);
 		return 0;
