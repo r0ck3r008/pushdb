@@ -104,7 +104,7 @@ int fcache_syncpg(FCache *fcache, Page *pg, int fd)
 			return 0;
 		}
 		lseek(fd, pg->pgno*sizeof(char)*PAGE_SIZE, SEEK_SET);
-		if(write(fd, buf, sizeof(char)*PAGE_SIZE)) {
+		if(write(fd, buf, sizeof(char)*PAGE_SIZE)<0) {
 			logger_msg(logger, LOG_ERR,
 				"FCACHE: Write: %s", strerror(errno));
 			// Even tho write failed, unlocking is necessary, so
